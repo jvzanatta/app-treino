@@ -5,13 +5,29 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <ion-card class="user-card">
+    <ion-card-header>
+      Informações de usuário
+    </ion-card-header>
+
+    <ion-card-content *ngIf="user">
+      <div class="user-data">
+        <p>Altura: <b>{{user.height.toString().replace(".", ",")}} m</b></p>
+        <p>Peso: <b>{{user.weight.toString().replace(".", ",")}} Kg</b></p>
+      </div>
+      <div class="user-pic"><img src="../assets/img/fb_pic.jpg" /></div>
+    </ion-card-content>
+  </ion-card>
+
+
+  <div *ngFor="let workout of workouts">
+    <ion-card class="workout-card" (click)="openWorkout(workout)">
+      <ion-card-header>
+        {{workout.name}}
+      </ion-card-header>
+
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

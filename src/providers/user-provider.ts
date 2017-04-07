@@ -15,4 +15,9 @@ export class UserProvider {
     console.log('Hello UserProvider Provider');
   }
 
+
+  public static getUserInfo(): any {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
 }

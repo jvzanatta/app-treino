@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpInterceptor } from '../providers/http-interceptor-provider';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
+import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
 /*
@@ -11,8 +15,34 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LoginProvider {
 
-  constructor(public http: Http) {
+  private endpoint = 'user/login';
+
+  constructor(private http: HttpInterceptor) {
     console.log('Hello LoginProvider Provider');
+  }
+
+  public login(values: any): Observable<any> {
+    let data = {
+        email: values.email,
+        password: values.password
+      };
+
+    return this.http.post(this.endpoint, data).map(res => {
+      localStorage.setItem('user', JSON.stringify(res.user));
+      localStorage.setItem('workouts', JSON.stringify(res.workouts));
+      localStorage.setItem('auth', res.auth);
+      res = res.user;
+      console.log('login com sucesso');
+    });
+  }
+
+  public static logout(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('auth');
+  }
+
+  public static getAuthInfo(): any {
+    return localStorage.getItem('auth');
   }
 
 }

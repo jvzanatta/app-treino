@@ -1,0 +1,28 @@
+page-login {
+
+  .scroll-content {
+    display: flex;
+    align-items: center;
+
+  }
+
+  .item-md {
+    padding-right: 16px;
+  }
+
+  form {
+    width: 100%;
+    padding-bottom: 20px;
+    background-color: white;
+  }
+
+  ion-header {
+    opacity: 0.8;
+  }
+
+  ion-content {
+    background-image: url("../assets/img/Running-1.jpg");
+    background-position: 60% center;
+    background-size: cover;
+  }
+}

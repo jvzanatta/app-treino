@@ -15,4 +15,8 @@ export class WorkoutProvider {
     console.log('Hello WorkoutProvider Provider');
   }
 
+  public static getWorkoutsList() {
+    return JSON.parse(localStorage.getItem('workouts'));
+  }
+
 }

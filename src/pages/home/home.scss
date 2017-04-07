@@ -1,3 +1,25 @@
 page-home {
 
+  .user-pic {
+    float: right;
+    margin-top: -14%;
+    width: 31%;
+
+    img {
+
+    }
+  }
+
+  .user-data {
+    display: inline-block;
+  }
+
+
+
+  ion-content {
+    background-image: url("../assets/img/musculacao.jpg");
+    background-position: 60% center;
+    background-size: cover;
+  }
+
 }

@@ -11,8 +11,10 @@ import { WorkoutProvider } from '../providers/workout-provider.ts'
 import { ExerciseProvider } from '../providers/exercise-provider.ts'
 import { HttpInterceptor } from '../providers/http-interceptor-provider.ts'
 
+import { WeekdayPipe } from '../providers/weekday.pipe.ts'
 
 import { AboutPage } from '../pages/about/about';
+import { WorkoutPage } from '../pages/workout/workout-page';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -24,8 +26,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 @NgModule({
   declarations: [
     MyApp,
+    WeekdayPipe,
     AboutPage,
     ContactPage,
+    WorkoutPage,
     HomePage,
     TabsPage,
     LoginPage
@@ -40,6 +44,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     AboutPage,
     ContactPage,
+    WorkoutPage,
     HomePage,
     TabsPage,
     LoginPage

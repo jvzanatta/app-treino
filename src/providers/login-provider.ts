@@ -18,7 +18,7 @@ export class LoginProvider {
   private endpoint = 'user/login';
 
   constructor(private http: HttpInterceptor) {
-    console.log('Hello LoginProvider Provider');
+
   }
 
   public login(values: any): Observable<any> {

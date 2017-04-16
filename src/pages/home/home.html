@@ -1,33 +1,39 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title><ion-icon name="home"></ion-icon> Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card class="user-card">
     <ion-card-header>
-      Informações de usuário
+      Meu Perfil
     </ion-card-header>
 
     <ion-card-content *ngIf="user">
+      <div class="user-pic"><img src="../assets/img/fb_pic.jpg" /></div>
       <div class="user-data">
+        <p>Nome: <b>{{ (user.first_name + ' ' + user.last_name) | slice:0:20 }}</b></p>
+        <p>Idade: <b>{{user.birth_date | date:"dd/MM/yyyy"}}</b></p>
         <p>Altura: <b>{{user.height.toString().replace(".", ",")}} m</b></p>
         <p>Peso: <b>{{user.weight.toString().replace(".", ",")}} Kg</b></p>
       </div>
-      <div class="user-pic"><img src="../assets/img/fb_pic.jpg" /></div>
     </ion-card-content>
   </ion-card>
 
 
   <div *ngFor="let workout of workouts">
-    <ion-card class="workout-card" (click)="openWorkout(workout)">
+    <ion-card *ngIf="!!workout.active" class="workout-card" (click)="openWorkout(workout)">
       <ion-card-header>
-        {{workout.name}}
+        <strong>{{workout.name | uppercase}}</strong>
       </ion-card-header>
 
       <ion-card-content>
+        <p><b>{{workout.exercises?.length}}</b> exercícios!</p>
+        <p>Modalidade: <b>{{workout.modality.name}}</b></p>
+        <p>Frequência: <b>{{workout.schedule | weekday }}</b></p>
       </ion-card-content>
     </ion-card>
   </div>
+  <img class="content-background" src="../assets/img/musculacao.jpg">
 </ion-content>

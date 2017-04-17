@@ -1,10 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title><ion-icon name="home"></ion-icon> Home</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+
   <ion-card class="user-card">
     <ion-card-header>
       Meu Perfil
@@ -21,19 +25,16 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card *ngFor="let workout of workouts | activeOnly" class="workout-card" (click)="openWorkout(workout)">
+    <ion-card-header>
+      <strong>{{workout.name | uppercase}}</strong>
+    </ion-card-header>
 
-  <div *ngFor="let workout of workouts">
-    <ion-card *ngIf="!!workout.active" class="workout-card" (click)="openWorkout(workout)">
-      <ion-card-header>
-        <strong>{{workout.name | uppercase}}</strong>
-      </ion-card-header>
+    <ion-card-content>
+      <p><b>{{workout.exercises?.length}}</b> exercícios!</p>
+      <p>Modalidade: <b>{{workout.modality.name}}</b></p>
+      <p>Frequência: <b>{{workout.schedule | weekday }}</b></p>
+    </ion-card-content>
+  </ion-card>
 
-      <ion-card-content>
-        <p><b>{{workout.exercises?.length}}</b> exercícios!</p>
-        <p>Modalidade: <b>{{workout.modality.name}}</b></p>
-        <p>Frequência: <b>{{workout.schedule | weekday }}</b></p>
-      </ion-card-content>
-    </ion-card>
-  </div>
-  <img class="content-background" src="../assets/img/musculacao.jpg">
 </ion-content>

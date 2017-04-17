@@ -12,12 +12,12 @@ import { ExerciseProvider } from '../providers/exercise-provider.ts'
 import { HttpInterceptor } from '../providers/http-interceptor-provider.ts'
 
 import { WeekdayPipe } from '../providers/weekday.pipe.ts'
+import { ActiveOnlyPipe } from '../providers/active-only.pipe.ts'
 
 import { AboutPage } from '../pages/about/about';
 import { WorkoutPage } from '../pages/workout/workout-page';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -27,11 +27,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   declarations: [
     MyApp,
     WeekdayPipe,
+    ActiveOnlyPipe,
     AboutPage,
     ContactPage,
     WorkoutPage,
     HomePage,
-    TabsPage,
     LoginPage
   ],
   imports: [
@@ -46,7 +46,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     WorkoutPage,
     HomePage,
-    TabsPage,
     LoginPage
   ],
   providers: [

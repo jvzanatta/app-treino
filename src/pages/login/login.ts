@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginProvider } from '../../providers/login-provider';
-import { TabsPage } from '../../pages/tabs/tabs';
+import { HomePage } from '../../pages/home/home';
 
 /**
  * Generated class for the LoginPage page.
@@ -24,9 +24,6 @@ export class LoginPage {
     public navParams: NavParams,
     private loginProvider: LoginProvider
   ) {
-    if (LoginProvider.getAuthInfo()) {
-      this.navCtrl.push(TabsPage);
-    }
   }
 
   ngOnInit() {
@@ -42,7 +39,7 @@ export class LoginPage {
 
   private login() {
     this.loginProvider.login(this.loginForm.value).subscribe(data => {
-      this.navCtrl.push(TabsPage);
+      this.navCtrl.setRoot(HomePage);
     });
 
   }

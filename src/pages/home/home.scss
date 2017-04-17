@@ -1,39 +1,41 @@
 page-home {
 
-  .user-card {
-    ion-card-header {
-
-    }
-
-    ion-card-content {
-      .user-pic {
-        display: inline-block;
-        width: 31%;
-      }
-
-      .user-data {
-        position: relative;
-        top: -5px;
-        display: inline-block;
-        margin-left: 5px;
-      }
-    }
-  }
-
-
   ion-content {
+    background-image: url("../../assets/img/musculacao.jpg");
+    background-position: 60% center;
+    background-size: cover;
+
+    .user-card {
+      ion-card-header {
+
+      }
+
+      ion-card-content {
+        .user-pic {
+          display: inline-block;
+          width: 31%;
+        }
+
+        .user-data {
+          position: relative;
+          top: -5px;
+          display: inline-block;
+          margin-left: 5px;
+        }
+      }
+    }
 
     .scroll-content {
       overflow-y: hidden;
     }
 
-    .content-background {
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: -1;
-      opacity: 0.6;
-    }
+    // .content-background {
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   z-index: -1;
+    //   opacity: 0.6;
+    // }
   }
 
 

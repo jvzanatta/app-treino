@@ -30,7 +30,9 @@ export class WorkoutPage {
   }
 
   private setExercisesList() {
+    if (this.selectedWeekDay) {
 
+    }
   }
 
   private previousWeekDay() {

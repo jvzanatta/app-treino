@@ -3,11 +3,13 @@ import { Http, URLSearchParams, Headers, RequestOptions, Response } from '@angul
 import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs/Rx';
 import { LoginProvider } from '../providers/login-provider';
+import { EnvironmentConfig } from './environment.config';
 
 @Injectable()
 export class HttpInterceptor {
 
-  private API_URL: string = 'http://192.168.25.134:8020/api/v1/';
+  private API_URL: string = EnvironmentConfig.API_URL;
+
 
   constructor(private http: Http, private platform: Platform) { }
 

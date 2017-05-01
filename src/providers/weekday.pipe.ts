@@ -8,7 +8,7 @@ export class WeekdayPipe implements PipeTransform {
   private weekdayFullname: Array<string> = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   private weekdayLetter: Array<string>   = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
-  transform(value: string, format: string): string {
+  transform(value: string = '', format: string): string {
     let formatArray: Array<string>;
     let result = '';
 
@@ -25,8 +25,6 @@ export class WeekdayPipe implements PipeTransform {
       default:
         console.log('nenhum deles');
     }
-
-    value = value ? value : '';
 
     for (let i = 0; i < value.length; i++) {
       result += formatArray[value[i]] + ' ';

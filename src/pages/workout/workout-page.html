@@ -1,18 +1,40 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title>Treino {{workout?.name}}</ion-title>
+    <ion-title>Treino {{workout?.name | uppercase}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
 
-
-
+  <ion-list class="exercise-list">
+    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedWeekDay">
+      <ion-list-header class="group-name">
+        {{group.name}}
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let exercise of group.exercises">
+        <ion-item>
+          <h2>{{exercise.name}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary">
+            <ion-icon name="mail"></ion-icon>
+            Email
+          </button>
+          <button ion-button color="primary">
+            <ion-icon name="text"></ion-icon>
+            Text
+          </button>
+          <button ion-button color="secondary">
+            <ion-icon name="call"></ion-icon>
+            Call
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </div>
+  </ion-list>
 
 </ion-content>
-
 
 <ion-footer>
   <ion-row>

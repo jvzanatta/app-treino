@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { UserProvider } from './user-provider';
+
 /*
   Generated class for the WorkoutProvider provider.
 
@@ -16,7 +18,7 @@ export class WorkoutProvider {
   }
 
   public static getWorkoutsList() {
-    return JSON.parse(localStorage.getItem('workouts'));
+    return UserProvider.getUserInfo().given_workouts;
   }
 
 }

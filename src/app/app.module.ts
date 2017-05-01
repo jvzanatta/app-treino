@@ -13,6 +13,7 @@ import { HttpInterceptor } from '../providers/http-interceptor-provider.ts'
 
 import { WeekdayPipe } from '../providers/weekday.pipe.ts'
 import { ActiveOnlyPipe } from '../providers/active-only.pipe.ts'
+import { ExercisesAssortPipe } from '../providers/exercises-assort.pipe.ts'
 
 import { AboutPage } from '../pages/about/about';
 import { WorkoutPage } from '../pages/workout/workout-page';
@@ -28,6 +29,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     WeekdayPipe,
     ActiveOnlyPipe,
+    ExercisesAssortPipe,
     AboutPage,
     ContactPage,
     WorkoutPage,

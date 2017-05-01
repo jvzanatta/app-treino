@@ -15,28 +15,60 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class WorkoutPage {
 
   private workout;
-  private
+  // private groups;
   private currentDay;
   private selectedWeekDay;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.workout = this.navParams.get('workout');
-    console.log(this.workout);
-  }
+    let today = (new Date()).getDay();
 
-  ionViewDidLoad() {
-    this.selectedWeekDay = this.workout.schedule.slice(0, 1);
-
-  }
-
-  private setExercisesList() {
-    if (this.selectedWeekDay) {
-
+    if (this.workout.schedule.indexOf(today) > -1) {
+      this.selectedWeekDay = today.toString();
+    } else {
+      this.selectedWeekDay = this.workout.schedule.slice(0, 1);
     }
+    console.log(this.workout);
+    console.log(today, this.workout.schedule, this.selectedWeekDay);
   }
+
+  // ionViewWillEnter() {
+  //   this.getGroups();
+  // }
+
+  // private getGroups() {
+  //   if (this.selectedWeekDay) {
+  //     let groups = [];
+
+  //     // console.log(exercises);
+
+  //     this.workout.exercises.forEach(exercise => {
+  //       if (exercise.pivot.day === this.selectedWeekDay) {
+  //         let name = exercise.group.name;
+
+  //         // console.log(name);
+
+  //         if (!groups[name]) {
+  //           groups[name] = exercise.group;
+  //           groups[name].exercises = [exercise];
+  //         } else {
+  //           groups[name].exercises.push(exercise);
+  //         }
+  //       }
+  //     });
+
+  //     console.log(groups);
+
+  //     this.groups = groups;
+  //   }
+  // }
 
   private previousWeekDay() {
     this.executeClickWeekDay(-1);
+  }
+
+  private nextWeekDay() {
+    this.executeClickWeekDay(1);
   }
 
   private executeClickWeekDay(value) {
@@ -45,11 +77,7 @@ export class WorkoutPage {
 
     this.selectedWeekDay = this.workout.schedule.slice(pos, pos+1) || backupValue;
 
-    this.setExercisesList();
-  }
-
-  private nextWeekDay() {
-    this.executeClickWeekDay(1);
+    // this.setExercisesList();
   }
 
 

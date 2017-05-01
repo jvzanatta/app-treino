@@ -29,7 +29,7 @@ export class LoginProvider {
 
     return this.http.post(this.endpoint, data).map(res => {
       localStorage.setItem('user', JSON.stringify(res.user));
-      localStorage.setItem('workouts', JSON.stringify(res.workouts));
+      // localStorage.setItem('givenWorkouts', JSON.stringify(res.user.givenWorkouts));
       localStorage.setItem('auth', res.auth);
       res = res.user;
       console.log('login com sucesso');

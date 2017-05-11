@@ -14,12 +14,14 @@ export class HomePage {
   private workouts: any;
 
   constructor(public navCtrl: NavController) {
+  }
+
+  ionViewDidLoad() {
     this.user = UserProvider.getUserInfo();
     this.workouts = WorkoutProvider.getWorkoutsList();
   }
 
-
   private openWorkout(workout) {
-    this.navCtrl.push(WorkoutPage, {workout: workout});
+    this.navCtrl.push(WorkoutPage, {workout: workout, type: 'view'});
   }
 }

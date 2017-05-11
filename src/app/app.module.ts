@@ -21,35 +21,48 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login'
 
+import { WorkoutsList } from '../pages/workouts-list/workouts-list'
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
   declarations: [
     MyApp,
+
     WeekdayPipe,
     ActiveOnlyPipe,
     ExercisesAssortPipe,
+
     AboutPage,
     ContactPage,
     WorkoutPage,
     HomePage,
-    LoginPage
+    LoginPage,
+
+    WorkoutsList
   ],
+
   imports: [
     HttpModule,
     BrowserModule,
     IonicModule.forRoot(MyApp)
   ],
+
   bootstrap: [IonicApp],
+
   entryComponents: [
     MyApp,
+
     AboutPage,
     ContactPage,
     WorkoutPage,
     HomePage,
-    LoginPage
+    LoginPage,
+
+    WorkoutsList
   ],
+
   providers: [
     LoginProvider,
     UserProvider,

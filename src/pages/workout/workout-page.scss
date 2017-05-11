@@ -3,12 +3,16 @@ page-workout-page {
   .group-name {
     margin-bottom: 0;
     padding-top: 5px;
-    background-color: grey;
+    background-color: #DFDFDFFF;
   }
 
-  // .exercise-list {
-  //   background-color
-  // }
+  ion-content {
+    background-color: #DFDFDFFF;
+  }
+
+  ion-item-sliding > ion-item:last-child {
+    border: 0;
+  }
 
   ion-footer {
     ion-row {

@@ -10,6 +10,8 @@ import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 
+import { WorkoutsList } from '../pages/workouts-list/workouts-list'
+
 
 @Component({
   templateUrl: 'app.html'
@@ -25,10 +27,10 @@ export class MyApp {
 
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'Treinos p/ Mim', component: ContactPage },
-      { title: 'Meus Alunos', component: ContactPage },
       { title: 'Meus Treinos', component: ContactPage },
-      { title: 'Meu Perfil', component: ContactPage }
+      { title: 'Gerenciar Alunos', component: ContactPage },
+      { title: 'Gerenciar Treinos', component: WorkoutsList },
+      { title: 'Perfil', component: ContactPage }
     ];
 
   }

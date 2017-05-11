@@ -21,4 +21,7 @@ export class WorkoutProvider {
     return UserProvider.getUserInfo().given_workouts;
   }
 
+  public static getMyWorkouts() {
+    return UserProvider.getUserInfo().created_workouts;
+  }
 }

@@ -37,19 +37,8 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row>
-    <ion-col col-auto>
-      <button color="dark" ion-button icon-only (click)="previousWeekDay()">
-        <ion-icon name="arrow-dropleft-circle"></ion-icon>
-      </button>
-    </ion-col>
-    <ion-col>
-      <button color="dark" class="weekday-button" ion-button (click)="executeClickWeekDay()">{{ selectedWeekDay | weekday:'fullname' }}</button>
-    </ion-col>
-    <ion-col col-auto>
-      <button color="dark" ion-button icon-only (click)="nextWeekDay()">
-        <ion-icon name="arrow-dropright-circle"></ion-icon>
-      </button>
-    </ion-col>
-  </ion-row>
+  <date-picker
+    [weekdays]="workout.schedule"
+    (selectedWeekday)="selectedWeekday" >
+  </date-picker>
 </ion-footer>

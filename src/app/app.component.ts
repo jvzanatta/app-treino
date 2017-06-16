@@ -5,12 +5,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { UserProvider } from '../providers/user-provider';
 
-import { LoginPage } from '../pages/login/login';
-import { HomePage } from '../pages/home/home';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+// import { LoginPage } from '../pages/login/login';
+// import { HomePage } from '../pages/home/home';
+// import { AboutPage } from '../pages/about/about';
+// import { ContactPage } from '../pages/contact/contact';
 
-import { WorkoutsList } from '../pages/workouts-list/workouts-list'
+// import { WorkoutsList } from '../pages/workouts-list/workouts-list'
 
 
 @Component({
@@ -19,18 +19,18 @@ import { WorkoutsList } from '../pages/workouts-list/workouts-list'
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = UserProvider.getUserInfo() ? HomePage : LoginPage;
+  rootPage:any = UserProvider.getUserInfo() ? 'home' : 'login';
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'Meus Treinos', component: ContactPage },
-      { title: 'Gerenciar Alunos', component: ContactPage },
-      { title: 'Gerenciar Treinos', component: WorkoutsList },
-      { title: 'Perfil', component: ContactPage }
+      { title: 'Home', component: 'home' },
+      { title: 'Meus Treinos', component: 'workoutlist' },
+      { title: 'Gerenciar Alunos', component: 'contactlist' },
+      { title: 'Gerenciar Treinos', component: 'workoutlist' },
+      { title: 'Perfil', component: 'contact' }
     ];
 
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DatePicker } from '../../components/date-picker/date-picker';
 
 /**
  * Generated class for the WorkoutPage page.
@@ -7,7 +8,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+ @IonicPage({
+   name: 'workout'
+ })
 @Component({
   selector: 'page-workout-page',
   templateUrl: 'workout-page.html',
@@ -62,23 +65,5 @@ export class WorkoutPage {
   //     this.groups = groups;
   //   }
   // }
-
-  private previousWeekDay() {
-    this.executeClickWeekDay(-1);
-  }
-
-  private nextWeekDay() {
-    this.executeClickWeekDay(1);
-  }
-
-  private executeClickWeekDay(value) {
-    let pos = this.workout.schedule.indexOf(this.selectedWeekDay) + value,
-      backupValue = value > 0 ? this.workout.schedule.slice(0, 1) : this.workout.schedule.slice(-1);
-
-    this.selectedWeekDay = this.workout.schedule.slice(pos, pos+1) || backupValue;
-
-    // this.setExercisesList();
-  }
-
 
 }

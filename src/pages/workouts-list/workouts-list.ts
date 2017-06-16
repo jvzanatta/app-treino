@@ -10,7 +10,9 @@ import { WorkoutPage } from '../workout/workout-page';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+ @IonicPage({
+   name: 'workoutlist'
+ })
 @Component({
   selector: 'page-workouts-list',
   templateUrl: 'workouts-list.html',

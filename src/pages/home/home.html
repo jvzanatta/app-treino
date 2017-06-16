@@ -19,8 +19,8 @@
       <div class="user-data">
         <p>Nome: <b>{{ (user.first_name + ' ' + user.last_name) | slice:0:20 }}</b></p>
         <p>Idade: <b>{{user.birth_date | date:"dd/MM/yyyy"}}</b></p>
-        <p>Altura: <b>{{user.height.toString().replace(".", ",")}} m</b></p>
-        <p>Peso: <b>{{user.weight.toString().replace(".", ",")}} Kg</b></p>
+        <p>Altura: <b>{{ user.height | number:'.2' }} m</b></p>
+        <p>Peso: <b>{{ user.weight | number:'.1' }} Kg</b></p>
       </div>
     </ion-card-content>
   </ion-card>
@@ -31,9 +31,9 @@
     </ion-card-header>
 
     <ion-card-content>
-      <p><b>{{workout.exercises?.length}}</b> exercícios!</p>
       <p>Modalidade: <b>{{workout.modality.name}}</b></p>
-      <p>Frequência: <b>{{workout.schedule | weekday }}</b></p>
+      <p>Exercícios: <b>{{workout.exercises?.length}}</b></p>
+      <p><b>{{workout.schedule | weekday }}</b></p>
     </ion-card-content>
   </ion-card>
 

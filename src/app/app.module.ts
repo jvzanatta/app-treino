@@ -3,50 +3,62 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { HttpModule }    from '@angular/http';
-
-import { LoginProvider } from '../providers/login-provider'
-import { UserProvider } from '../providers/user-provider.ts'
-import { WorkoutProvider } from '../providers/workout-provider.ts'
-import { ExerciseProvider } from '../providers/exercise-provider.ts'
-import { HttpInterceptor } from '../providers/http-interceptor-provider.ts'
-
-import { WeekdayPipe } from '../providers/weekday.pipe.ts'
-import { ActiveOnlyPipe } from '../providers/active-only.pipe.ts'
-import { ExercisesAssortPipe } from '../providers/exercises-assort.pipe.ts'
-
-import { AboutPage } from '../pages/about/about';
-import { WorkoutPage } from '../pages/workout/workout-page';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login'
-
-import { WorkoutsList } from '../pages/workouts-list/workouts-list'
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { HttpModule }    from '@angular/http';
+
+
+import { LoginProvider } from '../providers/login-provider';
+import { UserProvider } from '../providers/user-provider';
+import { WorkoutProvider } from '../providers/workout-provider';
+import { ExerciseProvider } from '../providers/exercise-provider';
+import { HttpInterceptor } from '../providers/http-interceptor-provider';
+import { TestProvider } from '../providers/test/test';
+
+
+// import { WeekdayPipe } from '../pipes/weekday.pipe';
+// import { ActiveOnlyPipe } from '../pipes/active-only.pipe';
+// import { ExercisesAssortPipe } from '../pipes/exercises-assort.pipe';
+
+
+// // import { DatePicker } from '../components/date-picker/date-picker.component';
+
+
+// import { AboutPage } from '../pages/about/about';
+// import { WorkoutPage } from '../pages/workout/workout-page';
+// import { ContactPage } from '../pages/contact/contact';
+// import { HomePage } from '../pages/home/home';
+// import { LoginPage } from '../pages/login/login';
+
+// import { WorkoutsList } from '../pages/workouts-list/workouts-list';
+
 
 @NgModule({
   declarations: [
     MyApp,
 
-    WeekdayPipe,
-    ActiveOnlyPipe,
-    ExercisesAssortPipe,
+    // DatePicker,
 
-    AboutPage,
-    ContactPage,
-    WorkoutPage,
-    HomePage,
-    LoginPage,
+    // WeekdayPipe,
+    // ActiveOnlyPipe,
+    // ExercisesAssortPipe,
 
-    WorkoutsList
+    // AboutPage,
+    // ContactPage,
+    // WorkoutPage,
+    // HomePage,
+    // LoginPage,
+
+    // WorkoutsList
   ],
 
   imports: [
     HttpModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+      preloadModules: true
+    })
   ],
 
   bootstrap: [IonicApp],
@@ -54,13 +66,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
 
-    AboutPage,
-    ContactPage,
-    WorkoutPage,
-    HomePage,
-    LoginPage,
+    // AboutPage,
+    // ContactPage,
+    // WorkoutPage,
+    // HomePage,
+    // LoginPage,
 
-    WorkoutsList
+    // WorkoutsList
   ],
 
   providers: [
@@ -69,9 +81,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     WorkoutProvider,
     ExerciseProvider,
     HttpInterceptor,
+    TestProvider,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}

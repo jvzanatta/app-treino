@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
+
 import { UserProvider } from '../../providers/user-provider';
 import { WorkoutProvider } from '../../providers/workout-provider';
 import { WorkoutPage } from '../workout/workout-page';
 
+@IonicPage({
+  name: 'home'
+})
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -19,6 +24,8 @@ export class HomePage {
   ionViewDidLoad() {
     this.user = UserProvider.getUserInfo();
     this.workouts = WorkoutProvider.getWorkoutsList();
+
+    console.log(this.user);
   }
 
   private openWorkout(workout) {

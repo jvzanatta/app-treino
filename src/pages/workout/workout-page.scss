@@ -1,14 +1,29 @@
 page-workout-page {
 
+  ion-header {
+    ion-title {
+      float: left;
+      margin-top: 12px;
+    }
+
+    button {
+      float: right;
+    }
+  }
+
   .group-name {
     margin-bottom: 0;
     padding-top: 5px;
-    background-color: #DFDFDFFF;
+    font-size: large;
+    border-radius: 5px;
+    // font-weight: bolder;
+    color: #DDD;
+    background-color: #222;
   }
 
-  ion-content {
-    background-color: #DFDFDFFF;
-  }
+  // ion-content {
+  //   background-color: #666666;
+  // }
 
   ion-item-sliding > ion-item:last-child {
     border: 0;

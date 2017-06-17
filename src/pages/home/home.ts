@@ -23,12 +23,12 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.user = UserProvider.getUserInfo();
-    this.workouts = WorkoutProvider.getWorkoutsList();
+    this.workouts = WorkoutProvider.getGivenWorkouts();
 
     console.log(this.user);
   }
 
   private openWorkout(workout) {
-    this.navCtrl.push(WorkoutPage, {workout: workout, type: 'view'});
+    this.navCtrl.push(WorkoutPage, {workout: workout, type: 'view', user: this.user});
   }
 }

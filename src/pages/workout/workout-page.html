@@ -1,15 +1,21 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title>Treino {{workout?.name | uppercase}}</ion-title>
+    <ion-title>{{workout?.name | uppercase}}</ion-title>
+    <button *ngIf="isOwner()" ion-button icon-only color="dark" (click)="delete()">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button *ngIf="isOwner()" ion-button icon-only color="dark" (click)="edit()">
+      <ion-icon name="create"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="workout-exercises-list">
 
   <ion-list class="exercise-list">
-    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedWeekDay">
-      <ion-list-header class="group-name">
+    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedWeekday">
+      <ion-list-header class="group-name" *ngIf="group.name">
         {{group.name}}
       </ion-list-header>
       <ion-item-sliding *ngFor="let exercise of group.exercises">
@@ -31,6 +37,7 @@
           </button>
         </ion-item-options>
       </ion-item-sliding>
+      <br/>
     </div>
   </ion-list>
 
@@ -39,6 +46,6 @@
 <ion-footer>
   <date-picker
     [weekdays]="workout.schedule"
-    (selectedWeekday)="selectedWeekday" >
+    (weekdayChanged)="changeDay($event)" >
   </date-picker>
 </ion-footer>

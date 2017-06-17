@@ -1,4 +1,4 @@
-date-picker {
+
 
   ion-row {
 
@@ -12,8 +12,9 @@ date-picker {
     }
 
     .weekday-button {
-      padding: 12px 0;
+      // padding: 12px 0;
+      height: 80%;
       font-size: 18px;
     }
   }
-}
+

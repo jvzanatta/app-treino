@@ -10,7 +10,10 @@ import { HomePage } from '../../pages/home/home';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+
+@IonicPage({
+  name: 'login'
+})
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -27,6 +30,8 @@ export class LoginPage {
   }
 
   ngOnInit() {
+    localStorage.clear();
+
     this.loginForm = new FormGroup({
         email: new FormControl('joaovictor15@gmail.com', [<any>Validators.required, <any>Validators.minLength(5)]),
         password: new FormControl('321654', [<any>Validators.required, <any>Validators.minLength(5)])
@@ -41,7 +46,6 @@ export class LoginPage {
     this.loginProvider.login(this.loginForm.value).subscribe(data => {
       this.navCtrl.setRoot(HomePage);
     });
-
   }
 
 }

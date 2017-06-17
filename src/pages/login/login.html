@@ -28,6 +28,6 @@
 </ion-content>
 
 <ion-footer>
-  <button color="primary" ion-button full (click)="login()">Entrar</button>
+  <button color="primary" ion-button full [disabled]="loginForm.invalid" (click)="login()">Entrar</button>
   <button color="primary" ion-button full>Inscrever-se</button>
 </ion-footer>

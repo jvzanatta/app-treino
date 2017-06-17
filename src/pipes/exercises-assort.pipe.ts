@@ -7,20 +7,24 @@ export class ExercisesAssortPipe implements PipeTransform {
   transform(exercises: Array<any>, day: string): Array<any> {
     let groups = [];
 
-    exercises.forEach(exercise => {
-      if (exercise.pivot.day === day) {
-        let id = exercise.group.id;
+    if (exercises) {
+      exercises.forEach(exercise => {
+        if (exercise.pivot.day === day) {
+          let id = exercise.group.id;
 
-        if (!groups.find(group => group.id === id)) {
-          groups.push(exercise.group);
-          groups.find(group => group.id === id).exercises = [exercise];
-        } else {
-          groups.find(group => group.id === id).exercises.push(exercise);
+          if (!groups.find(group => group.id === id)) {
+            groups.push(exercise.group);
+            groups.find(group => group.id === id).exercises = [exercise];
+          } else {
+            groups.find(group => group.id === id).exercises.push(exercise);
+          }
         }
-      }
-    });
+      });
+    }
 
-    console.log(groups);
+    if (groups.length === 0) {
+      groups.push({name: null, exercises: [{ name: 'Nenhum exercício' }]});
+    }
 
     return groups;
   }

@@ -29,16 +29,18 @@ export class LoginProvider {
 
     return this.http.post(this.endpoint, data).map(res => {
       localStorage.setItem('user', JSON.stringify(res.user));
-      // localStorage.setItem('givenWorkouts', JSON.stringify(res.user.givenWorkouts));
       localStorage.setItem('auth', res.auth);
-      res = res.user;
+      localStorage.setItem('pupils', JSON.stringify(res.pupils));
+      localStorage.setItem('coaches', JSON.stringify(res.coaches));
+      localStorage.setItem('workouts', JSON.stringify(res.workouts));
+      localStorage.setItem('givenWorkouts', JSON.stringify(res.givenWorkouts));
+      localStorage.setItem('createdWorkouts', JSON.stringify(res.createdWorkouts));
       console.log('login com sucesso');
     });
   }
 
   public static logout(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('auth');
+    localStorage.clear();
   }
 
   public static getAuthInfo(): any {

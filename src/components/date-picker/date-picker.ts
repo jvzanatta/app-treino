@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'date-picker',
-  templateUrl: 'date-picker.html'
+  templateUrl: 'date-picker.html',
+  styles: ['date-picker.scss']
 })
 
 export class DatePicker {
@@ -10,19 +11,21 @@ export class DatePicker {
   @Input()  weekdays: string;
   @Output() weekdayChanged = new EventEmitter<any>();
 
-  selectedWeekDay: string;
+  selectedWeekday: string;
 
-  constructor() {
+  constructor() {}
 
+  ngOnInit() {
+    let today: string = (new Date()).getDay().toString();
+
+    if (this.weekdays.indexOf(today) > -1) {
+      this.selectedWeekday = today;
+    } else {
+      this.selectedWeekday = this.weekdays.slice(0, 1);
+    }
+
+    this.sendDay();
   }
-
-  ngOnChanges() {
-    this.executeClickWeekDay(1);
-  }
-
-  // ngOnInit() {
-  //   console.log('ngOnInit', this.weekdays);
-  // }
 
   private previousWeekDay() {
     this.executeClickWeekDay(-1);
@@ -33,14 +36,19 @@ export class DatePicker {
   }
 
   private executeClickWeekDay(value) {
-    let pos = this.weekdays.indexOf(this.selectedWeekDay) + value,
+    console.log(this.weekdays);
+
+
+    let pos = this.weekdays.indexOf(this.selectedWeekday) + value,
       backupValue = value > 0 ? this.weekdays.slice(0, 1) : this.weekdays.slice(-1);
 
-    this.selectedWeekDay = this.weekdays.slice(pos, pos+1) || backupValue;
+    this.selectedWeekday = this.weekdays.slice(pos, pos+1) || backupValue;
 
-    console.log(this.selectedWeekDay);
+    this.sendDay();
+  }
 
-    this.weekdayChanged.emit(this.selectedWeekDay);
+  private sendDay() {
+    this.weekdayChanged.emit(this.selectedWeekday);
   }
 
 }

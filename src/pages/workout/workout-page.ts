@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { DatePicker } from '../../components/date-picker/date-picker';
-
+import { WorkoutProvider } from '../../providers/workout-provider';
 /**
  * Generated class for the WorkoutPage page.
  *
@@ -17,53 +17,61 @@ import { DatePicker } from '../../components/date-picker/date-picker';
 })
 export class WorkoutPage {
 
+  private user;
   private workout;
-  // private groups;
   private currentDay;
-  private selectedWeekDay;
+  private selectedWeekday;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    // public workoutProvider: WorkoutProvider
+  ) {
+    this.user = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
-    let today = (new Date()).getDay();
 
-    if (this.workout.schedule.indexOf(today) > -1) {
-      this.selectedWeekDay = today.toString();
-    } else {
-      this.selectedWeekDay = this.workout.schedule.slice(0, 1);
-    }
     console.log(this.workout);
-    console.log(today, this.workout.schedule, this.selectedWeekDay);
   }
 
-  // ionViewWillEnter() {
-  //   this.getGroups();
-  // }
+  public changeDay(day) {
+    this.selectedWeekday = day;
+  }
 
-  // private getGroups() {
-  //   if (this.selectedWeekDay) {
-  //     let groups = [];
+  public isOwner() {
+    if (!this.user || !this.workout) {
+      return false;
+    }
+    return this.user.id === this.workout.created_by;
+  }
 
-  //     // console.log(exercises);
+  private edit() {
+    console.log('edit');
+    // this.navCtrl.push(WorkoutPage, {workout: workout, type: 'view'});
+  }
 
-  //     this.workout.exercises.forEach(exercise => {
-  //       if (exercise.pivot.day === this.selectedWeekDay) {
-  //         let name = exercise.group.name;
-
-  //         // console.log(name);
-
-  //         if (!groups[name]) {
-  //           groups[name] = exercise.group;
-  //           groups[name].exercises = [exercise];
-  //         } else {
-  //           groups[name].exercises.push(exercise);
-  //         }
-  //       }
-  //     });
-
-  //     console.log(groups);
-
-  //     this.groups = groups;
-  //   }
-  // }
+  private delete() {
+    console.log('delete');
+    let confirm = this.alertCtrl.create({
+      title: 'Deseja realmente limpar este dia?',
+      // message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Sim, limpar!',
+          handler: () => {
+            console.log('Agree clicked');
+            this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedWeekday);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 
 }

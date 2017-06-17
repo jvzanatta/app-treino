@@ -26,7 +26,7 @@ export class WorkoutsList {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkoutsList');
-    this.workouts = WorkoutProvider.getWorkoutsList();
+    this.workouts = WorkoutProvider.getGivenWorkouts();
   }
 
   private openWorkout(workout) {

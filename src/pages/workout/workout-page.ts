@@ -2,15 +2,17 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { DatePicker } from '../../components/date-picker/date-picker';
 import { WorkoutProvider } from '../../providers/workout-provider';
+import { LoadingController } from 'ionic-angular';
+
 /**
  * Generated class for the WorkoutPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
- @IonicPage({
-   name: 'workout'
- })
+@IonicPage({
+  name: 'workout'
+})
 @Component({
   selector: 'page-workout-page',
   templateUrl: 'workout-page.html',
@@ -20,22 +22,23 @@ export class WorkoutPage {
   private user;
   private workout;
   private currentDay;
-  private selectedWeekday;
+  private selectedDay;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     // public workoutProvider: WorkoutProvider
   ) {
-    this.user = this.navParams.get('user');
+    this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
 
     console.log(this.workout);
   }
 
   public changeDay(day) {
-    this.selectedWeekday = day;
+    this.selectedDay = day;
   }
 
   public isOwner() {
@@ -47,7 +50,7 @@ export class WorkoutPage {
 
   private edit() {
     console.log('edit');
-    // this.navCtrl.push(WorkoutPage, {workout: workout, type: 'view'});
+    this.navCtrl.push('exercisegroupslist', {workout: this.workout, user: this.user, selectedDay: this.selectedDay});
   }
 
   private delete() {
@@ -66,7 +69,21 @@ export class WorkoutPage {
           text: 'Sim, limpar!',
           handler: () => {
             console.log('Agree clicked');
-            this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedWeekday);
+            let loader = this.loadingCtrl.create({
+              content: "Carregando...",
+              dismissOnPageChange: true,
+              // duration: 3000
+            });
+            console.log(loader);
+            loader.present();
+
+            this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedDay);
+            setTimeout(() => {
+              loader.dismiss();
+            }, 1000);
+            // loader.dismiss();
+            // console.log(this.workout);
+
           }
         }
       ]

@@ -14,11 +14,16 @@ import { WorkoutProvider } from '../providers/workout-provider';
 import { ExerciseProvider } from '../providers/exercise-provider';
 
 import { HttpInterceptor } from '../providers/http-interceptor-provider';
+import { LoadingProvider } from '../providers/loading/loading';
+import { SportProvider } from '../providers/sport/sport';
+import { GroupNamePipe } from '../pipes/group-name/group-name';
+import { ExerciseProvider } from '../providers/exercise/exercise';
 
 
 @NgModule({
   declarations: [
     MyApp,
+    GroupNamePipe,
   ],
 
   imports: [
@@ -46,6 +51,9 @@ import { HttpInterceptor } from '../providers/http-interceptor-provider';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LoadingProvider,
+    SportProvider,
+    ExerciseProvider,
   ]
 })
 export class AppModule {}

@@ -7,12 +7,26 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>exerciseGroupsList</ion-title>
+    <ion-title>{{workout.name}} - {{ selectedDay | weekday:'fullname' }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+  <ion-list class="group-list">
+    <div class="group-div" *ngFor="let group of sport.groups">
+      <button ion-item (click)="toggleGroup(group)">
+        {{ group.name }}
+        <span float-right>/{{group.exercises.length}}</span>
+      </button>
+      <ion-list class="exercise-list" margin-left *ngIf="group.display && !!group.exercises.length">
+        <ion-item *ngFor="let exercise of group.exercises">
+          <ion-label>{{ exercise.name }}</ion-label>
 
+          <ion-toggle [(ngModel)]="exercise.checked" (ionChange)="selectExercise(exercise)">
+          </ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-list>
 </ion-content>

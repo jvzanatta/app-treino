@@ -20,9 +20,9 @@ export class WorkoutProvider {
   public static getGivenWorkouts() {
     let givenArray = JSON.parse(localStorage.getItem('givenWorkouts'));
 
-    console.log(givenArray);
+    // console.log(givenArray);
     return this.getWorkouts().filter(workout => {
-      console.log(workout);
+      // console.log(workout);
       return givenArray.includes(workout.id);
     });
   }
@@ -44,6 +44,14 @@ export class WorkoutProvider {
 
   }
 
+  public static getDayExercises(workout, day) {
+    return workout.exercises.filter(exercise => exercise.pivot.day === day);
+  }
+
+  public static getDayExerciseKeys(workout, day) {
+    return this.getDayExercises(workout, day).map(exercise => exercise = exercise.id);
+  }
+
   public static clearWorkoutDay(workoutId, day) {
     console.log('clearWorkoutDay', workoutId, day);
 
@@ -61,19 +69,23 @@ export class WorkoutProvider {
   private static updateLocaly(updatedWorkout) {
     console.log('updateLocaly');
 
-    let workouts = this.getWorkouts().map(
-      workout => {
-        console.log(workout.id, updatedWorkout.id);
-        if (workout.id === updatedWorkout.id) {
-          console.log(workout.exercises.length);
-          console.log(updatedWorkout.exercises.length);
+    if (updatedWorkout && updatedWorkout.id) {
+      let workouts = this.getWorkouts().map(
+        workout => {
+          console.log(workout.id, updatedWorkout.id);
+          if (workout.id === updatedWorkout.id) {
+            console.log('workout.exercises', workout.exercises.length);
+            console.log('updatedWorkout.exercises', updatedWorkout.exercises.length);
 
-          workout = updatedWorkout;
-        }
-        return workout;
-      });
+            workout = updatedWorkout;
+          }
+          return workout;
+        });
 
-    localStorage.setItem('workouts', JSON.stringify(workouts));
+      localStorage.setItem('workouts', JSON.stringify(workouts));
+    } else {
+      console.log('No updatedWorkout or no id in updatedWorkout.');
+    }
   }
 
 }

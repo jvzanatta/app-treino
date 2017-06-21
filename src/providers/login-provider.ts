@@ -35,6 +35,9 @@ export class LoginProvider {
       localStorage.setItem('workouts', JSON.stringify(res.workouts));
       localStorage.setItem('givenWorkouts', JSON.stringify(res.givenWorkouts));
       localStorage.setItem('createdWorkouts', JSON.stringify(res.createdWorkouts));
+      if (res.sports) {
+        localStorage.setItem('sports', JSON.stringify(res.sports));
+      }
       console.log('login com sucesso');
     });
   }

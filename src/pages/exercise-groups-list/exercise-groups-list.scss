@@ -1,3 +1,36 @@
 page-exercise-groups-list {
 
+  ion-list.group-list {
+    position: relative;
+
+    div.group-div {
+      position: relative;
+
+      ion-list.exercise-list {
+        visibility: visible; /* shows sub-menu */
+        opacity: 1;
+        z-index: 1;
+        transform: translateY(0%);
+        /* this removes the transition delay so the menu will be visible while the other styles transition */
+        // transition-delay: 0s, 0s, 0.3s;
+
+        &.exercises-hidden {
+          visibility: hidden; /* hides sub-menu */
+          opacity: 0;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          // transform: translateY(-2em);
+          z-index: -1;
+          // transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
+        }
+
+        ion-item {
+          font-size: 14px;
+        }
+      }
+    }
+
+  }
 }

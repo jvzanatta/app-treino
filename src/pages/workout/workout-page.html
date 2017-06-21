@@ -14,7 +14,7 @@
 <ion-content padding class="workout-exercises-list">
 
   <ion-list class="exercise-list">
-    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedWeekday">
+    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedDay">
       <ion-list-header class="group-name" *ngIf="group.name">
         {{group.name}}
       </ion-list-header>
@@ -23,18 +23,18 @@
           <h2>{{exercise.name}}</h2>
         </ion-item>
         <ion-item-options side="right">
-          <button ion-button color="primary">
-            <ion-icon name="mail"></ion-icon>
-            Email
+          <button ion-button color="dark" >
+            <ion-icon name="analytics"></ion-icon>
+            Histórico
           </button>
-          <button ion-button color="primary">
+<!--           <button ion-button color="dark" *ngIf="isOwner()">
             <ion-icon name="text"></ion-icon>
             Text
           </button>
-          <button ion-button color="secondary">
-            <ion-icon name="call"></ion-icon>
-            Call
-          </button>
+          <button ion-button color="danger" *ngIf="isOwner()">
+            <ion-icon name="trash"></ion-icon>
+            Remove
+          </button> -->
         </ion-item-options>
       </ion-item-sliding>
       <br/>

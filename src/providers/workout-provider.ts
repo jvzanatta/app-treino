@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { UserProvider } from './user-provider';
+import { SportProvider } from './sport/sport';
+import { ExerciseProvider } from './exercise/exercise';
 
 /*
   Generated class for the WorkoutProvider provider.
@@ -72,7 +74,7 @@ export class WorkoutProvider {
     if (updatedWorkout && updatedWorkout.id) {
       let workouts = this.getWorkouts().map(
         workout => {
-          console.log(workout.id, updatedWorkout.id);
+          // console.log(workout.id, updatedWorkout.id);
           if (workout.id === updatedWorkout.id) {
             console.log('workout.exercises', workout.exercises.length);
             console.log('updatedWorkout.exercises', updatedWorkout.exercises.length);
@@ -86,6 +88,45 @@ export class WorkoutProvider {
     } else {
       console.log('No updatedWorkout or no id in updatedWorkout.');
     }
+  }
+
+  public static saveDayExercises(workout, dayExercises, selectedDay) {
+    // Removidos exercícios removidos pelo usuário
+    let updatedExercises = workout.exercises.filter(exercise => {
+      return exercise.pivot.day == selectedDay && dayExercises.includes(exercise.id)
+    });
+
+    // console.log('após remoção', updatedExercises);
+
+    console.log('há novos?', dayExercises.length - updatedExercises.length, updatedExercises);
+
+    // // Verifica se há novos exercícios
+    // if (updatedExercises.length < dayExercises.length) {
+
+    // Busca exercícios do esporte
+    let exercises = SportProvider.getSport(workout.sport_id).exercises
+      .filter(exercise => dayExercises.includes(exercise.id));
+
+    // console.log(updatedExercises, exercises);
+
+    updatedExercises = dayExercises.map(exId => {
+      let temp = updatedExercises.find(ex => ex.id == exId);
+
+      if (!temp) {
+        temp = exercises.find(ex => ex.id == exId);
+        temp.pivot = {day: selectedDay, exercise_id: exId, workout_id: workout.id};
+      }
+
+      return temp;
+    });
+
+    // Reordenar
+    workout.exercises = ExerciseProvider.sort(updatedExercises);
+
+    console.log('fim da inclusao', updatedExercises);
+    // }
+
+    this.updateLocaly(workout);
   }
 
 }

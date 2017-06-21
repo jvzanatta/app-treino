@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SportProvider } from '../../providers/sport/sport';
 
 /**
  * Generated class for the GroupNamePipe pipe.
@@ -7,13 +8,13 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Angular Pipes.
  */
 @Pipe({
-  name: 'group-name',
+  name: 'groupName',
 })
 export class GroupNamePipe implements PipeTransform {
-  /**
-   * Takes a value and makes it lowercase.
-   */
-  transform(value: string, ...args) {
-    return value.toLowerCase();
+
+  transform(groupId: number, sportId: number) {
+    // console.log('GroupNamePipe', groupId, sportId, SportProvider.getGroupName(sportId, groupId));
+
+    return SportProvider.getGroupName(sportId, groupId) || '';
   }
 }

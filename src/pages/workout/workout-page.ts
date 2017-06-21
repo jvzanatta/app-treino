@@ -29,12 +29,19 @@ export class WorkoutPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    // public workoutProvider: WorkoutProvider
   ) {
     this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
 
     console.log(this.workout);
+  }
+
+  ionViewDidLoad() {
+    console.log('DidLoad WorkoutPage');
+  }
+
+  ionViewWillEnter() {
+    console.log('WillEnter WorkoutPage');
   }
 
   public changeDay(day) {

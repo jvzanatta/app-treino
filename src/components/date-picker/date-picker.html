@@ -1,15 +1,15 @@
 <ion-row>
   <ion-col col-auto>
-    <button color="dark" ion-button icon-only (click)="previousWeekDay()">
+    <button color="primary" ion-button icon-only (click)="previousWeekDay()">
       <ion-icon name="arrow-dropleft-circle"></ion-icon>
     </button>
   </ion-col>
   <ion-col>
-    <button color="dark" class="weekday-button" ion-button (click)="executeClickWeekDay()">{{ selectedWeekday | weekday:'fullname' }}
+    <button color="light" class="weekday-button" ion-button (click)="executeClickWeekDay()">{{ selectedWeekday | weekday:'fullname' }}
     </button>
   </ion-col>
   <ion-col col-auto>
-    <button color="dark" ion-button icon-only (click)="nextWeekDay()">
+    <button color="primary" ion-button icon-only (click)="nextWeekDay()">
       <ion-icon name="arrow-dropright-circle"></ion-icon>
     </button>
   </ion-col>

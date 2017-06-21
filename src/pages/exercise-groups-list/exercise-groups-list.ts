@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { WorkoutProvider } from '../../providers/workout-provider';
 import { SportProvider } from '../../providers/sport/sport';
+import { ExerciseProvider } from '../../providers/exercise/exercise';
 import { LoadingController } from 'ionic-angular';
 /**
  * Generated class for the ExerciseGroupsList page.
@@ -21,6 +22,7 @@ export class ExerciseGroupsList {
   private user;
   private workout;
   private sport;
+  private displayingGroup;
   private selectedDay;
   private dayExercises;
 
@@ -43,13 +45,20 @@ export class ExerciseGroupsList {
     console.log(this.dayExercises);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ExerciseGroupsList');
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad ExerciseGroupsList');
 
-    this.mapExercises();
+  //   this.mapGroups();
+  // }
+
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter ExerciseGroupsList');
+
+    this.mapGroups();
   }
 
   private closeAllGroups() {
+    this.displayingGroup = null;
     this.sport.groups.forEach(group => group.display = false);
   }
 
@@ -58,14 +67,59 @@ export class ExerciseGroupsList {
     this.closeAllGroups();
     if (!displayed) {
       group.display = true;
+      this.displayingGroup = group;
     }
   }
 
-  private mapExercises() {
+  private save() {
+    // WorkoutProvider.saveDayExercises(this.workout, this.dayExercises, this.selectedDay);
+
+    // let confirm = this.alertCtrl.create({
+    //   title: 'Treino salvo!',
+    //   message: 'Deseja voltar para a página do treino?',
+    //   buttons: [
+    //     {
+    //       text: 'Não, obrigado',
+    //       handler: () => {
+    //         console.log('Disagree clicked');
+    //       }
+    //     },
+    //     {
+    //       text: 'Sim, voltar!',
+    //       handler: () => {
+    //         console.log('Agree clicked');
+    //         this.goBack();
+    //       }
+    //     }
+    //   ]
+    // });
+    // confirm.present();
+  }
+
+  private appendExercise(exercise) {
+    ExerciseProvider.append(exercise, this.workout, this.selectedDay);
+  }
+
+  private removeExercise(exercise) {
+    ExerciseProvider.remove(exercise, this.workout, this.selectedDay);
+  }
+
+  private goBack() {
+    this.navCtrl.pop();
+  }
+
+  private mapGroups() {
     this.sport.groups.forEach(group => {
-      group.exercises.forEach(exercise => {
-        exercise.checked = this.isChecked(exercise.id);
-      });
+      this.mapGroup(group);
+    });
+  }
+
+  private mapGroup(group) {
+    group.countSelected = 0;
+    group.exercises.forEach(exercise => {
+      if (exercise.checked = this.isChecked(exercise.id)) {
+        group.countSelected++;
+      }
     });
   }
 
@@ -74,17 +128,18 @@ export class ExerciseGroupsList {
     return this.dayExercises.includes(exerciseId);
   }
 
-  private selectExercise(exercise) {
-    // console.log('selectExercise()', exercise, this.isChecked(exercise.id), this.dayExercises);
+  private toggleExercise(exercise) {
     if (this.isChecked(exercise.id)) {
-      // exercise.checked = false;
       this.dayExercises = this.dayExercises.filter(id => id !== exercise.id);
+      this.removeExercise(exercise);
     } else {
-      // exercise.checked = true;
       this.dayExercises.push(exercise.id);
+      this.appendExercise(exercise);
     }
-    // console.log('fim selectExercise()', this.isChecked(exercise.id), this.dayExercises);
+
+    this.mapGroup(this.displayingGroup);
     console.log(this.dayExercises);
+    console.log(this.workout);
   }
 
 }

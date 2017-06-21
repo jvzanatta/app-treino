@@ -13,12 +13,17 @@ page-workout-page {
 
   .group-name {
     margin-bottom: 0;
-    padding-top: 5px;
+    // padding-top: 5px;
     font-size: large;
     border-radius: 5px;
+    height: 45px;
     // font-weight: bolder;
-    color: #DDD;
-    background-color: #222;
+    // color: #DDD;
+    // background-color: #222;
+
+      ion-label {
+        margin: 0;
+      }
   }
 
   // ion-content {

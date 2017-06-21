@@ -2,10 +2,10 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{workout?.name | uppercase}}</ion-title>
-    <button *ngIf="isOwner()" ion-button icon-only color="dark" (click)="delete()">
+    <button *ngIf="isOwner()" ion-button icon-only color="primary" (click)="delete()">
       <ion-icon name="trash"></ion-icon>
     </button>
-    <button *ngIf="isOwner()" ion-button icon-only color="dark" (click)="edit()">
+    <button *ngIf="isOwner()" ion-button icon-only color="primary" (click)="edit()">
       <ion-icon name="create"></ion-icon>
     </button>
   </ion-navbar>
@@ -14,27 +14,19 @@
 <ion-content padding class="workout-exercises-list">
 
   <ion-list class="exercise-list">
-    <div *ngFor="let group of workout?.exercises | exercisesAssort:selectedDay">
-      <ion-list-header class="group-name" *ngIf="group.name">
-        {{group.name}}
+    <div *ngFor="let exercise of workout?.exercises | dayFilter:selectedDay | markForHeader" >
+      <ion-list-header color="primary" class="group-name" *ngIf="exercise.first">
+        {{ exercise.exercise_group_id | groupName:workout?.sport.id }}
       </ion-list-header>
-      <ion-item-sliding *ngFor="let exercise of group.exercises">
+      <ion-item-sliding>
         <ion-item>
           <h2>{{exercise.name}}</h2>
         </ion-item>
         <ion-item-options side="right">
-          <button ion-button color="dark" >
+          <button ion-button color="primary" >
             <ion-icon name="analytics"></ion-icon>
             Histórico
           </button>
-<!--           <button ion-button color="dark" *ngIf="isOwner()">
-            <ion-icon name="text"></ion-icon>
-            Text
-          </button>
-          <button ion-button color="danger" *ngIf="isOwner()">
-            <ion-icon name="trash"></ion-icon>
-            Remove
-          </button> -->
         </ion-item-options>
       </ion-item-sliding>
       <br/>

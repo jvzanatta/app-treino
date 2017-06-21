@@ -8,26 +8,28 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HttpModule }    from '@angular/http';
 
+import { PipesModule } from '../pipes/pipes.module';
+
 import { LoginProvider } from '../providers/login-provider';
 import { UserProvider } from '../providers/user-provider';
 import { WorkoutProvider } from '../providers/workout-provider';
-import { ExerciseProvider } from '../providers/exercise-provider';
+// import { ExerciseProvider } from '../providers/exercise-provider';
 
 import { HttpInterceptor } from '../providers/http-interceptor-provider';
 import { LoadingProvider } from '../providers/loading/loading';
 import { SportProvider } from '../providers/sport/sport';
-import { GroupNamePipe } from '../pipes/group-name/group-name';
 import { ExerciseProvider } from '../providers/exercise/exercise';
+
 
 
 @NgModule({
   declarations: [
     MyApp,
-    GroupNamePipe,
   ],
 
   imports: [
     HttpModule,
+    PipesModule,
     BrowserModule,
     IonicModule.forRoot(MyApp, {
       preloadModules: true
@@ -44,7 +46,6 @@ import { ExerciseProvider } from '../providers/exercise/exercise';
     LoginProvider,
     UserProvider,
     WorkoutProvider,
-    ExerciseProvider,
 
     HttpInterceptor,
 

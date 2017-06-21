@@ -1,10 +1,25 @@
 page-exercise-groups-list {
 
+  ion-header {
+    ion-title {
+      float: left;
+      margin-top: 12px;
+    }
+
+    button {
+      float: right;
+    }
+  }
+
   ion-list.group-list {
     position: relative;
 
     div.group-div {
       position: relative;
+
+      button.unused {
+        color: gray;
+      }
 
       ion-list.exercise-list {
         visibility: visible; /* shows sub-menu */

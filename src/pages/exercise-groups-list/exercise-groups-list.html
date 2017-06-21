@@ -8,6 +8,9 @@
 
   <ion-navbar>
     <ion-title>{{workout.name}} - {{ selectedDay | weekday:'fullname' }}</ion-title>
+<!--     <button ion-button float-right color="dark" (click)="save()">
+      salvar
+    </button> -->
   </ion-navbar>
 
 </ion-header>
@@ -15,18 +18,28 @@
 <ion-content padding>
   <ion-list class="group-list">
     <div class="group-div" *ngFor="let group of sport.groups">
-      <button ion-item (click)="toggleGroup(group)">
+      <button ion-item (click)="toggleGroup(group)" [ngClass]="group.countSelected ? '' : 'unused'">
         {{ group.name }}
-        <span float-right>/{{group.exercises.length}}</span>
+        <span float-right>{{group.countSelected}}/{{group.exercises.length}}</span>
       </button>
       <ion-list class="exercise-list" margin-left *ngIf="group.display && !!group.exercises.length">
         <ion-item *ngFor="let exercise of group.exercises">
           <ion-label>{{ exercise.name }}</ion-label>
 
-          <ion-toggle [(ngModel)]="exercise.checked" (ionChange)="selectExercise(exercise)">
+          <ion-toggle [(ngModel)]="exercise.checked" (ionChange)="toggleExercise(exercise)">
           </ion-toggle>
         </ion-item>
       </ion-list>
     </div>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <button ion-button full color="primary" (click)="save()">
+        salvar
+      </button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

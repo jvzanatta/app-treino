@@ -22,9 +22,7 @@ export class WorkoutProvider {
   public static getGivenWorkouts() {
     let givenArray = JSON.parse(localStorage.getItem('givenWorkouts'));
 
-    // console.log(givenArray);
     return this.getWorkouts().filter(workout => {
-      // console.log(workout);
       return givenArray.includes(workout.id);
     });
   }
@@ -38,12 +36,8 @@ export class WorkoutProvider {
     return JSON.parse(localStorage.getItem('workouts')) || [];
   }
 
-  private static getWorkout(workoutId) {
+  public static getWorkout(workoutId) {
     return this.getWorkouts().find(workout => workout.id == workoutId);
-  }
-
-  public static editWorkout() {
-
   }
 
   public static getDayExercises(workout, day) {
@@ -61,7 +55,7 @@ export class WorkoutProvider {
 
     workout.exercises = workout.exercises.filter(exercise => exercise.pivot.day != day);
 
-    console.log('updatedWorkout', workout);
+    // console.log('updatedWorkout', workout);
 
     this.updateLocaly(workout);
 
@@ -74,10 +68,9 @@ export class WorkoutProvider {
     if (updatedWorkout && updatedWorkout.id) {
       let workouts = this.getWorkouts().map(
         workout => {
-          // console.log(workout.id, updatedWorkout.id);
           if (workout.id === updatedWorkout.id) {
-            console.log('workout.exercises', workout.exercises.length);
-            console.log('updatedWorkout.exercises', updatedWorkout.exercises.length);
+            // console.log('workout.exercises', workout.exercises.length);
+            // console.log('updatedWorkout.exercises', updatedWorkout.exercises.length);
 
             workout = updatedWorkout;
           }
@@ -90,41 +83,8 @@ export class WorkoutProvider {
     }
   }
 
-  public static saveDayExercises(workout, dayExercises, selectedDay) {
-    // Removidos exercícios removidos pelo usuário
-    let updatedExercises = workout.exercises.filter(exercise => {
-      return exercise.pivot.day == selectedDay && dayExercises.includes(exercise.id)
-    });
-
-    // console.log('após remoção', updatedExercises);
-
-    console.log('há novos?', dayExercises.length - updatedExercises.length, updatedExercises);
-
-    // // Verifica se há novos exercícios
-    // if (updatedExercises.length < dayExercises.length) {
-
-    // Busca exercícios do esporte
-    let exercises = SportProvider.getSport(workout.sport_id).exercises
-      .filter(exercise => dayExercises.includes(exercise.id));
-
-    // console.log(updatedExercises, exercises);
-
-    updatedExercises = dayExercises.map(exId => {
-      let temp = updatedExercises.find(ex => ex.id == exId);
-
-      if (!temp) {
-        temp = exercises.find(ex => ex.id == exId);
-        temp.pivot = {day: selectedDay, exercise_id: exId, workout_id: workout.id};
-      }
-
-      return temp;
-    });
-
-    // Reordenar
-    workout.exercises = ExerciseProvider.sort(updatedExercises);
-
-    console.log('fim da inclusao', updatedExercises);
-    // }
+  public static update(workout) {
+    console.log('update');
 
     this.updateLocaly(workout);
   }

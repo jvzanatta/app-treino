@@ -23,23 +23,24 @@ export class LoginProvider {
 
   public login(values: any): Observable<any> {
     let data = {
-        email: values.email,
-        password: values.password
-      };
+      email: values.email,
+      password: values.password
+    };
 
     return this.http.post(this.endpoint, data).map(res => {
-      localStorage.setItem('user', JSON.stringify(res.user));
-      localStorage.setItem('auth', res.auth);
-      localStorage.setItem('pupils', JSON.stringify(res.pupils));
-      localStorage.setItem('coaches', JSON.stringify(res.coaches));
-      localStorage.setItem('workouts', JSON.stringify(res.workouts));
-      localStorage.setItem('givenWorkouts', JSON.stringify(res.givenWorkouts));
-      localStorage.setItem('createdWorkouts', JSON.stringify(res.createdWorkouts));
-      if (res.sports) {
-        localStorage.setItem('sports', JSON.stringify(res.sports));
-      }
-      console.log('login com sucesso');
+      this.storeData(res);
     });
+  }
+
+  private storeData(res) {
+    localStorage.setItem('user', JSON.stringify(res.user));
+    localStorage.setItem('auth', res.auth);
+    localStorage.setItem('pupils', JSON.stringify(res.pupils));
+    localStorage.setItem('coaches', JSON.stringify(res.coaches));
+    localStorage.setItem('workouts', JSON.stringify(res.workouts));
+    localStorage.setItem('givenWorkouts', JSON.stringify(res.givenWorkouts));
+    localStorage.setItem('createdWorkouts', JSON.stringify(res.createdWorkouts));
+    localStorage.setItem('sports', JSON.stringify(res.sports));
   }
 
   public static logout(): void {

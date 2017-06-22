@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginProvider } from '../../providers/login-provider';
 import { HomePage } from '../../pages/home/home';
+import { LoadingController } from 'ionic-angular';
 
 /**
  * Generated class for the LoginPage page.
@@ -25,6 +26,7 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public loadingCtrl: LoadingController,
     private loginProvider: LoginProvider
   ) {
   }
@@ -43,8 +45,15 @@ export class LoginPage {
   }
 
   private login() {
+    let loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
+    });
+    loader.present();
+
     this.loginProvider.login(this.loginForm.value).subscribe(data => {
       this.navCtrl.setRoot(HomePage);
+      loader.dismiss();
     });
   }
 

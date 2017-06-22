@@ -4,61 +4,31 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Meus Treinos</ion-title>
+    <ion-title>Gerenciar Treinos</ion-title>
   </ion-navbar>
 </ion-header>
-
 
 <ion-content padding class="workout-exercises-list">
 
   <ion-list class="workout-list">
-    <ion-list-header class="group-name">
+    <ion-list-header color="primary" class="group-name">
       Ativos
     </ion-list-header>
-    <ion-item-sliding *ngFor="let workout of workouts | activeOnly">
-      <ion-item>
+    <ion-item *ngFor="let workout of workouts | activeOnly" (click)="openWorkoutOptions(workout)">
         <h2>{{workout.name}}</h2>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary">
-          <ion-icon name="mail"></ion-icon>
-          Email
-        </button>
-        <button ion-button color="primary">
-          <ion-icon name="text"></ion-icon>
-          Text
-        </button>
-        <button ion-button color="secondary">
-          <ion-icon name="call"></ion-icon>
-          Call
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    </ion-item>
   </ion-list>
 
+  <br/>
+  <br/>
+
   <ion-list class="workout-list">
-    <ion-list-header class="group-name">
+    <ion-list-header class="group-name group-name-inactive" color="light">
       Inativos
     </ion-list-header>
-    <ion-item-sliding *ngFor="let workout of workouts | activeOnly:false">
-      <ion-item>
+    <ion-item *ngFor="let workout of workouts | activeOnly:false" (click)="openWorkoutOptions(workout)">
         <h2>{{workout.name}}</h2>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary">
-          <ion-icon name="mail"></ion-icon>
-          Email
-        </button>
-        <button ion-button color="primary">
-          <ion-icon name="text"></ion-icon>
-          Text
-        </button>
-        <button ion-button color="secondary">
-          <ion-icon name="call"></ion-icon>
-          Call
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    </ion-item>
   </ion-list>
 
 </ion-content>

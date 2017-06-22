@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, Content } from 'ionic-angular';
 import { DatePicker } from '../../components/date-picker/date-picker';
 import { WorkoutProvider } from '../../providers/workout-provider';
 import { LoadingController } from 'ionic-angular';
@@ -18,6 +18,7 @@ import { LoadingController } from 'ionic-angular';
   templateUrl: 'workout-page.html',
 })
 export class WorkoutPage {
+  @ViewChild(Content) content: Content;
 
   private user;
   private workout;
@@ -42,10 +43,12 @@ export class WorkoutPage {
 
   ionViewWillEnter() {
     console.log('WillEnter WorkoutPage');
+    this.workout = WorkoutProvider.getWorkout(this.workout.id);
   }
 
   public changeDay(day) {
     this.selectedDay = day;
+    this.scrollToTop();
   }
 
   public isOwner() {
@@ -61,41 +64,42 @@ export class WorkoutPage {
   }
 
   private delete() {
-    console.log('delete');
     let confirm = this.alertCtrl.create({
       title: 'Deseja realmente limpar este dia?',
-      // message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
       buttons: [
         {
           text: 'Cancelar',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
+          handler: () => { console.log('Disagree clicked');}
         },
         {
           text: 'Sim, limpar!',
           handler: () => {
             console.log('Agree clicked');
-            let loader = this.loadingCtrl.create({
-              content: "Carregando...",
-              dismissOnPageChange: true,
-              // duration: 3000
-            });
-            console.log(loader);
-            loader.present();
-
-            this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedDay);
-            setTimeout(() => {
-              loader.dismiss();
-            }, 1000);
-            // loader.dismiss();
-            // console.log(this.workout);
-
+            this.clearWorkoutDay();
           }
         }
       ]
     });
     confirm.present();
+  }
+
+  private clearWorkoutDay() {
+    let loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
+    });
+
+    loader.present();
+
+    this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedDay);
+
+    setTimeout(() => {
+      loader.dismiss();
+    }, 50);
+  }
+
+  private scrollToTop() {
+    this.content.scrollToTop();
   }
 
 }

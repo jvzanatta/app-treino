@@ -22,13 +22,21 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    console.log('DidLoad HomePage');
+  }
+
+  ionViewWillEnter() {
+    console.log('WillEnter HomePage');
+
     this.user = UserProvider.getUserInfo();
     this.workouts = WorkoutProvider.getGivenWorkouts();
-
-    console.log(this.user, this.workouts);
   }
 
   private openWorkout(workout) {
     this.navCtrl.push('workout', {workout: workout, user: this.user});
+  }
+
+  private openMyProfile() {
+    this.navCtrl.push('contact', {user: this.user});
   }
 }

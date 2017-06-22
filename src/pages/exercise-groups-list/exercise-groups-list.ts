@@ -45,14 +45,12 @@ export class ExerciseGroupsList {
     console.log(this.dayExercises);
   }
 
-  // ionViewDidLoad() {
-  //   console.log('ionViewDidLoad ExerciseGroupsList');
-
-  //   this.mapGroups();
-  // }
+  ionViewDidLoad() {
+    console.log('DidLoad ExerciseGroupsList');
+  }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter ExerciseGroupsList');
+    console.log('WillEnter ExerciseGroupsList');
 
     this.mapGroups();
   }
@@ -72,28 +70,28 @@ export class ExerciseGroupsList {
   }
 
   private save() {
-    // WorkoutProvider.saveDayExercises(this.workout, this.dayExercises, this.selectedDay);
+    WorkoutProvider.update(this.workout);
 
-    // let confirm = this.alertCtrl.create({
-    //   title: 'Treino salvo!',
-    //   message: 'Deseja voltar para a página do treino?',
-    //   buttons: [
-    //     {
-    //       text: 'Não, obrigado',
-    //       handler: () => {
-    //         console.log('Disagree clicked');
-    //       }
-    //     },
-    //     {
-    //       text: 'Sim, voltar!',
-    //       handler: () => {
-    //         console.log('Agree clicked');
-    //         this.goBack();
-    //       }
-    //     }
-    //   ]
-    // });
-    // confirm.present();
+    let confirm = this.alertCtrl.create({
+      title: 'Treino salvo!',
+      message: 'Deseja voltar para a página do treino?',
+      buttons: [
+        {
+          text: 'Não, obrigado',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Sim, voltar!',
+          handler: () => {
+            console.log('Agree clicked');
+            this.goBack();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   private appendExercise(exercise) {

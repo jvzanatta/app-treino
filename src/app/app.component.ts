@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { UserProvider } from '../providers/user-provider';
+import { LoginProvider } from '../providers/login-provider';
 
 
 @Component({
@@ -12,8 +13,8 @@ import { UserProvider } from '../providers/user-provider';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any ; // = 'login';
-  pages: Array<{title: string, component: any}>;
+  rootPage: any ;
+  pages: Array<any>;
 
   constructor(
     public platform: Platform,
@@ -22,17 +23,24 @@ export class MyApp {
   ) {
     this.initializeApp();
 
+    let user = UserProvider.getUserInfo();
+    this.rootPage = user ? 'home' : 'login';
+
     this.pages = [
-      { title: 'Home', component: 'home' },
-      { title: 'Meus Treinos', component: 'workoutlist' },
-      { title: 'Gerenciar Alunos', component: 'contactlist' },
-      { title: 'Gerenciar Treinos', component: 'workoutlist' },
-      { title: 'Perfil', component: 'contact' },
-      { title: 'Sair', component: 'login' }
+      { title: 'Home', component: 'home', icon: 'home' },
+      { title: 'Perfil', component: 'contact', icon: 'contact', options: { user: user } },
+      { title: 'Meus Treinos', component: 'workoutlist', icon: 'list', options: { mode: 'user' }},
+      { title: 'Contatos', component: 'contactlist', icon: 'people' },
     ];
 
-    // console.log('UserProvider.getUserInfo()', !!UserProvider.getUserInfo());
-    this.rootPage = (UserProvider.getUserInfo() ? 'home' : 'login');
+
+    if (!!user) {
+      // this.pages.forEach(page => {page.component == 'contact' ? page['options']['user'] = user : '';});
+
+      if (user.is_coach) {
+        this.pages.push({ title: 'Gerenciar Treinos', component: 'workoutlist', icon: 'clipboard' });
+      }
+    }
   }
 
   initializeApp() {
@@ -41,15 +49,19 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      // console.log('UserProvider.getUserInfo()', !!UserProvider.getUserInfo());
-      // UserProvider.getUserInfo() ? this.openPage(this.pages[0]) : '';
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    if (page.component === 'home') {
+      this.nav.popToRoot();
+    } else {
+      this.nav.push(page.component, page.options);
+    }
+  }
+
+  logout() {
+    LoginProvider.logout();
+    this.nav.setRoot('login');
   }
 }

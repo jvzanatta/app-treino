@@ -5,6 +5,9 @@ import { WeekdayPipe } from './weekday.pipe';
 import { GroupNamePipe } from './group-name/group-name';
 import { DayFilterPipe } from './day-filter/day-filter';
 import { MarkForHeaderPipe } from './mark-for-header/mark-for-header';
+import { UserNamePipe } from '../pipes/user-name/user-name';
+import { AgePipe } from '../pipes/age/age';
+
 
 @NgModule({
   declarations: [
@@ -14,6 +17,8 @@ import { MarkForHeaderPipe } from './mark-for-header/mark-for-header';
     GroupNamePipe,
     DayFilterPipe,
     MarkForHeaderPipe,
+    UserNamePipe,
+    AgePipe,
   ],
   exports: [
     ActiveOnlyPipe,
@@ -22,6 +27,8 @@ import { MarkForHeaderPipe } from './mark-for-header/mark-for-header';
     GroupNamePipe,
     DayFilterPipe,
     MarkForHeaderPipe,
+    UserNamePipe,
+    AgePipe,
   ],
 })
 export class PipesModule {}

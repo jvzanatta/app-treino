@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { WorkoutPage } from '../workout/workout-page';
-import { UserProvider } from '../../providers/user-provider';
-import { WorkoutProvider } from '../../providers/workout-provider';
+import { UserProvider } from '../../providers/user/user';
+import { WorkoutProvider } from '../../providers/workout/workout';
+import { LoadingController } from 'ionic-angular';
+
 
 /**
  * Generated class for the WorkoutsList page.
@@ -20,27 +22,42 @@ import { WorkoutProvider } from '../../providers/workout-provider';
 })
 export class WorkoutsList {
 
+  private mode: any;
+  private loader: any;
   private workouts: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    public loadingCtrl: LoadingController,
   ) {
     console.log('mode', this.navParams.get('mode'));
+    this.mode = this.navParams.get('mode');
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
+    });
   }
 
   ionViewDidLoad() {
     console.log('DidLoad WorkoutsList');
-    this.workouts = WorkoutProvider.getGivenWorkouts();
+
+    this.workouts = WorkoutProvider.getWorkoutList(this.mode);
   }
 
   ionViewWillEnter() {
     console.log('WillEnter WorkoutsList');
+    // this.loader.present();
+  }
+
+  ionViewDidEnter() {
+    console.log('DidEnter WorkoutsList');
+    // this.loader.dismiss();
   }
 
   private openWorkout(workout) {
-    // this.navCtrl.push(WorkoutPage, {workout: workout, type: 'edit'});
+    this.navCtrl.push(WorkoutPage, {workout: workout, type: 'edit'});
   }
 
   private openWorkoutOptions(workout) {

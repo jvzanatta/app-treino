@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
+
+
+import { HttpHandler } from '../http/http';
 
 /*
   Generated class for the SportsProvider provider.
@@ -11,25 +14,28 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SportProvider {
 
-  constructor(public http: Http) {
+  constructor(
+    public http: HttpHandler,
+    private storage: Storage,
+  ) {
     console.log('Hello SportsProvider Provider');
   }
 
-  public static getSports() {
+  public getSports() {
     return JSON.parse(localStorage.getItem('sports')) || [];
   }
 
-  public static getSport(sportId) {
+  public getSport(sportId) {
     // console.log('getSport', sportId, this.getSports().find(sport => sport.id == sportId));
     return this.getSports().find(sport => sport.id == sportId);
   }
 
-  public static getGroup(sportId, groupId) {
+  public getGroup(sportId, groupId) {
     // console.log('getGroup', sportId, groupId, this.getSport(sportId));
     return this.getSport(sportId).groups.find(group => group.id === groupId);
   }
 
-  public static getGroupName(sportId, groupId) {
+  public getGroupName(sportId, groupId) {
     // console.log('getGroupName', sportId, groupId, this.getGroup(sportId, groupId));
     return this.getGroup(sportId, groupId).name;
   }

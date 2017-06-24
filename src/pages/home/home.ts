@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 
-import { UserProvider } from '../../providers/user-provider';
-import { WorkoutProvider } from '../../providers/workout-provider';
+import { UserProvider } from '../../providers/user/user';
+import { WorkoutProvider } from '../../providers/workout/workout';
 // import { WorkoutPage } from '../workout/workout-page';
+import { LoadingController } from 'ionic-angular';
+
+
 
 @IonicPage({
   name: 'home'
@@ -16,9 +19,21 @@ import { WorkoutProvider } from '../../providers/workout-provider';
 export class HomePage {
 
   private user: any;
+  private loader: any;
   private workouts: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+  ) {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
+    });
+  }
+
+  ionViewCanEnter() {
+    console.log('CanEnter HomePage');
   }
 
   ionViewDidLoad() {
@@ -27,9 +42,15 @@ export class HomePage {
 
   ionViewWillEnter() {
     console.log('WillEnter HomePage');
+    // this.loader.present();
 
     this.user = UserProvider.getUserInfo();
     this.workouts = WorkoutProvider.getGivenWorkouts();
+  }
+
+  ionViewDidEnter() {
+    console.log('DidEnter HomePage');
+    // this.loader.dismiss();
   }
 
   private openWorkout(workout) {
@@ -39,4 +60,5 @@ export class HomePage {
   private openMyProfile() {
     this.navCtrl.push('contact', {user: this.user});
   }
+
 }

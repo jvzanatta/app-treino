@@ -5,17 +5,17 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { HttpModule }    from '@angular/http';
 
 import { PipesModule } from '../pipes/pipes.module';
 
-import { LoginProvider } from '../providers/login-provider';
-import { UserProvider } from '../providers/user-provider';
-import { WorkoutProvider } from '../providers/workout-provider';
-// import { ExerciseProvider } from '../providers/exercise-provider';
+import { LoginProvider } from '../providers/login/login';
+import { UserProvider } from '../providers/user/user';
+import { WorkoutProvider } from '../providers/workout/workout';
 
-import { HttpInterceptor } from '../providers/http-interceptor-provider';
+import { HttpHandler } from '../providers/http/http';
 import { LoadingProvider } from '../providers/loading/loading';
 import { SportProvider } from '../providers/sport/sport';
 import { ExerciseProvider } from '../providers/exercise/exercise';
@@ -33,7 +33,11 @@ import { ExerciseProvider } from '../providers/exercise/exercise';
     BrowserModule,
     IonicModule.forRoot(MyApp, {
       preloadModules: true
-    })
+    }),
+    IonicStorageModule.forRoot({
+      name: '__FichaApp',
+         // driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
   ],
 
   bootstrap: [IonicApp],
@@ -47,7 +51,7 @@ import { ExerciseProvider } from '../providers/exercise/exercise';
     UserProvider,
     WorkoutProvider,
 
-    HttpInterceptor,
+    HttpHandler,
 
     StatusBar,
     SplashScreen,

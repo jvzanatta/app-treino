@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { WorkoutProvider } from '../../providers/workout-provider';
+import { WorkoutProvider } from '../../providers/workout/workout';
 import { SportProvider } from '../../providers/sport/sport';
 import { ExerciseProvider } from '../../providers/exercise/exercise';
 import { LoadingController } from 'ionic-angular';

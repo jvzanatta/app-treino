@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Content } from 'ionic-angular';
 import { DatePicker } from '../../components/date-picker/date-picker';
-import { WorkoutProvider } from '../../providers/workout-provider';
+import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingController } from 'ionic-angular';
 
 /**
@@ -22,6 +22,7 @@ export class WorkoutPage {
 
   private user;
   private workout;
+  private loader: any;
   private currentDay;
   private selectedDay;
 
@@ -33,7 +34,10 @@ export class WorkoutPage {
   ) {
     this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
-
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
+    });
     console.log(this.workout);
   }
 
@@ -43,7 +47,13 @@ export class WorkoutPage {
 
   ionViewWillEnter() {
     console.log('WillEnter WorkoutPage');
+    // this.loader.present();
     this.workout = WorkoutProvider.getWorkout(this.workout.id);
+  }
+
+  ionViewDidEnter() {
+    console.log('DidEnter WorkoutsList');
+    // this.loader.dismiss();
   }
 
   public changeDay(day) {

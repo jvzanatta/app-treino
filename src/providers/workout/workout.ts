@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
-import { UserProvider } from './user-provider';
-import { SportProvider } from './sport/sport';
-import { ExerciseProvider } from './exercise/exercise';
+import { UserProvider } from '../user/user';
+import { SportProvider } from '../sport/sport';
+import { ExerciseProvider } from '../exercise/exercise';
+import { HttpHandler } from '../http/http';
 
 /*
   Generated class for the WorkoutProvider provider.
@@ -15,40 +16,50 @@ import { ExerciseProvider } from './exercise/exercise';
 @Injectable()
 export class WorkoutProvider {
 
-  constructor(public http: Http) {
+  constructor(
+    public http: HttpHandler,
+    private storage: Storage,
+  ) {
     // console.log('Hello WorkoutProvider Provider');
   }
 
-  public static getGivenWorkouts() {
-    let givenArray = JSON.parse(localStorage.getItem('givenWorkouts'));
+  public getGivenWorkouts() {
+    return this.getWorkouts().then((allWorkouts: Array<any>) => {
+      this.storage.get('givenWorkouts').then(givenWorkouts => {
+        allWorkouts.filter(workout => {
+          return givenArray.includes(workout.id);
+        });
+      });
 
-    return this.getWorkouts().filter(workout => {
-      return givenArray.includes(workout.id);
     });
   }
 
-  public static getCreatedWorkouts() {
-    let createdArray = JSON.parse(localStorage.getItem('createdWorkouts'));
+  public getCreatedWorkouts() {
+    let createdArray = this.storage.get('createdWorkouts');
     return this.getWorkouts().filter(workout => createdArray.includes(workout.id));
   }
 
-  private static getWorkouts() {
-    return JSON.parse(localStorage.getItem('workouts')) || [];
+  private getWorkouts() {
+    return this.storage.get('workouts');
   }
 
-  public static getWorkout(workoutId) {
+  public getWorkoutList(mode: string) {
+    return mode === 'coach' ? this.getCreatedWorkouts() : this.getGivenWorkouts();
+  }
+
+  public getWorkout(workoutId) {
     return this.getWorkouts().find(workout => workout.id == workoutId);
   }
 
-  public static getDayExercises(workout, day) {
+  public getDayExercises(workout, day) {
     return workout.exercises.filter(exercise => exercise.pivot.day === day);
   }
 
-  public static getDayExerciseKeys(workout, day) {
+  public getDayExerciseKeys(workout, day) {
     return this.getDayExercises(workout, day).map(exercise => exercise = exercise.id);
   }
 
-  public static clearWorkoutDay(workoutId, day) {
+  public clearWorkoutDay(workoutId, day) {
     console.log('clearWorkoutDay', workoutId, day);
 
     let workout = this.getWorkout(workoutId);
@@ -62,7 +73,7 @@ export class WorkoutProvider {
     return workout;
   }
 
-  private static updateLocaly(updatedWorkout) {
+  private updateLocaly(updatedWorkout) {
     console.log('updateLocaly');
 
     if (updatedWorkout && updatedWorkout.id) {
@@ -83,7 +94,7 @@ export class WorkoutProvider {
     }
   }
 
-  public static update(workout) {
+  public update(workout) {
     console.log('update');
 
     this.updateLocaly(workout);

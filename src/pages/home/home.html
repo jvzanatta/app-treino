@@ -13,7 +13,7 @@
 
   <ion-card class="user-card" (click)="openMyProfile()">
     <ion-card-header text-center>
-      Meu Perfil
+      Perfil
     </ion-card-header>
 
     <ion-card-content *ngIf="user">
@@ -37,7 +37,7 @@
 
   <ion-card class="workout-list" margin-top>
     <ion-card-header text-center>
-      Treinos disponíveis
+      Fichas
     </ion-card-header>
     <ion-card
       *ngFor="let workout of workouts | activeOnly"

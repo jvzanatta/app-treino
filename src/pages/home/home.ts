@@ -4,8 +4,8 @@ import { NavController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
-// import { WorkoutPage } from '../workout/workout-page';
-import { LoadingController } from 'ionic-angular';
+import { LoadingProvider } from '../../providers/loading/loading';
+// import { LoadingController } from 'ionic-angular';
 
 
 
@@ -19,17 +19,15 @@ import { LoadingController } from 'ionic-angular';
 export class HomePage {
 
   private user: any;
-  private loader: any;
   private workouts: any;
 
   constructor(
     public navCtrl: NavController,
-    public loadingCtrl: LoadingController,
+    public _loading: LoadingProvider,
+    public _workout: WorkoutProvider,
+    public _user: UserProvider,
   ) {
-    this.loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: true,
-    });
+
   }
 
   ionViewCanEnter() {
@@ -42,10 +40,13 @@ export class HomePage {
 
   ionViewWillEnter() {
     console.log('WillEnter HomePage');
-    // this.loader.present();
+    this._loading.present();
 
-    this.user = UserProvider.getUserInfo();
-    this.workouts = WorkoutProvider.getGivenWorkouts();
+    this._user.getUserInfo()
+      .then(user => this.user = user);
+    this._workout.getGivenWorkouts()
+      .then(workouts => this.workouts = workouts)
+      .then(() => this._loading.dismiss());
   }
 
   ionViewDidEnter() {
@@ -60,5 +61,6 @@ export class HomePage {
   private openMyProfile() {
     this.navCtrl.push('contact', {user: this.user});
   }
+
 
 }

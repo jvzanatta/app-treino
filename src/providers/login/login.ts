@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Storage } from '@ionic/storage';
-// import { Http } from '@angular/http';
+import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
-import { HttpHandler } from '../http/http';
+// import { HttpHandler } from '../http/http';
 import { UserProvider } from '../user/user';
+import { EnvironmentConfig } from '../environment.config';
+
 
 
 /*
@@ -20,16 +22,13 @@ import { UserProvider } from '../user/user';
 @Injectable()
 export class LoginProvider {
 
-  // private storage: Storage;
   private endpoint = 'login';
+  private API_URL: string = EnvironmentConfig.API_URL;
 
   constructor(
-    // public http: Http,
-    private http: HttpHandler,
+    private http:    Http,
     private storage: Storage,
-  ) {
-
-  }
+  ) { }
 
   public login(values: any): Observable<any> {
     let data = {
@@ -37,22 +36,26 @@ export class LoginProvider {
       password: values.password
     };
 
-    return this.http.post(this.endpoint, data).map(res => this.storeData(res));
+    return this.http.post(this.API_URL + this.endpoint, data)
+      .map(res => this.storeData(res.json().data));
   }
 
   public logout(): Promise<null> {
     return this.storage.clear();
   }
 
-  private storeData(res) {
-    this.storage.set('user', JSON.stringify(res.user));
-    this.storage.set('auth', res.auth);
-    this.storage.set('pupils', JSON.stringify(res.pupils));
-    this.storage.set('coaches', JSON.stringify(res.coaches));
-    this.storage.set('workouts', JSON.stringify(res.workouts));
-    this.storage.set('givenWorkouts', JSON.stringify(res.givenWorkouts));
-    this.storage.set('createdWorkouts', JSON.stringify(res.createdWorkouts));
-    this.storage.set('sports', JSON.stringify(res.sports));
+  public storeData(data) {
+    console.log('data', data);
+    localStorage.setItem('auth', data.auth);
+    this.storage.set('user', data.user);
+    this.storage.set('pupils', data.pupils);
+    this.storage.set('coaches', data.coaches);
+    this.storage.set('workouts', data.workouts);
+    this.storage.set('givenWorkouts', data.givenWorkouts);
+    this.storage.set('createdWorkouts', data.createdWorkouts);
+    this.storage.set('sports', data.sports);
+
+    return data;
   }
 
 }

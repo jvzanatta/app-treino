@@ -27,13 +27,11 @@ export class LoginPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    private loginProvider: LoginProvider
+    private _login: LoginProvider
   ) {
   }
 
   ngOnInit() {
-    localStorage.clear();
-
     this.loginForm = new FormGroup({
         email: new FormControl('joaovictor15@gmail.com', [<any>Validators.required, <any>Validators.minLength(5)]),
         password: new FormControl('321654', [<any>Validators.required, <any>Validators.minLength(5)])
@@ -51,7 +49,7 @@ export class LoginPage {
     });
     loader.present();
 
-    this.loginProvider.login(this.loginForm.value).subscribe(data => {
+    this._login.login(this.loginForm.value).subscribe(() => {
       this.navCtrl.setRoot(HomePage);
       loader.dismiss();
     });

@@ -15,29 +15,29 @@ import { HttpHandler } from '../http/http';
 export class SportProvider {
 
   constructor(
-    public http: HttpHandler,
+    public http:     HttpHandler,
     private storage: Storage,
   ) {
     console.log('Hello SportsProvider Provider');
   }
 
   public getSports() {
-    return JSON.parse(localStorage.getItem('sports')) || [];
+    return this.storage.get('sports');
   }
 
   public getSport(sportId) {
     // console.log('getSport', sportId, this.getSports().find(sport => sport.id == sportId));
-    return this.getSports().find(sport => sport.id == sportId);
+    return this.getSports().then(allSports => allSports.find(sport => sport.id == sportId));
   }
 
   public getGroup(sportId, groupId) {
     // console.log('getGroup', sportId, groupId, this.getSport(sportId));
-    return this.getSport(sportId).groups.find(group => group.id === groupId);
+    return this.getSport(sportId).then(sport => sport.groups.find(group => group.id === groupId));
   }
 
   public getGroupName(sportId, groupId) {
     // console.log('getGroupName', sportId, groupId, this.getGroup(sportId, groupId));
-    return this.getGroup(sportId, groupId).name;
+    return this.getGroup(sportId, groupId).then(group => group.name);
   }
 
 }

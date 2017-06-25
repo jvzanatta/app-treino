@@ -35,3 +35,267 @@ page-workout-page {
   }
 
 }
+
+ion-action-sheet.custom-action-sheet {
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: 1000;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+  .action-sheet-wrapper {
+    padding: 0 10px;
+
+  }
+
+
+  .action-sheet-container {
+    border-radius: 13px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+  }
+
+  .custom-action-destructive-button {
+    color: #f53d3d;
+
+  }
+  .custom-action-button {
+    text-align: center;
+  }
+
+
+
+  [dir="rtl"] ion-action-sheet {
+    right: 0;
+    left: auto;
+  }
+
+  .action-sheet-wrapper {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    z-index: 10;
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  .action-sheet-button {
+    width: 100%;
+  }
+
+  .action-sheet-ios {
+    text-align: center;
+  }
+
+  .action-sheet-ios .action-sheet-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .action-sheet-ios .action-sheet-group {
+    border-radius: 13px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: #f9f9f9;
+  }
+
+  .action-sheet-ios .action-sheet-group:last-child {
+    margin-bottom: 10px;
+  }
+
+  .action-sheet-ios .action-sheet-title {
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 0;
+    border-bottom: 0.55px solid #d6d6da;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #8f8f8f;
+  }
+
+  .action-sheet-ios .action-sheet-button {
+    margin: 0;
+    padding: 18px;
+    min-height: 5.6rem;
+    border-bottom: 0.55px solid #d6d6da;
+    font-size: 2rem;
+    color: #007aff;
+    background: transparent;
+  }
+
+  .action-sheet-ios .action-sheet-button:last-child {
+    border-bottom-color: transparent;
+  }
+
+  .action-sheet-ios .action-sheet-button.activated {
+    margin-top: -0.55px;
+    border-top: 0.55px solid #ebebeb;
+    border-bottom-color: #ebebeb;
+    background: #ebebeb;
+  }
+
+  .action-sheet-ios .action-sheet-selected {
+    font-weight: bold;
+    background: #fff;
+  }
+
+  .action-sheet-ios .action-sheet-destructive {
+    color: #f53d3d;
+  }
+
+  .action-sheet-ios .action-sheet-cancel {
+    font-weight: 600;
+    background: #fff;
+  }
+
+  .action-sheet-md .action-sheet-container {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    background: #fafafa;
+  }
+
+  .action-sheet-md .action-sheet-title {
+    text-align: left;
+    text-align: start;
+    font-size: 1.6rem;
+    color: #757575;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 11px;
+    padding-bottom: 17px;
+  }
+
+  .action-sheet-md .action-sheet-button {
+    text-align: left;
+    text-align: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 4.8rem;
+    font-size: 1.6rem;
+    color: #222;
+    background: transparent;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .action-sheet-md .action-sheet-button.activated {
+    background: #f1f1f1;
+  }
+
+  .action-sheet-md .action-sheet-icon {
+    padding: 0;
+    text-align: center;
+    width: 2.3rem;
+    font-size: 2.4rem;
+    vertical-align: middle;
+    margin-left: 0;
+    margin-right: 32px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  [dir="rtl"] .action-sheet-md .action-sheet-icon {
+    margin-right: 0;
+    margin-left: 32px;
+  }
+
+  .action-sheet-md .action-sheet-group {
+    overflow: hidden;
+  }
+
+  .action-sheet-md .action-sheet-group .button-inner {
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+  }
+
+  .action-sheet-md .action-sheet-selected {
+    font-weight: bold;
+  }
+
+  .action-sheet-wp .action-sheet-wrapper {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .action-sheet-wp .action-sheet-title {
+    text-align: left;
+    text-align: start;
+    font-size: 2rem;
+    color: #4d4d4d;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 11px;
+    padding-bottom: 17px;
+  }
+
+  .action-sheet-wp .action-sheet-button {
+    text-align: left;
+    text-align: start;
+    min-height: 4.8rem;
+    font-size: 1.5rem;
+    color: #4d4d4d;
+    background: transparent;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .action-sheet-wp .action-sheet-button.activated {
+    background: #aaa;
+  }
+
+  .action-sheet-wp .action-sheet-icon {
+    padding: 0;
+    text-align: center;
+    width: 2.3rem;
+    font-size: 2.4rem;
+    vertical-align: middle;
+    margin-left: 0;
+    margin-right: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  [dir="rtl"] .action-sheet-wp .action-sheet-icon {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+
+  .action-sheet-wp .action-sheet-container {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    background: #fff;
+  }
+
+  .action-sheet-wp .action-sheet-group .button-inner {
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+  }
+
+  .action-sheet-wp .action-sheet-selected {
+    font-weight: bold;
+  }
+
+  .action-sheet-wp .action-sheet-cancel {
+    background: transparent;
+  }
+
+}

@@ -31,6 +31,7 @@ export class WorkoutsList {
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
     public loadingCtrl: LoadingController,
+    private _workout: WorkoutProvider
   ) {
     console.log('mode', this.navParams.get('mode'));
     this.mode = this.navParams.get('mode');
@@ -43,7 +44,7 @@ export class WorkoutsList {
   ionViewDidLoad() {
     console.log('DidLoad WorkoutsList');
 
-    this.workouts = WorkoutProvider.getWorkoutList(this.mode);
+    this._workout.getWorkoutList(this.mode).then(workouts => this.workouts = workouts);
   }
 
   ionViewWillEnter() {

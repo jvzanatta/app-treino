@@ -17,7 +17,7 @@
 
 <ion-content padding>
   <ion-list class="group-list">
-    <div class="group-div" *ngFor="let group of sport.groups">
+    <div class="group-div" *ngFor="let group of sport?.groups">
       <button ion-item (click)="toggleGroup(group)" [ngClass]="group.countSelected ? '' : 'unused'">
         {{ group.name }}
         <span float-right>{{group.countSelected}}/{{group.exercises.length}}</span>
@@ -37,7 +37,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-title>
-      <button ion-button full color="primary" (click)="save()">
+      <button ion-button full color="main" (click)="save()">
         salvar
       </button>
     </ion-title>

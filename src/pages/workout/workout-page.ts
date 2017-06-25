@@ -2,7 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Content } from 'ionic-angular';
 import { DatePicker } from '../../components/date-picker/date-picker';
 import { WorkoutProvider } from '../../providers/workout/workout';
-import { LoadingController } from 'ionic-angular';
+// import { LoadingController } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular';
+import { WeekdayProvider } from '../../providers/weekday/weekday';
+import { LoadingProvider } from '../../providers/loading/loading';
+
 
 /**
  * Generated class for the WorkoutPage page.
@@ -30,30 +34,36 @@ export class WorkoutPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
+    public _loading: LoadingProvider,
+    // public loadingCtrl: LoadingController,
+    public _workout: WorkoutProvider,
+    public actionSheetCtrl: ActionSheetController,
   ) {
     this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
-    this.loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: true,
-    });
     console.log(this.workout);
   }
 
   ionViewDidLoad() {
     console.log('DidLoad WorkoutPage');
+    // console.log(this.workout);
   }
 
   ionViewWillEnter() {
     console.log('WillEnter WorkoutPage');
-    // this.loader.present();
-    this.workout = WorkoutProvider.getWorkout(this.workout.id);
+    this._loading.present();
+    this.refreshWorkout();
   }
 
   ionViewDidEnter() {
     console.log('DidEnter WorkoutsList');
     // this.loader.dismiss();
+  }
+
+  private refreshWorkout() {
+    this._workout.getWorkout(this.workout.id)
+      .then(workout => this.workout = workout)
+      .then(() => this._loading.dismiss());
   }
 
   public changeDay(day) {
@@ -68,12 +78,65 @@ export class WorkoutPage {
     return this.user.id === this.workout.created_by;
   }
 
+  private manage() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: WeekdayProvider.getName(this.selectedDay, 'fullname'),
+      enableBackdropDismiss: true,
+      cssClass: 'custom-action-sheet',
+      buttons: [
+        {
+          text: 'Limpar',
+          cssClass: 'custom-action-destructive-button custom-action-button',
+          // icon: 'trash',
+          role: 'destructive',
+          handler: () => {
+            console.log('Destructive clicked');
+            this.deleteDay();
+          }
+        },{
+          text: 'Editar',
+          cssClass: 'custom-action-button',
+          // icon: 'create',
+          handler: () => {
+            console.log('Archive clicked');
+            this.edit();
+          }
+        },{
+          text: 'Cancelar',
+          cssClass: 'custom-action-button',
+          role: 'backspace',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
   private edit() {
     console.log('edit');
     this.navCtrl.push('exercisegroupslist', {workout: this.workout, user: this.user, selectedDay: this.selectedDay});
   }
 
-  private delete() {
+  private clearWorkoutDay() {
+    console.log('clearWorkoutDay call', this.workout, this.workout.exercises.length);
+    this._workout.clearWorkoutDay(this.workout, this.selectedDay)
+      .then(workout => {
+        console.log('clearWorkoutDay return', workout, workout.exercises.length);
+        this.workout = workout;
+        this._loading.dismiss();
+      }, error => {
+        console.log(error);
+        this._loading.dismiss();
+      });
+  }
+
+  private scrollToTop() {
+    this.content.scrollToTop();
+  }
+
+  private deleteDay() {
     let confirm = this.alertCtrl.create({
       title: 'Deseja realmente limpar este dia?',
       buttons: [
@@ -85,31 +148,13 @@ export class WorkoutPage {
           text: 'Sim, limpar!',
           handler: () => {
             console.log('Agree clicked');
+            this._loading.present();
             this.clearWorkoutDay();
           }
         }
       ]
     });
     confirm.present();
-  }
-
-  private clearWorkoutDay() {
-    let loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: true,
-    });
-
-    loader.present();
-
-    this.workout = WorkoutProvider.clearWorkoutDay(this.workout.id, this.selectedDay);
-
-    setTimeout(() => {
-      loader.dismiss();
-    }, 50);
-  }
-
-  private scrollToTop() {
-    this.content.scrollToTop();
   }
 
 }

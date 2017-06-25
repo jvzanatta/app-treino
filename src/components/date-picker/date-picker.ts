@@ -18,13 +18,17 @@ export class DatePicker {
   ngOnInit() {
     let today: string = (new Date()).getDay().toString();
 
-    if (this.weekdays.indexOf(today) > -1) {
+    if (this.weekdays.includes(today)) {
       this.selectedWeekday = today;
     } else {
       this.selectedWeekday = this.weekdays.slice(0, 1);
     }
 
     this.sendDay();
+  }
+
+  private sendDay() {
+    this.weekdayChanged.emit(this.selectedWeekday);
   }
 
   private previousWeekDay() {
@@ -37,18 +41,14 @@ export class DatePicker {
 
   private executeClickWeekDay(value) {
     console.log(this.weekdays);
+    if (this.weekdays) {
+      let pos = this.weekdays.indexOf(this.selectedWeekday) + value,
+        backupValue = value > 0 ? this.weekdays.slice(0, 1) : this.weekdays.slice(-1);
 
+      this.selectedWeekday = this.weekdays.slice(pos, pos+1) || backupValue;
 
-    let pos = this.weekdays.indexOf(this.selectedWeekday) + value,
-      backupValue = value > 0 ? this.weekdays.slice(0, 1) : this.weekdays.slice(-1);
-
-    this.selectedWeekday = this.weekdays.slice(pos, pos+1) || backupValue;
-
-    this.sendDay();
-  }
-
-  private sendDay() {
-    this.weekdayChanged.emit(this.selectedWeekday);
+      this.sendDay();
+    }
   }
 
 }

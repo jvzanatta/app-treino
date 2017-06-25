@@ -19,6 +19,7 @@ import { HttpHandler } from '../providers/http/http';
 import { LoadingProvider } from '../providers/loading/loading';
 import { SportProvider } from '../providers/sport/sport';
 import { ExerciseProvider } from '../providers/exercise/exercise';
+import { WeekdayProvider } from '../providers/weekday/weekday';
 
 
 
@@ -59,6 +60,7 @@ import { ExerciseProvider } from '../providers/exercise/exercise';
     LoadingProvider,
     SportProvider,
     ExerciseProvider,
+    WeekdayProvider,
   ]
 })
 export class AppModule {}

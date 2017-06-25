@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="primary" >
+  <ion-navbar color="main" >
     <ion-title text-center>Treino App</ion-title>
   </ion-navbar>
 
@@ -16,18 +16,18 @@
 <ion-content padding >
   <form [formGroup]="loginForm" color="light">
     <ion-item>
-      <ion-label color="primary" floating>E-mail</ion-label>
+      <ion-label color="main" floating>E-mail</ion-label>
       <ion-input formControlName="email" type="email" ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" floating>Senha</ion-label>
+      <ion-label color="main" floating>Senha</ion-label>
       <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
   </form>
 </ion-content>
 
 <ion-footer>
-  <button color="primary" ion-button large full [disabled]="loginForm.invalid" (click)="login()">Entrar</button>
-  <button color="primary" ion-button large full>Inscrever-se</button>
+  <button color="main" ion-button large full [disabled]="loginForm.invalid" (click)="login()">Entrar</button>
+  <button color="main" ion-button large full>Inscrever-se</button>
 </ion-footer>

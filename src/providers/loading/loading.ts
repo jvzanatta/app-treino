@@ -10,24 +10,22 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class LoadingProvider {
-  private static load
+  private loader: any;
 
   constructor(public loadingCtrl: LoadingController) {
     console.log('Hello LoadingProvider Provider');
   }
 
-  public presentLoading() {
-    let loader = this.loadingCtrl.create({
-      content: "Please wait...",
-      duration: 3000
+  public present() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      dismissOnPageChange: true,
     });
-    loader.present();
-    // console.log(loader);
+    this.loader.present();
   }
 
-  public stopLoading(){
-
+  public dismiss() {
+    this.loader.dismiss();
   }
-
 
 }

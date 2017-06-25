@@ -19,29 +19,30 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    private _user: UserProvider,
+    private _login: LoginProvider,
   ) {
     this.initializeApp();
 
-    let user = UserProvider.getUserInfo();
+    let user = this._user.getUserInfo().then(user => {
+      console.log(user);
 
-    this.rootPage = user ? 'home' : 'login';
+      this.rootPage = user ? 'home' : 'login';
 
-    this.pages = [
-      { title: 'Home', component: 'home', icon: 'home' },
-      { title: 'Perfil', component: 'contact', icon: 'contact', options: { user: user } },
-      { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user' }},
-      { title: 'Contatos', component: 'contactlist', icon: 'people' },
-    ];
+      this.pages = [
+        { title: 'Home', component: 'home', icon: 'home' },
+        { title: 'Perfil', component: 'contact', icon: 'contact', options: { user: user } },
+        { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user' }},
+        { title: 'Contatos', component: 'contactlist', icon: 'people' },
+      ];
 
-
-    if (!!user) {
-      // this.pages.forEach(page => {page.component == 'contact' ? page['options']['user'] = user : '';});
-
-      if (user.is_coach) {
-        this.pages.push({ title: 'Gerenciar Fichas', component: 'workoutlist', icon: 'clipboard', options: { mode: 'coach' } });
+      if (!!user) {
+        if (user.is_coach) {
+          this.pages.push({ title: 'Gerenciar Fichas', component: 'workoutlist', icon: 'clipboard', options: { mode: 'coach' } });
+        }
       }
-    }
+    });
   }
 
   initializeApp() {
@@ -63,7 +64,6 @@ export class MyApp {
   }
 
   logout() {
-    LoginProvider.logout();
-    this.nav.setRoot('login');
+    this._login.logout().then(() => this.nav.setRoot('login'));
   }
 }

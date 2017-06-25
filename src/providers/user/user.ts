@@ -15,7 +15,7 @@ import { Storage } from '@ionic/storage';
 export class UserProvider {
 
   constructor(
-    private http: HttpHandler,
+    private http:    HttpHandler,
     private storage: Storage,
   ) {
     console.log('Hello UserProvider Provider');
@@ -23,11 +23,6 @@ export class UserProvider {
 
   public getUserInfo(): Promise<any> {
     return this.storage.get('user');
-  }
-
-
-  public getAuthInfo(): Promise<any> {
-    return this.storage.get('auth');
   }
 
 }

@@ -12,7 +12,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DayFilterPipe implements PipeTransform {
 
   transform(exercises: Array<any>, day: number) {
-    // console.log('DayFilterPipe', exercises, day, exercises.filter(exercise => exercise.pivot.day == day));
-    return exercises.filter(exercise => exercise.pivot.day == day);
+    // console.log('DayFilterPipe', exercises, day);
+    return exercises ? exercises.filter(exercise => exercise.pivot.day == day) : [];
   }
 }

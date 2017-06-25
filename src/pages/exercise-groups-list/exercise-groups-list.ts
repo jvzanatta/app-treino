@@ -3,7 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { SportProvider } from '../../providers/sport/sport';
 import { ExerciseProvider } from '../../providers/exercise/exercise';
-import { LoadingController } from 'ionic-angular';
+import { LoadingProvider } from '../../providers/loading/loading';
+
 /**
  * Generated class for the ExerciseGroupsList page.
  *
@@ -30,15 +31,23 @@ export class ExerciseGroupsList {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
+    public _loading: LoadingProvider,
+    private _workout: WorkoutProvider,
+    private _sport: SportProvider,
   ) {
+    this._loading.present();
+
     this.user         = this.navParams.get('user');
     this.workout      = this.navParams.get('workout');
     this.selectedDay  = this.navParams.get('selectedDay');
-    this.sport        = SportProvider.getSport(this.workout.sport_id);
-    this.dayExercises = WorkoutProvider.getDayExerciseKeys(this.workout, this.selectedDay);
 
-    this.closeAllGroups()
+    this._sport.getSport(this.workout.sport_id)
+      .then(sport => this.sport = sport)
+      .then(() => this.closeAllGroups())
+      .then(() => this.mapGroups())
+      .then(() => this._loading.dismiss());
+
+    this.dayExercises = this._workout.getDayExerciseKeys(this.workout, this.selectedDay);
 
     console.log(this.sport);
     // console.log(this.workout);
@@ -52,7 +61,6 @@ export class ExerciseGroupsList {
   ionViewWillEnter() {
     console.log('WillEnter ExerciseGroupsList');
 
-    this.mapGroups();
   }
 
   private closeAllGroups() {
@@ -70,28 +78,32 @@ export class ExerciseGroupsList {
   }
 
   private save() {
-    WorkoutProvider.update(this.workout);
+    this._loading.present();
 
-    let confirm = this.alertCtrl.create({
-      title: 'Treino salvo!',
-      message: 'Deseja voltar para a página do treino?',
-      buttons: [
-        {
-          text: 'Não, obrigado',
-          handler: () => {
-            console.log('Disagree clicked');
+    this._workout.update(this.workout).then((workout) => {
+      this._loading.dismiss();
+
+      let confirm = this.alertCtrl.create({
+        title: 'Treino salvo!',
+        message: 'Deseja voltar para a lista?',
+        buttons: [
+          {
+            text: 'Não, obrigado',
+            handler: () => {
+              console.log('Disagree clicked');
+            }
+          },
+          {
+            text: 'Sim, voltar!',
+            handler: () => {
+              console.log('Agree clicked');
+              this.goBack();
+            }
           }
-        },
-        {
-          text: 'Sim, voltar!',
-          handler: () => {
-            console.log('Agree clicked');
-            this.goBack();
-          }
-        }
-      ]
+        ]
+      });
+      confirm.present();
     });
-    confirm.present();
   }
 
   private appendExercise(exercise) {
@@ -136,8 +148,8 @@ export class ExerciseGroupsList {
     }
 
     this.mapGroup(this.displayingGroup);
-    console.log(this.dayExercises);
-    console.log(this.workout);
+    // console.log(this.dayExercises);
+    // console.log(this.workout);
   }
 
 }

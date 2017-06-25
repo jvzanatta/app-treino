@@ -16,39 +16,43 @@ import { HttpHandler } from '../http/http';
 @Injectable()
 export class WorkoutProvider {
 
+  private endpoint: string = 'workouts/';
+
   constructor(
-    public http: HttpHandler,
+    public http:     HttpHandler,
     private storage: Storage,
   ) {
     // console.log('Hello WorkoutProvider Provider');
   }
 
-  public getGivenWorkouts() {
-    return this.getWorkouts().then((allWorkouts: Array<any>) => {
-      this.storage.get('givenWorkouts').then(givenWorkouts => {
-        allWorkouts.filter(workout => {
-          return givenArray.includes(workout.id);
-        });
-      });
-
+  public getGivenWorkouts(): Promise<any> {
+    let promise = new Promise((resolve, reject) => {
+      this.getWorkouts().then((allWorkouts: Array<any>) => {
+        this.storage.get('givenWorkouts')
+          .then(givenWorkouts => resolve(allWorkouts.filter(workout => givenWorkouts.includes(workout.id))));
+       });
     });
+    return promise;
   }
 
-  public getCreatedWorkouts() {
-    let createdArray = this.storage.get('createdWorkouts');
-    return this.getWorkouts().filter(workout => createdArray.includes(workout.id));
+  public getCreatedWorkouts(): Promise<any> {
+    return this.getWorkouts().then((allWorkouts: Array<any>) => {
+      this.storage.get('createdWorkouts')
+        .then(createdWorkouts => allWorkouts.filter(workout => createdWorkouts.includes(workout.id)));
+    });
   }
 
   private getWorkouts() {
     return this.storage.get('workouts');
   }
 
-  public getWorkoutList(mode: string) {
+  public getWorkoutList(mode: string): Promise<any> {
     return mode === 'coach' ? this.getCreatedWorkouts() : this.getGivenWorkouts();
   }
 
   public getWorkout(workoutId) {
-    return this.getWorkouts().find(workout => workout.id == workoutId);
+    return this.getWorkouts()
+      .then(allWorkouts => allWorkouts.find(workout => workout.id == workoutId));
   }
 
   public getDayExercises(workout, day) {
@@ -59,45 +63,50 @@ export class WorkoutProvider {
     return this.getDayExercises(workout, day).map(exercise => exercise = exercise.id);
   }
 
-  public clearWorkoutDay(workoutId, day) {
-    console.log('clearWorkoutDay', workoutId, day);
+  public clearWorkoutDay(workout, day): Promise<any> {
 
-    let workout = this.getWorkout(workoutId);
+    let filter = (exercise) => {
+        if (exercise.pivot.day == day) {
+          return false;
+        } else {
+          return true;
+        }
+      };
 
-    workout.exercises = workout.exercises.filter(exercise => exercise.pivot.day != day);
+    workout.exercises = workout.exercises.filter(filter);
 
-    // console.log('updatedWorkout', workout);
-
-    this.updateLocaly(workout);
-
-    return workout;
+    return this.update(workout);
   }
 
-  private updateLocaly(updatedWorkout) {
-    console.log('updateLocaly');
+  public update(workout): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.patch(workout).subscribe(updatedWorkout => {
+        this.updateLocaly(updatedWorkout).then(workout => resolve(workout));
+      });
+    });
+  }
 
-    if (updatedWorkout && updatedWorkout.id) {
-      let workouts = this.getWorkouts().map(
-        workout => {
+  private patch(workout) {
+    return this.http.patch(this.endpoint + workout.id, workout);
+  }
+
+  private updateLocaly(updatedWorkout): Promise<any> {
+    let promise =  new Promise((resolve, reject) => {
+      this.getWorkouts().then(allWorkouts => {
+        allWorkouts = allWorkouts.map(workout => {
           if (workout.id === updatedWorkout.id) {
-            // console.log('workout.exercises', workout.exercises.length);
-            // console.log('updatedWorkout.exercises', updatedWorkout.exercises.length);
-
-            workout = updatedWorkout;
+            return updatedWorkout;
           }
           return workout;
         });
 
-      localStorage.setItem('workouts', JSON.stringify(workouts));
-    } else {
-      console.log('No updatedWorkout or no id in updatedWorkout.');
-    }
-  }
+        this.storage
+          .set('workouts', allWorkouts)
+          .then(() => resolve(updatedWorkout));
+      });
+    });
 
-  public update(workout) {
-    console.log('update');
-
-    this.updateLocaly(workout);
+    return promise;
   }
 
 }

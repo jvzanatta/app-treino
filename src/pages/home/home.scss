@@ -6,8 +6,10 @@ page-home {
     background-size: cover;
 
     .user-card {
+      background-color: rgba(255, 255, 255, 0.75);
+
       ion-card-header {
-        color: color($colors, primary);
+        color: color($colors, main);
         text-transform: uppercase;
         font-weight: bold;
         font-size: 20px;
@@ -28,7 +30,7 @@ page-home {
         .user-data {
 
           p {
-            color: color($colors, primary);
+            color: color($colors, main);
             font-size: 15px;
             font-weight: 600;
 
@@ -47,8 +49,10 @@ page-home {
 
 
     .workout-list {
+      background-color: rgba(255, 255, 255, 0.75);
+
       ion-card-header {
-        color: color($colors, primary);
+        color: color($colors, main);
         text-transform: uppercase;
         font-weight: bold;
         font-size: 20px;

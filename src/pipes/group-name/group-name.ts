@@ -12,9 +12,11 @@ import { SportProvider } from '../../providers/sport/sport';
 })
 export class GroupNamePipe implements PipeTransform {
 
-  transform(groupId: number, sportId: number) {
+  constructor(private _sport: SportProvider) {}
+
+  transform(groupId: number, sportId: number): Promise<any> {
     // console.log('GroupNamePipe', groupId, sportId, SportProvider.getGroupName(sportId, groupId));
 
-    return SportProvider.getGroupName(sportId, groupId) || '';
+    return this._sport.getGroupName(sportId, groupId);
   }
 }

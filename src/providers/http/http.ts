@@ -2,35 +2,29 @@ import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Headers, RequestOptions, Response } from '@angular/http';
 import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs/Rx';
-import { UserProvider } from '../user/user';
-import { LoginProvider } from '../login/login';
-import { EnvironmentConfig } from '../environment.config';
 import { Storage } from '@ionic/storage';
+import { EnvironmentConfig } from '../environment.config';
+import { LoginProvider } from '../login/login';
+// import { UserProvider } from '../user/user';
 
 @Injectable()
 export class HttpHandler {
 
-  private header: Headers;
   private API_URL: string = EnvironmentConfig.API_URL;
 
 
   constructor(
-    private http: Http,
-    private storage: Storage,
-    // private platform: Platform
-  ) {
-    this.headers();
-  }
+    public http:    Http,
+    // public _user:   UserProvider,
+    public _login:  LoginProvider,
+    public storage: Storage,
+  ) {}
 
-  private headers() /*Headers*/ {
-    UserProvider.getAuthInfo()
-    .map(auth => new Headers({
+  private headers() {
+    return new Headers({
       'Content-Type' : 'application/json',
       'Accept'       : 'application/json',
-      'Authorization': 'Bearer '+ auth,
-    }))
-    .subscribe((header) => {
-      this.header = header;
+      'Authorization': this.getAuthInfo(),
     });
   }
 
@@ -56,7 +50,7 @@ export class HttpHandler {
     let url: string  = this.API_URL + route;
 
     let options = new RequestOptions({
-      headers: this.header,
+      headers: this.headers(),
       search: this.objToSearch(query)
     });
 
@@ -68,7 +62,7 @@ export class HttpHandler {
   public post(route: string, body: Object): Observable<Response> {
     let url: string = this.API_URL + route;
 
-    return this.http.post(url, body, new RequestOptions({ headers: this.header }))
+    return this.http.post(url, body, new RequestOptions({ headers: this.headers() }))
       .map(res => res.json().data)
       .catch(error => this.handleError('POST', url, error, body));
   }
@@ -76,7 +70,7 @@ export class HttpHandler {
   public patch(route: string, body: any): Observable<Response> {
     let url: string = this.API_URL + route;
 
-    return this.http.patch(url, body, new RequestOptions({ headers: this.header }))
+    return this.http.patch(url, body, new RequestOptions({ headers: this.headers() }))
       .map(res => res.json().data)
       .catch(error => this.handleError('PATCH', url, error, body));
   }
@@ -84,7 +78,7 @@ export class HttpHandler {
   public delete(route: string): Observable<Response> {
     let url: string = this.API_URL + route;
 
-    return this.http.delete(url, new RequestOptions({ headers: this.header }))
+    return this.http.delete(url, new RequestOptions({ headers: this.headers() }))
       .map(res => res.json().data)
       .catch(error => this.handleError('DELETE', url, error));
   }
@@ -92,7 +86,6 @@ export class HttpHandler {
   private handleError(method: string,  url:string, error: any, params?: Object): Observable<any> {
     let status = error.status;
     if (status === 401 || status === 403)
-      LoginProvider.logout();
 
     console.warn('THE REQUEST FAILED!');
     console.warn('  METHOD: ' + method);
@@ -101,6 +94,10 @@ export class HttpHandler {
     console.warn('  ERROR : ' + JSON.stringify(error));
 
     return Observable.throw(error);
+  }
+
+  private getAuthInfo(): string {
+    return 'Bearer ' + localStorage.getItem('auth');
   }
 
 }

@@ -16,16 +16,21 @@ export class LoadingProvider {
     console.log('Hello LoadingProvider Provider');
   }
 
-  public present() {
+  public present(dismissOnPageChange: boolean = false) {
+    console.log('loading present');
     this.loader = this.loadingCtrl.create({
       content: "Carregando...",
-      dismissOnPageChange: true,
+      dismissOnPageChange: dismissOnPageChange,
     });
     this.loader.present();
   }
 
   public dismiss() {
-    this.loader.dismiss();
+    if (this.loader) {
+      console.log('loading dismiss');
+      this.loader.dismiss();
+      this.loader = null;
+    }
   }
 
 }

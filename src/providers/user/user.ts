@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
 import { HttpHandler } from '../http/http';
@@ -13,6 +14,8 @@ import { Storage } from '@ionic/storage';
 */
 @Injectable()
 export class UserProvider {
+
+  public static userData: Subject<any> = new Subject();
 
   constructor(
     private http:    HttpHandler,

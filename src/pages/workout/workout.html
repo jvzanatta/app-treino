@@ -1,0 +1,40 @@
+
+<ion-header>
+  <ion-navbar color="main" >
+    <ion-title>{{workout?.name}}</ion-title>
+    <button *ngIf="isOwner()" ion-button icon-only color="light" (click)="manage()">
+      <ion-icon name="more"></ion-icon>
+    </button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="workout-exercises-list">
+
+  <ion-list class="exercise-list">
+    <div *ngFor="let exercise of workout?.exercises | dayFilter:selectedDay | markForHeader" >
+      <ion-list-header color="main" class="group-name" *ngIf="exercise.first">
+        {{ exercise.exercise_group_id | groupName:workout?.sport.id | async }}
+      </ion-list-header>
+      <ion-item-sliding>
+        <ion-item>
+          <h2>{{exercise.name}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="main" >
+            <ion-icon name="analytics"></ion-icon>
+            Histórico
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <br/>
+    </div>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <date-picker
+    [weekdays]="workout?.schedule"
+    (weekdayChanged)="changeDay($event)" >
+  </date-picker>
+</ion-footer>

@@ -27,3 +27,13 @@
     }
   }
 }
+
+ion-navbar {
+
+  ion-button {
+
+    ion-icon {
+      color: color($colors, main);
+    }
+  }
+}

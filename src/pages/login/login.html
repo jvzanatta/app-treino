@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="main" >
-    <ion-title text-center>Treino App</ion-title>
+    <ion-title text-center>BEM VINDO!</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -29,5 +29,9 @@
 
 <ion-footer>
   <button color="main" ion-button large full [disabled]="loginForm.invalid" (click)="login()">Entrar</button>
-  <button color="main" ion-button large full>Inscrever-se</button>
+  <!-- <button color="main" ion-button large full [disabled]="loginForm.invalid" (click)="register()">Registrar</button> -->
+  <button color="main" ion-button large full (click)="registerUsingFacebook()">
+    <ion-icon name="logo-facebook" item-left margin-right></ion-icon>
+    Entrar com Facebook
+  </button>
 </ion-footer>

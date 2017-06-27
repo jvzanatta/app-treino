@@ -1,7 +1,7 @@
 page-home {
 
   ion-content {
-    background-image: url("../../assets/img/musculacao.jpg");
+    background-image: url("../../assets/img/backgrounds/musculacao.jpg");
     background-position: 60% center;
     background-size: cover;
 
@@ -31,11 +31,11 @@ page-home {
 
           p {
             color: color($colors, main);
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
 
             &:first-child {
-              font-size: 18px;
+              font-size: 20px;
             }
 
           }

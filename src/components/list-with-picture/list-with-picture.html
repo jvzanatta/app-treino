@@ -1,0 +1,10 @@
+
+<ion-list [ngClass]="listClass">
+  <ion-item [ngClass]="itemClass" *ngFor="let contact of contactList" (click)="onItemTapped(contact)">
+    <ion-avatar item-start>
+      <img src="../assets/img/users/{{contact.last_name}}.jpg">
+    </ion-avatar>
+    <h2>{{ contact | userName:'full' }}</h2>
+<!--     <p>Ugh. As if.</p> -->
+  </ion-item>
+</ion-list>

@@ -4,7 +4,7 @@ import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 import { EnvironmentConfig } from '../environment.config';
-import { LoginProvider } from '../login/login';
+// import { AuthProvider } from '../auth/auth';
 // import { UserProvider } from '../user/user';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class HttpHandler {
   constructor(
     public http:    Http,
     // public _user:   UserProvider,
-    public _login:  LoginProvider,
+    // public _login:  AuthProvider,
     public storage: Storage,
   ) {}
 

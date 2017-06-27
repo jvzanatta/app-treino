@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
-import { WorkoutPage } from '../workout/workout-page';
+// import { WorkoutPage } from '../workout/workout-page';
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
-import { LoadingController } from 'ionic-angular';
+// import { LoadingController } from 'ionic-angular';
+import { LoadingProvider } from '../../providers/loading/loading';
 
 
 /**
@@ -22,29 +23,36 @@ import { LoadingController } from 'ionic-angular';
 })
 export class WorkoutsList {
 
-  private mode: any;
-  private loader: any;
+  private user: any;
+  private mode: string;
+  private title: string;
   private workouts: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
-    public loadingCtrl: LoadingController,
-    private _workout: WorkoutProvider
+    public _user: UserProvider,
+    public _loading: LoadingProvider,
+    public _workout: WorkoutProvider
   ) {
     console.log('mode', this.navParams.get('mode'));
-    this.mode = this.navParams.get('mode');
-    this.loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: true,
-    });
+    this.mode  = this.navParams.get('mode');
+    this.title = this.navParams.get('title');
   }
 
   ionViewDidLoad() {
     console.log('DidLoad WorkoutsList');
 
-    this._workout.getWorkoutList(this.mode).then(workouts => this.workouts = workouts);
+    this._loading.present();
+
+    this._user.getUserInfo()
+      .then(user => this.user = user);
+
+    this._workout.getWorkoutList(this.mode).then(workouts => {
+      this.workouts = workouts;
+      this._loading.dismiss();
+    });
   }
 
   ionViewWillEnter() {
@@ -53,12 +61,31 @@ export class WorkoutsList {
   }
 
   ionViewDidEnter() {
+    this._loading.dismiss();
     console.log('DidEnter WorkoutsList');
-    // this.loader.dismiss();
   }
 
   private openWorkout(workout) {
-    this.navCtrl.push(WorkoutPage, {workout: workout, type: 'edit'});
+    this.navCtrl.push('workout', {workout: workout, user: this.user});
+  }
+
+  private add() {
+    this.navCtrl.push('workoutform', {user: this.user});
+  }
+
+  private onWorkoutClick(workout) {
+    switch (this.mode) {
+      case 'coach':
+        this.openWorkoutOptions(workout);
+        break;
+      case 'user':
+        this.openWorkout(workout);
+        break;
+
+      default:
+        // code...
+        break;
+    }
   }
 
   private openWorkoutOptions(workout) {
@@ -69,22 +96,28 @@ export class WorkoutsList {
       buttons: [
         {
           text: 'Excluir',
-          icon: 'trash',
+          // icon: 'trash',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
-          icon: 'archive',
+          // icon: 'archive',
           handler: () => {
             console.log('Archive clicked');
           }
         },{
           text: 'Editar',
-          icon: 'create',
+          // icon: 'create',
           handler: () => {
-            console.log('Archive clicked');
+            console.log('Edit clicked');
+          }
+        },{
+          text: 'Compartilhar',
+          // icon: 'create',
+          handler: () => {
+            console.log('Share clicked');
           }
         },{
           text: 'Cancelar',
@@ -96,6 +129,10 @@ export class WorkoutsList {
       ]
     });
     actionSheet.present();
+  }
+
+  private isCoach() {
+    return !!this.user && this.user.is_coach && this.mode === 'coach';
   }
 
 }

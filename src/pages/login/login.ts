@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { LoginProvider } from '../../providers/login/login';
+import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../../pages/home/home';
-import { LoadingController } from 'ionic-angular';
+import { LoadingProvider } from '../../providers/loading/loading';
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the LoginPage page.
@@ -26,15 +27,16 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public loadingCtrl: LoadingController,
-    private _login: LoginProvider
+    public _loading: LoadingProvider,
+    private _login: AuthProvider,
   ) {
   }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-        email: new FormControl('joaovictor15@gmail.com', [<any>Validators.required, <any>Validators.minLength(5)]),
-        password: new FormControl('321654', [<any>Validators.required, <any>Validators.minLength(5)])
+        email: new FormControl('joaovictor15@gmail.com', [Validators.required, Validators.minLength(5)]),
+        password: new FormControl('321654', [Validators.required, Validators.minLength(5)]),
+        fbId: new FormControl(''),
     });
   }
 
@@ -43,16 +45,22 @@ export class LoginPage {
   }
 
   private login() {
-    let loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: true,
-    });
-    loader.present();
+    this._loading.present(true);
 
-    this._login.login(this.loginForm.value).subscribe(() => {
+    this._login.login(this.loginForm.value).subscribe((loginData) => {
+      // this._loading.dismiss();
+      // console.log('login subscribe', loginData.user);
+      // UserProvider.userData.next(loginData.user);
       this.navCtrl.setRoot(HomePage);
-      loader.dismiss();
     });
+  }
+
+  private register() {
+
+  }
+
+  private registerUsingFacebook() {
+    this._login.registerUsingFacebook().then((teste) => console.log(teste));
   }
 
 }

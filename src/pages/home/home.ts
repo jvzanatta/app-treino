@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
 // import { LoadingController } from 'ionic-angular';
-
 
 
 @IonicPage({
@@ -40,18 +38,23 @@ export class HomePage {
 
   ionViewWillEnter() {
     console.log('WillEnter HomePage');
-    this._loading.present();
+    // this._loading.present(true);
 
     this._user.getUserInfo()
-      .then(user => this.user = user);
+      .then(user => {
+        this.user = user;
+        UserProvider.userData.next(user);
+      });
+
     this._workout.getGivenWorkouts()
-      .then(workouts => this.workouts = workouts)
-      .then(() => this._loading.dismiss());
+      .then(workouts => {
+        this.workouts = workouts;
+      });
   }
 
   ionViewDidEnter() {
     console.log('DidEnter HomePage');
-    // this.loader.dismiss();
+    // setTimeout(() => this._loading.dismiss(), 500);
   }
 
   private openWorkout(workout) {
@@ -59,7 +62,7 @@ export class HomePage {
   }
 
   private openMyProfile() {
-    this.navCtrl.push('contact', {user: this.user});
+    this.navCtrl.push('contact', {contact: this.user, pushed: true, title: 'Meu Perfil'});
   }
 
 

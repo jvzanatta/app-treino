@@ -26,6 +26,7 @@ export class WorkoutProvider {
   }
 
   public getGivenWorkouts(): Promise<any> {
+    console.log('getGivenWorkouts');
     let promise = new Promise((resolve, reject) => {
       this.getWorkouts().then((allWorkouts: Array<any>) => {
         this.storage.get('givenWorkouts')
@@ -36,10 +37,14 @@ export class WorkoutProvider {
   }
 
   public getCreatedWorkouts(): Promise<any> {
-    return this.getWorkouts().then((allWorkouts: Array<any>) => {
-      this.storage.get('createdWorkouts')
-        .then(createdWorkouts => allWorkouts.filter(workout => createdWorkouts.includes(workout.id)));
+    console.log('getCreatedWorkouts');
+    let promise = new Promise((resolve, reject) => {
+      this.getWorkouts().then((allWorkouts: Array<any>) => {
+        this.storage.get('createdWorkouts')
+          .then(createdWorkouts => resolve(allWorkouts.filter(workout => createdWorkouts.includes(workout.id))));
+      });
     });
+    return promise;
   }
 
   private getWorkouts() {

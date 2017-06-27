@@ -1,10 +1,13 @@
 
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="main" >
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Gerenciar Treinos</ion-title>
+    <ion-title>{{title}}</ion-title>
+    <button *ngIf="isCoach()" ion-button icon-only color="light" (click)="add()">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
@@ -14,7 +17,7 @@
     <ion-list-header color="main" class="group-name">
       Ativos
     </ion-list-header>
-    <ion-item *ngFor="let workout of workouts | activeOnly" (click)="openWorkoutOptions(workout)">
+    <ion-item *ngFor="let workout of workouts | activeOnly" (click)="onWorkoutClick(workout)">
         <h2>{{workout.name}}</h2>
     </ion-item>
   </ion-list>
@@ -26,7 +29,7 @@
     <ion-list-header class="group-name group-name-inactive" color="light">
       Inativos
     </ion-list-header>
-    <ion-item *ngFor="let workout of workouts | activeOnly:false" (click)="openWorkoutOptions(workout)">
+    <ion-item *ngFor="let workout of workouts | activeOnly:false" (click)="onWorkoutClick(workout)">
         <h2>{{workout.name}}</h2>
     </ion-item>
   </ion-list>

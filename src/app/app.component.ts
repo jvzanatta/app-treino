@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { UserProvider } from '../providers/user/user';
-import { LoginProvider } from '../providers/login/login';
+import { AuthProvider } from '../providers/auth/auth';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private _user: UserProvider,
-    private _login: LoginProvider,
+    private _auth: AuthProvider,
   ) {
     this.initializeApp();
 
@@ -32,16 +32,13 @@ export class MyApp {
 
       this.pages = [
         { title: 'Home', component: 'home', icon: 'home' },
-        { title: 'Perfil', component: 'contact', icon: 'contact', options: { user: user } },
-        { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user' }},
+        { title: 'Perfil', component: 'contact', icon: 'contact', options: { contact: user, title: 'Meu Perfil' } },
+        { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user', title: 'Fichas' }},
         { title: 'Contatos', component: 'contactlist', icon: 'people' },
       ];
 
-      if (!!user) {
-        if (user.is_coach) {
-          this.pages.push({ title: 'Gerenciar Fichas', component: 'workoutlist', icon: 'clipboard', options: { mode: 'coach' } });
-        }
-      }
+      // this.checkUser(user);
+      UserProvider.userData.subscribe(user => this.checkUser(user));
     });
   }
 
@@ -54,16 +51,25 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    if (page.component === 'home') {
-      this.nav.setRoot('home');
-      // this.nav.popToRoot();
-    } else {
-      this.nav.push(page.component, page.options);
-    }
+  private openPage(page) {
+    this.nav.setRoot(page.component, page.options);
+    // if (page.component === 'home') {
+    //   this.nav.setRoot('home');
+    //   // this.nav.popToRoot();
+    // } else {
+    //   this.nav.push(page.component, page.options);
+    // }
   }
 
-  logout() {
-    this._login.logout().then(() => this.nav.setRoot('login'));
+  private logout() {
+    this._auth.logout().then(() => this.nav.setRoot('login'));
+  }
+
+  private checkUser(user) {
+    if (!!user) {
+      if (user.is_coach && !this.pages.find(page => page.title === 'Gerenciar Fichas')) {
+        this.pages.push({ title: 'Gerenciar Fichas', component: 'workoutlist', icon: 'clipboard', options: { mode: 'coach', title: 'Gerenciar Fichas' } });
+      }
+    }
   }
 }

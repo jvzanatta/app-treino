@@ -10,10 +10,20 @@ import { UserProvider } from '../../providers/user/user';
   templateUrl: 'contact.html'
 })
 export class ContactPage {
-  private user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.user = this.navParams.get('user');
+  private user: any;
+  private title: string;
+  private pushed: boolean;
+  private contact: any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public _user: UserProvider,
+  ) {
+    this.title   = this.navParams.get('title');
+    this.pushed  = this.navParams.get('pushed');
+    this.contact = this.navParams.get('contact');
     console.log('ContactPage', this.user);
   }
 
@@ -23,6 +33,15 @@ export class ContactPage {
 
   ionViewWillEnter() {
     console.log('WillEnter ContactPage');
+
+    this._user.getUserInfo()
+      .then(user => {
+        this.user = user;
+      });
+  }
+
+  private isCoach() {
+    return !!this.user && this.user.is_coach;
   }
 
 }

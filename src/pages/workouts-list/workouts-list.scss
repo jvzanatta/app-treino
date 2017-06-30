@@ -11,6 +11,12 @@ page-workouts-list {
     }
   }
 
+  ion-content {
+    background-image: url(../../assets/img/backgrounds/musculacao.jpg);
+    background-position: 45% center;
+    background-size: cover;
+  }
+
   .group-name {
     margin-bottom: 0;
     // padding-top: 5px;

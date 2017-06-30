@@ -9,10 +9,14 @@
 
 
 <ion-content padding>
-  <list-with-picture
-    [contactList]="contacts"
-    [listClass]="'contact-list'"
-    [itemClass]="'contact-row'"
-    (itemTapped)="openContact($event)" >
-  </list-with-picture>
+  <ion-list class="contact-list">
+    <ion-item class="contact-row" *ngFor="let contact of contacts" (click)="openContact(contact)">
+      <ion-avatar item-start>
+        <img src="../assets/img/users/{{contact.last_name}}.jpg">
+      </ion-avatar>
+      <h2>{{ contact | userName:'full' }}</h2>
+  <!--     <p>Ugh. As if.</p> -->
+    </ion-item>
+  </ion-list>
+
 </ion-content>

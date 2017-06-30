@@ -73,6 +73,27 @@ export class WorkoutsList {
     this.navCtrl.push('workoutform', {user: this.user});
   }
 
+  private open(workout) {
+    this.navCtrl.push('workout', {workout: workout, user: this.user});
+  }
+
+  // private edit(workout) {
+  //   this.navCtrl.push('exercisegroupslist', {workout: workout, user: this.user, selectedDay: this.selectedDay});
+  // }
+
+  private share(workout) {
+
+  }
+
+  private archive(workout) {
+
+  }
+
+  private delete(workout) {
+
+  }
+
+
   private onWorkoutClick(workout) {
     switch (this.mode) {
       case 'coach':
@@ -95,29 +116,40 @@ export class WorkoutsList {
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Excluir',
-          // icon: 'trash',
-          role: 'destructive',
+          text: 'Abrir',
+          // icon: 'archive',
           handler: () => {
-            console.log('Destructive clicked');
+            console.log('Open clicked');
+            this.open(workout);
+          }
+        // },{
+        //   text: 'Editar',
+        //   // icon: 'create',
+        //   handler: () => {
+        //     console.log('Edit clicked');
+        //     this.edit(workout);
+        //   }
+        },{
+          text: 'Compartilhar',
+          // icon: 'create',
+          handler: () => {
+            console.log('Share clicked');
+            this.share(workout);
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
           // icon: 'archive',
           handler: () => {
             console.log('Archive clicked');
+            this.archive(workout);
           }
         },{
-          text: 'Editar',
-          // icon: 'create',
+          text: 'Excluir',
+          // icon: 'trash',
+          role: 'destructive',
           handler: () => {
-            console.log('Edit clicked');
-          }
-        },{
-          text: 'Compartilhar',
-          // icon: 'create',
-          handler: () => {
-            console.log('Share clicked');
+            console.log('Destructive clicked');
+            this.delete(workout);
           }
         },{
           text: 'Cancelar',

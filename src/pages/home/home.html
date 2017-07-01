@@ -39,6 +39,7 @@
     <ion-card-header text-center>
       Fichas
     </ion-card-header>
+
     <ion-card
       *ngFor="let workout of workouts | activeOnly"
       class="workout-card" color="main"
@@ -54,6 +55,11 @@
         <p><b>{{workout.schedule | weekday:short:' - ' }}</b></p>
       </ion-card-content>
     </ion-card>
+
+    <p text-center margin *ngIf="!workouts || workouts.length === 0">
+      Não há treinos disponíveis
+    </p>
+
   </ion-card>
 
 </ion-content>

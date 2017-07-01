@@ -31,6 +31,14 @@ page-login {
     background-image: url("../assets/img/backgrounds/Running-1.jpg");
     background-position: 60% center;
     background-size: cover;
+
+    .login-form {
+      background-color: rgba(255, 255, 255, 0.7);
+
+      .login-item {
+        background-color: rgba(255, 255, 255, 0.0);
+      }
+    }
   }
 
   ion-footer {

@@ -18,6 +18,9 @@ export class LoadingProvider {
 
   public present(dismissOnPageChange: boolean = false) {
     console.log('loading present');
+    if (this.loader) {
+      this.dismiss();
+    }
     this.loader = this.loadingCtrl.create({
       content: "Carregando...",
       dismissOnPageChange: dismissOnPageChange,

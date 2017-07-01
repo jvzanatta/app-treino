@@ -1,17 +1,17 @@
-<ion-header>
+<ion-header onload="console.log('load')">
   <ion-navbar color="main" >
     <button *ngIf="!pushed" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{title}}</ion-title>
-    <button *ngIf="isCoach()" ion-button icon-only color="light" (click)="manage()">
+    <button *ngIf="isOwnProfile()" ion-button icon-only margin-right color="light" (click)="manage()">
       <ion-icon name="more"></ion-icon>
     </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list class="profile-list">
+  <ion-list class="profile-list" *ngIf="contact">
     <ion-item text-center class="profile-item profile-pic">
       <div class="profile-img" [style.background-image]="'url(../assets/img/users/'+contact.last_name+'.jpg)'">
         <!-- <img src="../assets/img/users/{{contact.last_name}}.jpg"/> -->

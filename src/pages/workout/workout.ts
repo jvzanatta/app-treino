@@ -82,6 +82,14 @@ export class WorkoutPage {
       cssClass: 'custom-action-sheet',
       buttons: [
         {
+          text: 'Editar',
+          cssClass: 'custom-action-button',
+          // icon: 'create',
+          handler: () => {
+            console.log('Archive clicked');
+            this.edit();
+          }
+        },{
           text: 'Limpar',
           cssClass: 'custom-action-destructive-button custom-action-button',
           // icon: 'trash',
@@ -89,14 +97,6 @@ export class WorkoutPage {
           handler: () => {
             console.log('Destructive clicked');
             this.deleteDay();
-          }
-        },{
-          text: 'Editar',
-          cssClass: 'custom-action-button',
-          // icon: 'create',
-          handler: () => {
-            console.log('Archive clicked');
-            this.edit();
           }
         },{
           text: 'Cancelar',

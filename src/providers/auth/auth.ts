@@ -30,6 +30,11 @@ export class AuthProvider {
     private storage: Storage,
   ) { }
 
+  public register(values: any) {
+    return this.http.post(this.API_URL + 'register', values)
+      .map(res => this.storeData(res.json().data));
+  }
+
   public login(values: any): Observable<any> {
     return this.http.post(this.API_URL + this.endpoint, values)
       .map(res => this.storeData(res.json().data));

@@ -9,7 +9,15 @@ page-contact-list {
     ion-list.contact-list {
 
       ion-item.contact-row {
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.7);
+
+        ion-label {
+          color: #444;
+
+          h2 {
+            font-weight: 500;
+          }
+        }
       }
     }
 

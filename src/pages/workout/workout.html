@@ -2,7 +2,7 @@
 <ion-header>
   <ion-navbar color="main" >
     <ion-title>{{workout?.name}}</ion-title>
-    <button *ngIf="isOwner()" ion-button icon-only color="light" (click)="manage()">
+    <button *ngIf="isOwner()" margin-right ion-button icon-only color="light" (click)="manage()">
       <ion-icon name="more"></ion-icon>
     </button>
   </ion-navbar>

@@ -1,37 +1,80 @@
-<!--
-  Generated template for the LoginPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="main" >
-    <ion-title text-center>BEM VINDO!</ion-title>
+    <ion-title text-center>
+      <ion-icon name="barcode"></ion-icon> MINHA FICHA
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding >
-  <form [formGroup]="loginForm" color="light">
-    <ion-item>
+  <form [formGroup]="loginForm" color="light" class="login-form" *ngIf="isLogin">
+    <ion-item class="login-item">
       <ion-label color="main" floating>E-mail</ion-label>
       <ion-input formControlName="email" type="email" ></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="login-item">
       <ion-label color="main" floating>Senha</ion-label>
       <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
   </form>
+
+  <form [formGroup]="registerForm" color="light" class="login-form" *ngIf="!isLogin">
+
+    <ion-item class="login-item">
+      <ion-label color="main" floating>Nome</ion-label>
+      <ion-input formControlName="first_name"></ion-input>
+    </ion-item>
+
+    <ion-item class="login-item">
+      <ion-label color="main" floating>Sobrenome</ion-label>
+      <ion-input formControlName="last_name"></ion-input>
+    </ion-item>
+
+    <ion-item class="login-item">
+      <ion-label color="main" floating>E-mail</ion-label>
+      <ion-input formControlName="email" type="email" ></ion-input>
+    </ion-item>
+
+    <ion-item class="login-item">
+      <ion-label color="main" floating>Senha</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+
+          <ion-item class="login-item">
+            <ion-label color="main" floating>Peso</ion-label>
+            <ion-input formControlName="weight" type="number"></ion-input>
+            <!-- <b>kg</b> -->
+          </ion-item>
+
+        </ion-col>
+        <ion-col>
+
+          <ion-item class="login-item">
+            <ion-label color="main" floating>Altura</ion-label>
+            <ion-input formControlName="height" type="number"></ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </form>
 </ion-content>
 
 <ion-footer>
-  <button color="main" ion-button large full [disabled]="loginForm.invalid" (click)="login()">Entrar</button>
-  <!-- <button color="main" ion-button large full [disabled]="loginForm.invalid" (click)="register()">Registrar</button> -->
-  <button color="main" ion-button large full (click)="registerUsingFacebook()">
+  <button color="main" ion-button large full [disabled]="getForm().invalid" (click)="send()">Enviar</button>
+  <button color="main" ion-button large full (click)="toggleLogin()">{{ isLogin ? 'Registrar-se' : 'Login' }}</button>
+<!--   <button color="main" ion-button large full (click)="registerUsingFacebook()">
     <ion-icon name="logo-facebook" item-left margin-right></ion-icon>
     Entrar com Facebook
-  </button>
+  </button> -->
 </ion-footer>

@@ -3,7 +3,7 @@ page-workout {
   ion-header {
     ion-title {
       float: left;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     button {
@@ -11,24 +11,38 @@ page-workout {
     }
   }
 
-  .group-name {
-    margin-bottom: 0;
-    // padding-top: 5px;
-    font-size: large;
-    border-radius: 5px;
-    height: 45px;
-    // font-weight: bolder;
-    // color: #DDD;
-    // background-color: #222;
+  ion-content {
+    background-image: url(../../assets/img/backgrounds/polar-running-program.jpg);
+    background-position: 25% center;
+    background-size: cover;
 
-      ion-label {
-        margin: 0;
+    .exercise-list {
+
+      ion-item {
+        background-color: rgba(255, 255, 255, 0.85);
+
+        ion-label {
+          color: #444;
+
+          h2 {
+            font-weight: 500;
+          }
+        }
       }
-  }
 
-  // ion-content {
-  //   background-color: #666666;
-  // }
+      .group-name {
+        margin-bottom: 0;
+        font-size: large;
+        border: 1px;
+        margin-top: 10px;
+        height: 45px;
+
+          ion-label {
+            margin: 0;
+          }
+      }
+    }
+  }
 
   ion-item-sliding > ion-item:last-child {
     border: 0;

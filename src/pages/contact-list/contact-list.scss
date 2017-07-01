@@ -1,5 +1,15 @@
 page-contact-list {
 
+  ion-header {
+    ion-title {
+      float: left;
+      margin-top: 12px;
+    }
+
+    button {
+      float: right;
+    }
+  }
 
   ion-content {
     background-image: url(../../assets/img/backgrounds/stretching.jpg);

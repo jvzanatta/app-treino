@@ -114,9 +114,11 @@ export class WorkoutsList {
     let actionSheet = this.actionSheetCtrl.create({
       title: workout.name,
       enableBackdropDismiss: true,
+      cssClass: 'custom-action-sheet',
       buttons: [
         {
           text: 'Abrir',
+          cssClass: 'custom-action-button',
           // icon: 'archive',
           handler: () => {
             console.log('Open clicked');
@@ -131,6 +133,7 @@ export class WorkoutsList {
         //   }
         },{
           text: 'Compartilhar',
+          cssClass: 'custom-action-button',
           // icon: 'create',
           handler: () => {
             console.log('Share clicked');
@@ -138,6 +141,7 @@ export class WorkoutsList {
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
+          cssClass: 'custom-action-button',
           // icon: 'archive',
           handler: () => {
             console.log('Archive clicked');
@@ -145,7 +149,9 @@ export class WorkoutsList {
           }
         },{
           text: 'Excluir',
+          cssClass: 'custom-action-button',
           // icon: 'trash',
+          cssClass: 'custom-action-destructive-button custom-action-button',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
@@ -153,6 +159,7 @@ export class WorkoutsList {
           }
         },{
           text: 'Cancelar',
+          cssClass: 'custom-action-button',
           role: 'backspace',
           handler: () => {
             console.log('Cancel clicked');

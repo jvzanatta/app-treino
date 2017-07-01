@@ -4,8 +4,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
-    <button *ngIf="isCoach()" ion-button icon-only color="light" (click)="add()">
+    <ion-title [ngClass]="this.mode == 'coach' ? 'title-adjustment' : ''">{{title}}</ion-title>
+    <button *ngIf="isCoach()" margin-right ion-button icon-only color="light" (click)="add()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-navbar>
@@ -18,7 +18,7 @@
       Ativos
     </ion-list-header>
     <ion-item *ngFor="let workout of workouts | activeOnly" (click)="onWorkoutClick(workout)">
-        <h2>{{workout.name}}</h2>
+      <h2>{{workout.name}}</h2>
     </ion-item>
   </ion-list>
 

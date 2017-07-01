@@ -10,7 +10,7 @@
 </ion-header>
 
 
-<ion-content padding >
+<ion-content padding [ngClass]="isLogin ? 'running' : 'biking'">
   <form [formGroup]="loginForm" color="light" class="login-form" *ngIf="isLogin">
     <ion-item class="login-item">
       <ion-label color="main" floating>E-mail</ion-label>

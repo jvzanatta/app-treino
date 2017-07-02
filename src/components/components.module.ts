@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { DatePicker } from './date-picker/date-picker';
+import { DayPicker } from './day-picker/day-picker';
 import { ListWithPicture } from './list-with-picture/list-with-picture';
 import { IonicModule } from 'ionic-angular'
 import { PipesModule } from '../pipes/pipes.module';
@@ -11,9 +12,11 @@ import { PipesModule } from '../pipes/pipes.module';
   ],
   declarations: [
     DatePicker,
+    DayPicker,
     ListWithPicture,
   ],
   exports: [
+    DayPicker,
     DatePicker,
     ListWithPicture,
   ],

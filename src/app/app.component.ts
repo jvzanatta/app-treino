@@ -33,8 +33,8 @@ export class MyApp {
       this.pages = [
         { title: 'Home', component: 'home', icon: 'home' },
         { title: 'Perfil', component: 'contact', icon: 'contact', options: { contact: user, title: 'Meu Perfil' } },
-        { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user', title: 'Fichas' }},
         { title: 'Contatos', component: 'contactlist', icon: 'people' },
+        { title: 'Fichas', component: 'workoutlist', icon: 'list', options: { mode: 'user', title: 'Fichas' }},
       ];
 
       // this.checkUser(user);

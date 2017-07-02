@@ -4,12 +4,7 @@ import { Storage } from '@ionic/storage';
 import { HttpHandler } from '../http/http';
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the ContactProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class ContactProvider {
 
@@ -20,15 +15,15 @@ export class ContactProvider {
     console.log('Hello ContactProvider Provider');
   }
 
-  public getPupils() {
+  public getPupils(): Promise<any> {
     return this.storage.get('pupils').then(pupils => pupils = pupils.sort(this.orderByName));
   }
 
-  public getCoaches() {
+  public getCoaches(): Promise<any> {
     return this.storage.get('coaches').then(pupils => pupils = pupils.sort(this.orderByName));
   }
 
-  public getContacts() {
+  public getContacts(): Promise<any> {
     let promise = new Promise((resolve, reject) => {
       this.getPupils().then(pupils => {
         this.getCoaches().then(coaches => {
@@ -46,8 +41,42 @@ export class ContactProvider {
     });
   }
 
-  private orderByName(a: any, b: any) {
+  private orderByName(a: any, b: any): number {
     return a.first_name < b.first_name ? -1 : a.first_name > b.first_name ? 1 : a.last_name < b.last_name ? -1 : 1;
+  }
+
+  public addPupil(email): Promise<any> {
+    let promise =  new Promise((resolve, reject) => {
+      this.http.post('coaches/users', email)
+        .subscribe(pupil => {
+          console.log('pupil', pupil);
+          this.storage.get('pupils')
+            .then(pupils => {
+              pupils.push(pupil);
+              this.storage.set('pupils', pupils)
+                .then(() => resolve(true));
+            });
+        }, error => reject(error));
+    });
+    return promise;
+  }
+
+  public removePupil(id): Promise<any> {
+    let promise =  new Promise((resolve, reject) => {
+      this.http.delete('coaches/users/' + id)
+        .subscribe(result => {
+          console.log('result', result);
+          if (result) {
+            this.storage.get('pupils')
+              .then(pupils => {
+                pupils = pupils.filter(pupil => pupil.id != id);
+                this.storage.set('pupils', pupils)
+                  .then(() => resolve(true));
+              });
+          }
+        }, error => reject(error));
+    });
+    return promise;
   }
 
 }

@@ -1,0 +1,52 @@
+<ion-row class="date-picker-row" *ngIf="day">
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Dom</ion-label>
+      <ion-checkbox [(ngModel)]="day[0]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Seg</ion-label>
+      <ion-checkbox [(ngModel)]="day[1]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Ter</ion-label>
+      <ion-checkbox [(ngModel)]="day[2]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Qua</ion-label>
+      <ion-checkbox [(ngModel)]="day[3]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Qui</ion-label>
+      <ion-checkbox [(ngModel)]="day[4]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Sex</ion-label>
+      <ion-checkbox [(ngModel)]="day[5]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+  <ion-col>
+    <ion-item (tap)="dayTapped()">
+      <ion-label>Sáb</ion-label>
+      <ion-checkbox [(ngModel)]="day[6]"></ion-checkbox>
+    </ion-item>
+  </ion-col>
+
+</ion-row>

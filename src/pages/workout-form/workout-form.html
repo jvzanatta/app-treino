@@ -1,0 +1,35 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>WorkoutForm</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="workoutForm" (ngSubmit)="submit()">
+
+    <ion-item>
+      <ion-label>Título</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Tipo</ion-label>
+      <ion-select formControlName="sport_id">
+        <ion-option *ngFor="let sport of sports" [value]="sport.id">{{sport.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Ativo</ion-label>
+      <ion-toggle formControlName="active"></ion-toggle>
+    </ion-item>
+
+    <day-picker
+      [startSchedule]="workout?.schedule"
+      (scheduleChanged)="onScheduleChange(schedule)">
+    </day-picker>
+
+    <button ion-button large full type="submit" color="main" [disabled]="workoutForm.valid">Enviar</button>
+  </form>
+</ion-content>

@@ -43,8 +43,13 @@ page-home {
       }
     }
 
+    .has-refresher > .scroll-content {
+    }
+
     .scroll-content {
-      overflow-y: hidden;
+      background-color: rgba(255, 255, 255, 0)!important;
+      border-top: 0px solid #ddd!important;
+      // overflow-y: hidden;
     }
 
 

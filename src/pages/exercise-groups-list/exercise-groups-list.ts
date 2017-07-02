@@ -59,7 +59,7 @@ export class ExerciseGroupsList {
   }
 
   ionViewWillEnter() {
-    console.log('WillEnter ExerciseGroupsList');
+    // console.log('WillEnter ExerciseGroupsList');
 
   }
 

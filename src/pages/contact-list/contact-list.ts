@@ -35,11 +35,14 @@ export class ContactList {
   }
 
   ionViewWillEnter() {
-    this._contact.getContacts()
-      .then(contacts => this.contacts = contacts);
-
+    this.getContacts();
     this._user.getUserInfo()
       .then(user => this.user = user);
+  }
+
+  private getContacts() {
+    this._contact.getContacts()
+      .then(contacts => this.contacts = contacts);
   }
 
   private isCoach() {
@@ -58,7 +61,7 @@ export class ContactList {
           // icon: 'create',
           handler: () => {
             console.log('Archive clicked');
-            setTimeout (() => this.addContact(), 500);
+            setTimeout (() => this.showAddAlert(), 500);
           }
         },{
           text: 'Remover Contato',
@@ -67,7 +70,7 @@ export class ContactList {
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
-            setTimeout (() => this.deleteContact(), 500);
+            setTimeout (() => this.showDeleteAlert(), 500);
           }
         },{
           text: 'Cancelar',
@@ -82,7 +85,7 @@ export class ContactList {
     actionSheet.present();
   }
 
-  private addContact() {
+  private showAddAlert() {
     let alert = this.alertCtrl.create({
       title: 'Login',
       message: "Digite o e-mail do cliente que deseja adicionar",
@@ -99,8 +102,9 @@ export class ContactList {
         },
         {
           text: 'Enviar',
-          handler: data => {
-            console.log(data);
+          handler: email => {
+            console.log(email);
+            this.addContact(email);
           }
         }
       ]
@@ -109,7 +113,15 @@ export class ContactList {
     alert.present();
   }
 
-  private deleteContact() {
+  private addContact(email: any) {
+    this._contact.addPupil(email).then(result => {
+      if (result) {
+        this.getContacts();
+      }
+    }, error => console.log(error));
+  }
+
+  private showDeleteAlert() {
     let alert = this.alertCtrl.create();
     alert.setTitle('Quem deseja remover da lista de contatos?');
 
@@ -129,12 +141,21 @@ export class ContactList {
 
     alert.addButton({
       text: 'Excluir',
-      handler: data => {
-        console.log(data);
+      handler: id => {
+        console.log(id);
+        this.deleteContact(id);
       }
     });
 
     alert.present();
+  }
+
+  private deleteContact(id: number) {
+    this._contact.removePupil(id).then(result => {
+      if (result) {
+        this.getContacts();
+      }
+    }, error => console.log(error));
   }
 
   private openContact(contact) {

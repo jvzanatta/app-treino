@@ -29,7 +29,7 @@ export class HomePage {
   }
 
   ionViewCanEnter() {
-    console.log('CanEnter HomePage');
+    // console.log('CanEnter HomePage');
   }
 
   ionViewDidLoad() {
@@ -37,24 +37,30 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    console.log('WillEnter HomePage');
+    // console.log('WillEnter HomePage');
     // this._loading.present(true);
+    this.getUserInfo();
+    this.getWorkoutInfo();
+  }
 
+  ionViewDidEnter() {
+    // console.log('DidEnter HomePage');
+    // setTimeout(() => this._loading.dismiss(), 500);
+  }
+
+  private getUserInfo() {
     this._user.getUserInfo()
       .then(user => {
         this.user = user;
         UserProvider.userData.next(user);
       });
+  }
 
+  private getWorkoutInfo() {
     this._workout.getGivenWorkouts()
       .then(workouts => {
         this.workouts = workouts;
       });
-  }
-
-  ionViewDidEnter() {
-    console.log('DidEnter HomePage');
-    // setTimeout(() => this._loading.dismiss(), 500);
   }
 
   private openWorkout(workout) {
@@ -65,5 +71,15 @@ export class HomePage {
     this.navCtrl.push('contact', {contact: this.user, pushed: true, title: 'Meu Perfil'});
   }
 
+  private doRefresh(refresher) {
+    this._user.refreshData().then(result => {
+      console.log('result', result);
+      if (result) {
+        this.getUserInfo();
+        this.getWorkoutInfo();
+      }
+      setTimeout(() => refresher.complete(), 500);
+    });
+  }
 
 }

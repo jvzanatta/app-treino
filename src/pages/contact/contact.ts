@@ -27,7 +27,7 @@ export class ContactPage {
     this.pushed  = this.navParams.get('pushed');
     this.contact = this.navParams.get('contact');
 
-    console.log('ContactPage', this.user);
+    // console.log('ContactPage', this.user);
   }
 
   ionViewDidLoad() {
@@ -35,11 +35,14 @@ export class ContactPage {
   }
 
   ionViewWillEnter() {
-    console.log('WillEnter ContactPage');
+    // console.log('WillEnter ContactPage');
 
     this._user.getUserInfo()
       .then(user => {
         this.user = user;
+        if (!this.contact) {
+          this.contact = this.user;
+        }
       });
   }
 

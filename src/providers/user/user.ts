@@ -28,4 +28,35 @@ export class UserProvider {
     return this.storage.get('user');
   }
 
+  public refreshData(): Promise<any> {
+    let promise = new Promise((resolve, reject) => {
+      this.http.get('users/data').subscribe(data => {
+        this.storeData(data).then(result => resolve(result));
+      });
+    });
+    return promise;
+  }
+
+  private storeData(data): Promise<any> {
+    let promise = new Promise((resolve, reject) => {
+      this.storage.set('user', data.user).then(() => {
+        this.storage.set('pupils', data.pupils).then(() => {
+          this.storage.set('coaches', data.coaches).then(() => {
+            this.storage.set('workouts', data.workouts).then(() => {
+              this.storage.set('givenWorkouts', data.givenWorkouts).then(() => {
+                this.storage.set('createdWorkouts', data.createdWorkouts).then(() => {
+                  this.storage.set('sports', data.sports).then(() => {
+                    resolve(true);
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+
+    return promise;
+  }
+
 }

@@ -38,7 +38,7 @@ export class WorkoutPage {
   ) {
     this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
-    console.log(this.workout);
+    // console.log(this.workout);
   }
 
   ionViewDidLoad() {
@@ -47,13 +47,13 @@ export class WorkoutPage {
   }
 
   ionViewWillEnter() {
-    console.log('WillEnter WorkoutPage');
+    // console.log('WillEnter WorkoutPage');
     this._loading.present();
     this.refreshWorkout();
   }
 
   ionViewDidEnter() {
-    console.log('DidEnter WorkoutsList');
+    // console.log('DidEnter WorkoutsPage');
     // this.loader.dismiss();
   }
 

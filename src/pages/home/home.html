@@ -3,13 +3,18 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-uppercase >
+    <ion-title >
       Home
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding margin-top>
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingText="Aguarde...">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <ion-card class="user-card" (click)="openMyProfile()">
     <ion-card-header text-center>

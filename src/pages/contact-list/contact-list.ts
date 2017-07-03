@@ -5,7 +5,7 @@ import { ContactProvider } from '../../providers/contact/contact';
 import { UserProvider } from '../../providers/user/user';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-
+import { ToastController } from 'ionic-angular';
 
 @IonicPage({
   name: 'contactlist'
@@ -23,6 +23,7 @@ export class ContactList {
     public navCtrl: NavController,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public navParams: NavParams,
     public _contact: ContactProvider,
     public _user: UserProvider,
@@ -35,6 +36,10 @@ export class ContactList {
   }
 
   ionViewWillEnter() {
+    this.refreshData();
+  }
+
+  private refreshData() {
     this.getContacts();
     this._user.getUserInfo()
       .then(user => this.user = user);
@@ -53,20 +58,18 @@ export class ContactList {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Gerenciar',
       enableBackdropDismiss: true,
-      cssClass: 'custom-action-sheet',
       buttons: [
         {
           text: 'Adicionar Contato',
-          // cssClass: 'custom-action-button',
-          // icon: 'create',
+          icon: 'create',
           handler: () => {
             console.log('Archive clicked');
             setTimeout (() => this.showAddAlert(), 500);
           }
         },{
           text: 'Remover Contato',
-          cssClass: 'custom-action-destructive-button custom-action-button',
-          // icon: 'trash',
+          cssClass: 'custom-action-destructive-button',
+          icon: 'trash',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
@@ -74,7 +77,7 @@ export class ContactList {
           }
         },{
           text: 'Cancelar',
-          cssClass: 'custom-action-button',
+          icon: 'remove',
           role: 'backspace',
           handler: () => {
             console.log('Cancel clicked');
@@ -117,8 +120,24 @@ export class ContactList {
     this._contact.addPupil(email).then(result => {
       if (result) {
         this.getContacts();
+        this.showContactAddedToast();
       }
-    }, error => console.log(error));
+    }, error => {
+      console.log('error', error);
+      if (error.statusText == 'Not Found') {
+        this.showContactNotFoundToast();
+      } else if (error.statusText == '') {
+
+      }
+    });
+  }
+
+  private showToast(msg: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
   }
 
   private showDeleteAlert() {
@@ -154,13 +173,28 @@ export class ContactList {
     this._contact.removePupil(id).then(result => {
       if (result) {
         this.getContacts();
+        this.showContactRemovedToast();
       }
-    }, error => console.log(error));
+    }, error => this.showContactRemoveErrorToast());
   }
 
   private openContact(contact) {
     this.navCtrl.push('contact', {contact: contact, pushed: true, title: 'Perfil'});
   }
 
+  private showContactRemovedToast() {
+    this.showToast('Contato removido com sucesso!');
+  }
 
+  private showContactAddedToast() {
+    this.showToast('Contato adicionado com sucesso!');
+  }
+
+  private showContactNotFoundToast() {
+    this.showToast('Não encontramos um contato com o e-mail digitado.');
+  }
+
+  private showContactRemoveErrorToast() {
+    this.showToast('Não foi possível remover o contato selecionado.');
+  }
 }

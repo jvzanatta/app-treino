@@ -14,6 +14,7 @@ export class DayPicker {
   day: Array<any>;
 
   constructor() {
+    console.log('DayPicker constructor ---------');
   }
 
   ngOnInit() {
@@ -26,7 +27,7 @@ export class DayPicker {
   // }
 
   private dayTapped() {
-    this.sendSchedule();
+    setTimeout(() => this.sendSchedule(), 50);
   }
 
   private sendSchedule() {
@@ -34,12 +35,12 @@ export class DayPicker {
 
     if (this.day) {
       let schedule = '';
-      for (let i = this.day.length - 1; i >= 0; i--) {
+      for (let i = 0; i < this.day.length; i++) {
 
-        console.log('this.day[i]', i, this.day[i]);
+        // console.log('this.day[i]', i, this.day[i]);
 
         if (this.day[i]) {
-          schedule.concat(i.toString());
+          schedule = schedule.concat(i.toString());
         }
       }
 
@@ -55,7 +56,8 @@ export class DayPicker {
     let dayArray = [],
       initialValues = this.startSchedule || '';
 
-    for (let i = 0; i >= 7; i++) {
+    for (let i = 0; i <= 6; i++) {
+      // console.log(i, initialValues, initialValues.includes(i.toString()));
       dayArray.push(initialValues.includes(i.toString()));
     }
 

@@ -79,20 +79,18 @@ export class WorkoutPage {
     let actionSheet = this.actionSheetCtrl.create({
       title: WeekdayProvider.getName(this.selectedDay, 'fullname'),
       enableBackdropDismiss: true,
-      cssClass: 'custom-action-sheet',
       buttons: [
         {
           text: 'Editar',
-          cssClass: 'custom-action-button',
-          // icon: 'create',
+          icon: 'create',
           handler: () => {
             console.log('Archive clicked');
             this.edit();
           }
         },{
           text: 'Limpar',
-          cssClass: 'custom-action-destructive-button custom-action-button',
-          // icon: 'trash',
+          cssClass: 'custom-action-destructive-button',
+          icon: 'trash',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
@@ -100,7 +98,6 @@ export class WorkoutPage {
           }
         },{
           text: 'Cancelar',
-          cssClass: 'custom-action-button',
           role: 'backspace',
           handler: () => {
             console.log('Cancel clicked');

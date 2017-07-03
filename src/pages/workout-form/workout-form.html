@@ -27,9 +27,9 @@
 
     <day-picker
       [startSchedule]="workout?.schedule"
-      (scheduleChanged)="onScheduleChange(schedule)">
+      (scheduleChanged)="onScheduleChange($event)">
     </day-picker>
 
-    <button ion-button large full type="submit" color="main" [disabled]="workoutForm.valid">Enviar</button>
+    <button ion-button large full type="submit" color="main" [disabled]="!workoutForm.valid">Enviar</button>
   </form>
 </ion-content>

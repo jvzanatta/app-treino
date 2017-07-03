@@ -16,7 +16,11 @@ export class UserNamePipe implements PipeTransform {
 
     switch(mode) {
         case 'full':
-            name = user.first_name + ' ' + user.last_name;
+            if (user.first_name != user.last_name) {
+              name = user.first_name + ' ' + user.last_name;
+            } else {
+              name = user.first_name;
+            }
             break;
         case 'nick':
             name = user.nick_name || user.first_name;

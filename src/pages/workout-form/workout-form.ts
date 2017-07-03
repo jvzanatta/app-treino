@@ -5,6 +5,7 @@ import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
 import { UserProvider } from '../../providers/user/user';
 import { SportProvider } from '../../providers/sport/sport';
+import { AlertController } from 'ionic-angular';
 
 @IonicPage({
   name: 'workoutform'
@@ -26,6 +27,7 @@ export class WorkoutFormPage {
     public _user: UserProvider,
     public _sport: SportProvider,
     public navCtrl: NavController,
+    public alertCtrl: AlertController,
     public navParams: NavParams,
     private formBuilder: FormBuilder
   ) {
@@ -35,7 +37,6 @@ export class WorkoutFormPage {
       schedule:    ['', Validators.required],
       active:      [true],
       created_by:  ['', Validators.required],
-      // description: [''],
     });
   }
 
@@ -49,10 +50,32 @@ export class WorkoutFormPage {
 
   private submit() {
     console.log(this.workoutForm.value);
+    this._workout
+      .create(this.workoutForm.value)
+      .then(workout => {
+        this.confirmAction(workout);
+      });
   }
 
   private onScheduleChange(schedule) {
     console.log('schedule', schedule);
+    this.workoutForm.controls['schedule'].setValue(schedule);
+  }
+
+  private confirmAction(workout) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Ficha ' + (this.workout ? 'atualizada' : 'cadastrada') + '!',
+      // subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          console.log('Agree clicked');
+          this.goBack();
+        }
+      }]
+    });
+    alert.present();
   }
 
   private refreshData() {
@@ -76,7 +99,10 @@ export class WorkoutFormPage {
         this._loading.dismiss();
       });
     }
+  }
 
+  private goBack() {
+    this.navCtrl.pop();
   }
 
 }

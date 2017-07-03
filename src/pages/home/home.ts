@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
-// import { LoadingController } from 'ionic-angular';
-
+import { Events } from 'ionic-angular';
 
 @IonicPage({
   name: 'home'
@@ -18,41 +16,50 @@ export class HomePage {
 
   private user: any;
   private workouts: any;
+  private firstRefresh: boolean;
 
   constructor(
     public navCtrl: NavController,
+    public events: Events,
     public _loading: LoadingProvider,
     public _workout: WorkoutProvider,
     public _user: UserProvider,
   ) {
-
   }
 
   ionViewCanEnter() {
-    // console.log('CanEnter HomePage');
   }
 
   ionViewDidLoad() {
-    console.log('DidLoad HomePage');
+    // console.log('DidLoad HomePage');
   }
 
   ionViewWillEnter() {
-    // console.log('WillEnter HomePage');
-    // this._loading.present(true);
-    this.getUserInfo();
-    this.getWorkoutInfo();
+    // console.log('**WillEnter HomePage**');
+    this.refreshData();
   }
 
   ionViewDidEnter() {
-    // console.log('DidEnter HomePage');
-    // setTimeout(() => this._loading.dismiss(), 500);
+  }
+
+  private getData(): Promise<any> {
+    return this._user.refreshData().then(result => {
+      if (result) {
+        this.refreshData();
+      }
+    });
+  }
+
+  private refreshData() {
+    this.getUserInfo();
+    this.getWorkoutInfo();
   }
 
   private getUserInfo() {
     this._user.getUserInfo()
       .then(user => {
         this.user = user;
-        UserProvider.userData.next(user);
+        this.events.publish('user:logged', user, Date.now());
       });
   }
 
@@ -71,15 +78,8 @@ export class HomePage {
     this.navCtrl.push('contact', {contact: this.user, pushed: true, title: 'Meu Perfil'});
   }
 
-  private doRefresh(refresher) {
-    this._user.refreshData().then(result => {
-      console.log('result', result);
-      if (result) {
-        this.getUserInfo();
-        this.getWorkoutInfo();
-      }
-      setTimeout(() => refresher.complete(), 500);
-    });
+  private doRefresh(refresher = null) {
+    this.getData().then(() => setTimeout(() => refresher.complete(), 100));
   }
 
 }

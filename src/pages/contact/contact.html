@@ -3,10 +3,10 @@
     <button *ngIf="!pushed" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
-    <button *ngIf="isOwnProfile()" ion-button icon-only margin-right color="light" (click)="manage()">
+    <ion-title>{{ contact ? contact.first_name : title }}</ion-title>
+<!--     <button *ngIf="isOwnProfile()" ion-button icon-only margin-right color="light" (click)="manage()">
       <ion-icon name="more"></ion-icon>
-    </button>
+    </button> -->
   </ion-navbar>
 </ion-header>
 
@@ -19,7 +19,7 @@
     </ion-item>
     <ion-item item-content text-right  class="profile-item">
       <label float-left>Nome:</label>
-      {{ contact.first_name | slice:0:20 }}
+      {{ contact | userName:'full' }}
     </ion-item>
     <ion-item item-content text-right  class="profile-item">
       <label float-left>Idade:</label>

@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
-
 import { UserProvider } from '../user/user';
 import { SportProvider } from '../sport/sport';
 import { ExerciseProvider } from '../exercise/exercise';
 import { HttpHandler } from '../http/http';
 
-/*
-  Generated class for the WorkoutProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class WorkoutProvider {
 
@@ -22,7 +15,6 @@ export class WorkoutProvider {
     public http:     HttpHandler,
     private storage: Storage,
   ) {
-    // console.log('Hello WorkoutProvider Provider');
   }
 
   public getGivenWorkouts(): Promise<any> {
@@ -30,7 +22,11 @@ export class WorkoutProvider {
     let promise = new Promise((resolve, reject) => {
       this.getWorkouts().then((allWorkouts: Array<any>) => {
         this.storage.get('givenWorkouts')
-          .then(givenWorkouts => resolve(allWorkouts.filter(workout => givenWorkouts.includes(workout.id))));
+        .then(givenWorkouts => {
+          let workoutList = allWorkouts.filter(workout => givenWorkouts.includes(workout.id));
+          console.log('workoutList', workoutList);
+          resolve(workoutList)
+        });
        });
     });
     return promise;
@@ -41,7 +37,11 @@ export class WorkoutProvider {
     let promise = new Promise((resolve, reject) => {
       this.getWorkouts().then((allWorkouts: Array<any>) => {
         this.storage.get('createdWorkouts')
-          .then(createdWorkouts => resolve(allWorkouts.filter(workout => createdWorkouts.includes(workout.id))));
+          .then(createdWorkouts => {
+            let workoutList = allWorkouts.filter(workout => createdWorkouts.includes(workout.id));
+            console.log('workoutList', workoutList);
+            resolve(workoutList)
+          });
       });
     });
     return promise;
@@ -83,10 +83,18 @@ export class WorkoutProvider {
     return this.update(workout);
   }
 
+  public archive(workout): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.patch(workout).subscribe(updatedWorkout => {
+        this.updateLocaly(updatedWorkout).then(() => resolve(updatedWorkout));
+      });
+    });
+  }
+
   public update(workout): Promise<any> {
     return new Promise((resolve, reject) => {
       this.patch(workout).subscribe(updatedWorkout => {
-        this.updateLocaly(updatedWorkout).then(workout => resolve(workout));
+        this.updateLocaly(updatedWorkout).then(() => resolve(updatedWorkout));
       });
     });
   }
@@ -96,22 +104,64 @@ export class WorkoutProvider {
   }
 
   private updateLocaly(updatedWorkout): Promise<any> {
-    let promise =  new Promise((resolve, reject) => {
-      this.getWorkouts().then(allWorkouts => {
-        allWorkouts = allWorkouts.map(workout => {
-          if (workout.id === updatedWorkout.id) {
-            return updatedWorkout;
-          }
-          return workout;
-        });
+    return this.getWorkouts()
+      .then(allWorkouts => {
+        allWorkouts = allWorkouts
+          .map(workout => (workout.id === updatedWorkout.id ? updatedWorkout : workout));
 
-        this.storage
-          .set('workouts', allWorkouts)
-          .then(() => resolve(updatedWorkout));
+        return this.storage.set('workouts', allWorkouts);
       });
-    });
-
-    return promise;
   }
 
+  public create(workout) {
+    return new Promise((resolve, reject) => {
+      this.post(workout).subscribe(createdWorkout => {
+        this.createLocaly(createdWorkout).then(() => resolve(createdWorkout));
+      });
+    });
+  }
+
+  private post(workout) {
+    return this.http.post(this.endpoint, workout);
+  }
+
+  private createLocaly(createdWorkout): Promise<any> {
+    return this.getWorkouts()
+      .then(allWorkouts => {
+        allWorkouts = allWorkouts.push(createdWorkout);
+        return  this.storage.set('workouts', allWorkouts)
+      }).then((teste) => {
+        console.log('teste storage set', teste);
+        return this.storage.get('createdWorkouts')
+      }).then(createdIds => {
+        createdIds.push(createdWorkout.id);
+        return this.storage.set('createdWorkouts', createdIds)
+      });
+  }
+
+  public remove(workout) {
+    return new Promise((resolve, reject) => {
+      this.delete(workout.id).subscribe(() => {
+        this.removeLocaly(workout.id).then(() => resolve(true));
+      });
+    });
+  }
+
+  private delete(workoutId) {
+    return this.http.delete(this.endpoint + workoutId);
+  }
+
+  private removeLocaly(workoutId): Promise<any> {
+    return this.getWorkouts()
+      .then(allWorkouts => {
+        allWorkouts = allWorkouts.filter(workout => workout.id !== workoutId);
+        return  this.storage.set('workouts', allWorkouts)
+      }).then((teste) => {
+        console.log('teste storage set', teste);
+        return this.storage.get('createdWorkouts')
+      }).then(createdIds => {
+        createdIds = createdIds.filter(id => id != workoutId);
+        return this.storage.set('createdWorkouts', createdIds)
+      });
+  }
 }

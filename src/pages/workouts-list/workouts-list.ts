@@ -4,7 +4,7 @@ import { ActionSheetController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
-
+import { ToastController } from 'ionic-angular';
 
  @IonicPage({
    name: 'workoutlist'
@@ -24,6 +24,7 @@ export class WorkoutsList {
     public navCtrl: NavController,
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
+    public toastCtrl: ToastController,
     public _user: UserProvider,
     public _loading: LoadingProvider,
     public _workout: WorkoutProvider
@@ -34,30 +35,36 @@ export class WorkoutsList {
   }
 
   ionViewDidLoad() {
-    console.log('DidLoad WorkoutsList');
-    this.refreshData();
+    // console.log('DidLoad WorkoutsList');
   }
 
   ionViewWillEnter() {
-    // console.log('WillEnter WorkoutsList');
-    // this.loader.present();
+    this.refreshData();
   }
 
   ionViewDidEnter() {
-    this._loading.dismiss();
+    // this._loading.dismiss();
     // console.log('DidEnter WorkoutsList');
   }
 
   private refreshData() {
-    this._loading.present();
+    // this._loading.present();
+    this.getUserInfo();
+    this.getWorkoutList();
+  }
 
+  private getUserInfo() {
     this._user.getUserInfo()
       .then(user => this.user = user);
+  }
 
-    this._workout.getWorkoutList(this.mode).then(workouts => {
-      this.workouts = workouts;
-      this._loading.dismiss();
-    });
+  private getWorkoutList() {
+    this._loading.present();
+    this._workout.getWorkoutList(this.mode)
+      .then(workouts => {
+        this.workouts = workouts;
+        this._loading.dismiss();
+      });
   }
 
   private edit(workout) {
@@ -73,17 +80,17 @@ export class WorkoutsList {
   }
 
   private share(workout) {
-
+    // this._workout.share(workout)
   }
 
   private archive(workout) {
-
+    this._workout.archive(workout)
+      .then(result => result ? this.showArchivedToast() : '');
   }
 
   private delete(workout) {
 
   }
-
 
   private onWorkoutClick(workout) {
     switch (this.mode) {
@@ -100,16 +107,26 @@ export class WorkoutsList {
     }
   }
 
+  private showArchivedToast() {
+    this.showToast('Ficha arquivada!');
+  }
+
+  private showToast(msg: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
+
   private openWorkoutOptions(workout) {
     console.log('openWorkoutOptions', workout);
     let actionSheet = this.actionSheetCtrl.create({
       title: workout.name,
       enableBackdropDismiss: true,
-      cssClass: 'custom-action-sheet',
       buttons: [
         {
           text: 'Abrir',
-          cssClass: 'custom-action-button',
           icon: 'archive',
           handler: () => {
             console.log('Open clicked');
@@ -124,7 +141,6 @@ export class WorkoutsList {
           }
         },{
           text: 'Compartilhar',
-          cssClass: 'custom-action-button',
           icon: 'create',
           handler: () => {
             console.log('Share clicked');
@@ -132,7 +148,6 @@ export class WorkoutsList {
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
-          cssClass: 'custom-action-button',
           icon: 'archive',
           handler: () => {
             console.log('Archive clicked');
@@ -141,7 +156,7 @@ export class WorkoutsList {
         },{
           text: 'Excluir',
           icon: 'trash',
-          cssClass: 'custom-action-destructive-button custom-action-button',
+          cssClass: 'custom-action-destructive-button',
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
@@ -149,7 +164,6 @@ export class WorkoutsList {
           }
         },{
           text: 'Cancelar',
-          cssClass: 'custom-action-button',
           role: 'backspace',
           icon: 'remove',
           handler: () => {

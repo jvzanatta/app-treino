@@ -1,4 +1,4 @@
-const PRODUCTION_API = 'http://./api';
+const PRODUCTION_API = 'http://138.68.5.36/api/v1/';
 
 /**
  * Considera ambiente de desenvolvimento sempre que estiver com livereload ativo, como:

@@ -56,21 +56,24 @@ export class LoginPage {
   }
 
   private login() {
-    this._loading.present(true);
+    this._loading.present();
 
-    this._auth.login(this.loginForm.value).subscribe((loginData) => {
-      // this._loading.dismiss();
-      // console.log('login subscribe', loginData.user);
-      // UserProvider.userData.next(loginData.user);
-      this.navCtrl.setRoot(HomePage);
-    });
+    this._auth.login(this.loginForm.value).subscribe(
+      loginData => {
+        this._loading.dismiss();
+        this.navCtrl.setRoot(HomePage);
+      }, error => {
+        this._loading.dismiss();
+        console.log(error.json());
+      });
   }
 
   private register() {
-    this._loading.present(true);
+    this._loading.present();
 
     this._auth.register(this.registerForm.value).subscribe(
       loginData => {
+        this._loading.dismiss();
         this.navCtrl.setRoot(HomePage);
       }, error => {
         this._loading.dismiss();

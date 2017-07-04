@@ -56,7 +56,7 @@ export class ContactList {
 
   private options() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Gerenciar',
+      // title: 'Gerenciar',
       enableBackdropDismiss: true,
       buttons: [
         {
@@ -77,7 +77,7 @@ export class ContactList {
           }
         },{
           text: 'Cancelar',
-          icon: 'remove',
+          icon: 'close-circle',
           role: 'backspace',
           handler: () => {
             console.log('Cancel clicked');
@@ -91,7 +91,7 @@ export class ContactList {
   private showAddAlert() {
     let alert = this.alertCtrl.create({
       title: 'Login',
-      message: "Digite o e-mail do cliente que deseja adicionar",
+      message: 'Digite o e-mail do cliente que deseja adicionar',
       inputs: [
         {
           name: 'email',

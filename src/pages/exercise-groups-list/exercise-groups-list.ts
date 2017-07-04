@@ -5,15 +5,10 @@ import { SportProvider } from '../../providers/sport/sport';
 import { ExerciseProvider } from '../../providers/exercise/exercise';
 import { LoadingProvider } from '../../providers/loading/loading';
 
-/**
- * Generated class for the ExerciseGroupsList page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
- @IonicPage({
-   name: 'exercisegroupslist'
- })
+
+@IonicPage({
+  name: 'exercisegroupslist'
+})
 @Component({
   selector: 'page-exercise-groups-list',
   templateUrl: 'exercise-groups-list.html',
@@ -82,27 +77,27 @@ export class ExerciseGroupsList {
 
     this._workout.update(this.workout).then((workout) => {
       this._loading.dismiss();
-
-      let confirm = this.alertCtrl.create({
-        title: 'Treino salvo!',
-        message: 'Deseja voltar para a lista?',
-        buttons: [
-          {
-            text: 'Não, obrigado',
-            handler: () => {
-              console.log('Disagree clicked');
-            }
-          },
-          {
-            text: 'Sim, voltar!',
-            handler: () => {
-              console.log('Agree clicked');
-              this.goBack();
-            }
-          }
-        ]
-      });
-      confirm.present();
+      this.goBack();
+      // let confirm = this.alertCtrl.create({
+      //   title: 'Treino salvo!',
+      //   message: 'Deseja voltar para a lista?',
+      //   buttons: [
+      //     {
+      //       text: 'Não, obrigado',
+      //       handler: () => {
+      //         console.log('Disagree clicked');
+      //       }
+      //     },
+      //     {
+      //       text: 'Sim, voltar!',
+      //       handler: () => {
+      //         console.log('Agree clicked');
+      //         this.goBack();
+      //       }
+      //     }
+      //   ]
+      // });
+      // confirm.present();
     });
   }
 

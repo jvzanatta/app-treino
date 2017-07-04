@@ -18,6 +18,13 @@ page-contact-list {
 
     ion-list.contact-list {
 
+      .loading-spinner {
+        text-align: center;
+        font-size: 14px;
+        margin: 25px;
+        color: color($colors, main);
+      }
+
       ion-item.contact-row {
         background-color: rgba(255, 255, 255, 0.7);
 

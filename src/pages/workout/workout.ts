@@ -7,12 +7,6 @@ import { WeekdayProvider } from '../../providers/weekday/weekday';
 import { LoadingProvider } from '../../providers/loading/loading';
 
 
-/**
- * Generated class for the WorkoutPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage({
   name: 'workout'
 })
@@ -42,7 +36,7 @@ export class WorkoutPage {
   }
 
   ionViewDidLoad() {
-    console.log('DidLoad WorkoutPage');
+    // console.log('DidLoad WorkoutPage');
     // console.log(this.workout);
   }
 
@@ -81,23 +75,24 @@ export class WorkoutPage {
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Editar',
+          text: 'Editar dia',
           icon: 'create',
           handler: () => {
-            console.log('Archive clicked');
+            // console.log('Archive clicked');
             this.edit();
           }
         },{
-          text: 'Limpar',
+          text: 'Limpar dia',
           cssClass: 'custom-action-destructive-button',
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            console.log('Destructive clicked');
+            // console.log('Destructive clicked');
             this.deleteDay();
           }
         },{
           text: 'Cancelar',
+          icon: 'close-circle',
           role: 'backspace',
           handler: () => {
             console.log('Cancel clicked');
@@ -109,15 +104,15 @@ export class WorkoutPage {
   }
 
   private edit() {
-    console.log('edit');
+    // console.log('edit');
     this.navCtrl.push('exercisegroupslist', {workout: this.workout, user: this.user, selectedDay: this.selectedDay});
   }
 
   private clearWorkoutDay() {
-    console.log('clearWorkoutDay call', this.workout, this.workout.exercises.length);
+    // console.log('clearWorkoutDay call', this.workout, this.workout.exercises.length);
     this._workout.clearWorkoutDay(this.workout, this.selectedDay)
       .then(workout => {
-        console.log('clearWorkoutDay return', workout, workout.exercises.length);
+        // console.log('clearWorkoutDay return', workout, workout.exercises.length);
         this.workout = workout;
         this._loading.dismiss();
       })
@@ -143,8 +138,10 @@ export class WorkoutPage {
           text: 'Sim, limpar!',
           handler: () => {
             console.log('Agree clicked');
-            this._loading.present();
-            this.clearWorkoutDay();
+            setTimeout(() => {
+              this._loading.present();
+              this.clearWorkoutDay();
+            }, 100);
           }
         }
       ]

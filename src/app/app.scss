@@ -37,3 +37,13 @@ ion-navbar {
     }
   }
 }
+
+button.more {
+  background-color: rgba(255, 255, 255, 0);
+  float: right;
+  box-shadow: none;
+}
+
+button.button-md.activated {
+  background-color: rgba(255, 255, 255, 0.4);
+}

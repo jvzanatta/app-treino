@@ -4,8 +4,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title >
-      Home
+      Início
     </ion-title>
+    <!-- <ion-icon name="home" ></ion-icon> -->
   </ion-navbar>
 </ion-header>
 
@@ -50,20 +51,20 @@
       class="workout-card" color="main"
       (click)="openWorkout(workout)">
 
-      <ion-card-header text-center>
-        <strong>{{ workout.name | uppercase }}</strong>
-      </ion-card-header>
+      <ion-card-header text-center>{{ workout.name | uppercase }}</ion-card-header>
 
       <ion-card-content text-center>
-        <p><b>{{workout.sport.name}}</b></p>
-        <!-- <p>Compartilhado por <b>{{ workout.creator | userName:'nick' }}</b></p> -->
-        <p><b>{{workout.schedule | weekday:short:' - ' }}</b></p>
+        <p *ngIf="workout.creator" class="pro-name">{{ workout.creator | userName:'full' }}</p>
+        <p class="schedule">{{workout.schedule | weekday:short:' - ' }}</p>
+        <p class="sport">{{workout.sport.name}}</p>
       </ion-card-content>
     </ion-card>
 
-    <p text-center margin *ngIf="!workouts || workouts.length === 0">
+    <p text-center margin *ngIf="workouts && workouts.length === 0">
       Não há treinos disponíveis
     </p>
+
+    <div *ngIf="!workouts" class="loading-spinner"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
 
   </ion-card>
 

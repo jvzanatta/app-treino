@@ -1,3 +1,22 @@
 page-workout-form {
 
+  ion-content {
+    background-image: url(../../assets/img/backgrounds/swimming.jpg);
+    background-position: 40% center;
+    background-size: cover;
+
+    form.workout-form {
+      background-color: rgba(255, 255, 255, 0.7);
+
+      ion-item.workout-item {
+        background-color: rgba(255, 255, 255, 0);
+      }
+    }
+  }
+
+  ion-footer {
+    background-color: rgba(255, 255, 255, 0.82);
+  }
+
+
 }

@@ -66,7 +66,7 @@ export class MyApp {
   private definePagesArray(user) {
     this.pages = [
       {
-        title: 'Home',
+        title: 'Início',
         visible: true,
         component: 'home',
         icon: 'home'
@@ -77,7 +77,6 @@ export class MyApp {
         component: 'contact',
         icon: 'contact',
         options: {
-          contact: user,
           title: 'Meu Perfil'
         }
       },

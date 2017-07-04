@@ -1,26 +1,26 @@
 
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="main">
     <ion-title>WorkoutForm</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="workoutForm" (ngSubmit)="submit()">
+  <form [formGroup]="workoutForm" class="workout-form">
 
-    <ion-item>
+    <ion-item class="workout-item">
       <ion-label>Título</ion-label>
       <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="workout-item">
       <ion-label>Tipo</ion-label>
       <ion-select formControlName="sport_id">
         <ion-option *ngFor="let sport of sports" [value]="sport.id">{{sport.name}}</ion-option>
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="workout-item">
       <ion-label>Ativo</ion-label>
       <ion-toggle formControlName="active"></ion-toggle>
     </ion-item>
@@ -30,6 +30,15 @@
       (scheduleChanged)="onScheduleChange($event)">
     </day-picker>
 
-    <button ion-button large full type="submit" color="main" [disabled]="!workoutForm.valid">Enviar</button>
+    <!-- <button ion-button large full type="submit" color="main" [disabled]="!workoutForm.valid">Enviar</button> -->
   </form>
 </ion-content>
+
+<ion-footer color="light">
+  <button
+    ion-button large full type="submit" color="main"
+    [disabled]="!workoutForm.valid"
+    (tap)="submit()">
+    Enviar
+  </button>
+</ion-footer>

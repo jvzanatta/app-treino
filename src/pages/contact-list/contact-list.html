@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Contatos</ion-title>
-    <button ion-button icon-only margin-right color="light" (click)="options()" *ngIf="isCoach()">
+    <button ion-button icon-only margin-right class="more" (click)="options()" *ngIf="isCoach()">
       <ion-icon name="more"></ion-icon>
     </button>
   </ion-navbar>
@@ -18,8 +18,16 @@
         <img src="../assets/img/users/{{contact.last_name}}.jpg">
       </ion-avatar>
       <h2>{{ contact | userName:'full' }}</h2>
-  <!--     <p>Ugh. As if.</p> -->
     </ion-item>
+
+    <ion-item class="contact-row" *ngIf="contacts && contacts.length == 0">
+      <h2>Nenhum contato encontrado</h2>
+    </ion-item>
+
+    <ion-item class="contact-row" *ngIf="!contacts" >
+      <div class="loading-spinner"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
+    </ion-item>
+
   </ion-list>
 
 </ion-content>

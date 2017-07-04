@@ -79,6 +79,7 @@ export class HomePage {
   }
 
   private doRefresh(refresher = null) {
+    console.log('doRefresh');
     this.getData().then(() => setTimeout(() => refresher.complete(), 100));
   }
 

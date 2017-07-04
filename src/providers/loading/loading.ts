@@ -7,39 +7,31 @@ import 'rxjs/add/operator/map';
 export class LoadingProvider {
   private loader: Loading;
 
+
   constructor(public loadingCtrl: LoadingController) {
     console.log('Hello LoadingProvider Provider');
   }
 
   public present(dismissOnPageChange: boolean = true) {
     console.log('loading present');
-    if (this.loader) {
-      this.dismiss().then(() => {
-        this.showLoader(dismissOnPageChange);
+    if (!this.loader) {
+      this.loader = this.loadingCtrl.create({
+        content: "Carregando...",
+        dismissOnPageChange: false,
       });
-    } else {
-      this.showLoader(dismissOnPageChange);
+      this.loader.present();
     }
   }
 
-  private showLoader(dismissOnPageChange) {
-    this.loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      dismissOnPageChange: dismissOnPageChange,
-    });
-    this.loader.present();
-  }
-
-  public dismiss(): Promise<any> {
+  public dismiss() {
     if (this.loader) {
-      console.log('loading dismiss', this.loader);
-      return this.loader.dismiss()
-        .then(teste => {
-          console.log('teste dismiss', teste);
-          this.loader = null;
+      let loader = this.loader;
+      this.loader = null;
+      console.log('loading dismiss', loader);
+      return loader.dismiss()
+        .then(() => {
+          loader = null;
         });
-    } else {
-      return new Promise((resolve) => setTimeout(() => resolve(true), 50));
     }
   }
 

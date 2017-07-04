@@ -27,17 +27,20 @@ export class WorkoutFormPage {
     public _user: UserProvider,
     public _sport: SportProvider,
     public navCtrl: NavController,
-    public alertCtrl: AlertController,
+    // public alertCtrl: AlertController,
     public navParams: NavParams,
     private formBuilder: FormBuilder
   ) {
+    this.workout = this.navParams.get('workout');
     this.workoutForm = this.formBuilder.group({
+      id:          [null],
       name:        ['', Validators.required],
       sport_id:    ['', Validators.required],
       schedule:    ['', Validators.required],
       active:      [true],
       created_by:  ['', Validators.required],
     });
+    this.workoutForm.patchValue(this.workout);
   }
 
   ionViewDidLoad() {
@@ -50,32 +53,25 @@ export class WorkoutFormPage {
 
   private submit() {
     console.log(this.workoutForm.value);
-    this._workout
-      .create(this.workoutForm.value)
-      .then(workout => {
-        this.confirmAction(workout);
-      });
+    if (this.workout && this.workout.id) {
+      this.workoutForm.controls['id'].patchValue(this.workout.id);
+      this._workout
+        .update(this.workoutForm.value)
+        .then(workout => {
+          this.goBack();
+        });
+    } else {
+      this._workout
+        .create(this.workoutForm.value)
+        .then(workout => {
+          this.goBack();
+        });
+    }
   }
 
   private onScheduleChange(schedule) {
     console.log('schedule', schedule);
     this.workoutForm.controls['schedule'].setValue(schedule);
-  }
-
-  private confirmAction(workout) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Ficha ' + (this.workout ? 'atualizada' : 'cadastrada') + '!',
-      // subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
-      buttons: [{
-        text: 'OK',
-        handler: () => {
-          console.log('Agree clicked');
-          this.goBack();
-        }
-      }]
-    });
-    alert.present();
   }
 
   private refreshData() {

@@ -5,6 +5,7 @@ import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
 import { ToastController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
  @IonicPage({
    name: 'workoutlist'
@@ -25,6 +26,7 @@ export class WorkoutsList {
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public _user: UserProvider,
     public _loading: LoadingProvider,
     public _workout: WorkoutProvider
@@ -80,16 +82,33 @@ export class WorkoutsList {
   }
 
   private share(workout) {
-    // this._workout.share(workout)
+    // this._workout.share(workout, !workout.active)
+    //   .then(result => {
+    //     if (result) {
+    //       this.getWorkoutList();
+    //       this.showSharedToast();
+    //     }
+    //   });
   }
 
   private archive(workout) {
-    this._workout.archive(workout)
-      .then(result => result ? this.showArchivedToast() : '');
+    this._workout.archive(workout, !workout.active)
+      .then(result => {
+        if (result) {
+          this.getWorkoutList();
+          // this.showArchivedToast();
+        }
+      });
   }
 
   private delete(workout) {
-
+    this._workout.promptDelete(workout)
+      .then(result => {
+        if (result) {
+          this.getWorkoutList();
+          // this.showDeletedToast();
+        }
+      });
   }
 
   private onWorkoutClick(workout) {
@@ -107,18 +126,6 @@ export class WorkoutsList {
     }
   }
 
-  private showArchivedToast() {
-    this.showToast('Ficha arquivada!');
-  }
-
-  private showToast(msg: string) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 4000
-    });
-    toast.present();
-  }
-
   private openWorkoutOptions(workout) {
     console.log('openWorkoutOptions', workout);
     let actionSheet = this.actionSheetCtrl.create({
@@ -127,31 +134,31 @@ export class WorkoutsList {
       buttons: [
         {
           text: 'Abrir',
-          icon: 'archive',
+          icon: 'open',
           handler: () => {
             console.log('Open clicked');
-            this.open(workout);
+            setTimeout(() => this.open(workout), 100);
           }
         },{
           text: 'Editar',
           icon: 'create',
           handler: () => {
             console.log('Edit clicked');
-            this.edit(workout);
+            setTimeout(() => this.edit(workout), 100);
           }
         },{
           text: 'Compartilhar',
-          icon: 'create',
+          icon: 'share',
           handler: () => {
             console.log('Share clicked');
-            this.share(workout);
+            setTimeout(() => this.share(workout), 100);
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
           icon: 'archive',
           handler: () => {
             console.log('Archive clicked');
-            this.archive(workout);
+            setTimeout(() => this.archive(workout), 100);
           }
         },{
           text: 'Excluir',
@@ -160,12 +167,12 @@ export class WorkoutsList {
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
-            this.delete(workout);
+            setTimeout(() => this.delete(workout), 100);
           }
         },{
           text: 'Cancelar',
+          icon: 'close-circle',
           role: 'backspace',
-          icon: 'remove',
           handler: () => {
             console.log('Cancel clicked');
           }

@@ -5,7 +5,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title [ngClass]="this.mode == 'coach' ? 'title-adjustment' : ''">{{title}}</ion-title>
-    <button *ngIf="isCoach()" margin-right ion-button icon-only color="light" (click)="add()">
+    <button *ngIf="isCoach()" margin-right ion-button icon-only class="more" (click)="add()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-navbar>

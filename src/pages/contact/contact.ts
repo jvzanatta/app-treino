@@ -53,7 +53,7 @@ export class ContactPage {
 
   private manage() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Gerenciar',
+      // title: 'Gerenciar',
       enableBackdropDismiss: true,
       buttons: [
         {
@@ -65,8 +65,8 @@ export class ContactPage {
           }
         },{
           text: 'Cancelar',
+          icon: 'close-circle',
           role: 'backspace',
-          icon: 'remove',
           handler: () => {
             console.log('Cancel clicked');
           }

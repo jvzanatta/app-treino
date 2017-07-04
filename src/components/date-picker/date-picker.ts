@@ -18,6 +18,7 @@ export class DatePicker {
   ngOnInit() {
     let today: string = (new Date()).getDay().toString();
 
+    console.log('this.weekDays (schedule)', this.weekdays);
     if (this.weekdays.includes(today)) {
       this.selectedWeekday = today;
     } else {

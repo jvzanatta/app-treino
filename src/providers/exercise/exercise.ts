@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 export class ExerciseProvider {
 
   constructor(public http: Http) {
-    console.log('Hello ExerciseProvider Provider');
+    // console.log('Hello ExerciseProvider Provider');
   }
 
   public static sort(exercises) {

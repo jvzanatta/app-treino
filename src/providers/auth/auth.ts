@@ -54,17 +54,17 @@ export class AuthProvider {
   }
 
   public registerUsingFacebook(): Promise<any> {
-    console.log('registerUsingFacebook');
+    // console.log('registerUsingFacebook');
 
     let promise = new Promise ((resolve, reject) => {
       this.fb.login(this.facebookPermissions)
         .then((res: FacebookLoginResponse) => {
-          console.log('Logged into Facebook!', res, res.authResponse.userID);
+          // console.log('Logged into Facebook!', res, res.authResponse.userID);
 
           this.fb.api('me', this.facebookPermissions)
             .then(
               res => {
-              console.log(res.authResponse.userID, res);
+              // console.log(res.authResponse.userID, res);
               })
             .catch(e => console.log('Error getting Facebook data', e));
         })
@@ -78,7 +78,7 @@ export class AuthProvider {
     //       return Promise.reject('No access token found');
     //     }
 
-    //     console.log('Logged into Facebook!', accessToken);
+    //     // console.log('Logged into Facebook!', accessToken);
 
     //     let oauthToken = {
     //       accessToken: accessToken,

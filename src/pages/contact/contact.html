@@ -1,4 +1,4 @@
-<ion-header onload="console.log('load')">
+<ion-header>
   <ion-navbar color="main" >
     <button *ngIf="!pushed" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -13,8 +13,8 @@
 <ion-content padding>
   <ion-list class="profile-list" *ngIf="contact">
     <ion-item text-center class="profile-item profile-pic">
-      <div class="profile-img" [style.background-image]="'url(../assets/img/users/'+contact.last_name+'.jpg)'">
-        <!-- <img src="../assets/img/users/{{contact.last_name}}.jpg"/> -->
+      <div class="profile-img" [style.background-image]="'url(assets/img/users/'+contact.last_name+'.jpg)'">
+        <!-- <img src="assets/img/users/{{contact.last_name}}.jpg"/> -->
       </div>
     </ion-item>
     <ion-item item-content text-right  class="profile-item">

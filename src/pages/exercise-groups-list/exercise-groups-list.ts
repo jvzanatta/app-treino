@@ -35,7 +35,18 @@ export class ExerciseGroupsList {
     this.user         = this.navParams.get('user');
     this.workout      = this.navParams.get('workout');
     this.selectedDay  = this.navParams.get('selectedDay');
+  }
 
+  ionViewDidLoad() {
+    // console.log('DidLoad ExerciseGroupsList');
+  }
+
+  ionViewWillEnter() {
+    // console.log('WillEnter ExerciseGroupsList');
+    this.refreshData();
+  }
+
+  private refreshData() {
     this._sport.getSport(this.workout.sport_id)
       .then(sport => this.sport = sport)
       .then(() => this.closeAllGroups())
@@ -44,18 +55,9 @@ export class ExerciseGroupsList {
 
     this.dayExercises = this._workout.getDayExerciseKeys(this.workout, this.selectedDay);
 
-    console.log(this.sport);
+    // console.log('sport', this.sport);
     // console.log(this.workout);
-    console.log(this.dayExercises);
-  }
-
-  ionViewDidLoad() {
-    console.log('DidLoad ExerciseGroupsList');
-  }
-
-  ionViewWillEnter() {
-    // console.log('WillEnter ExerciseGroupsList');
-
+    // console.log('dayExercises', this.dayExercises);
   }
 
   private closeAllGroups() {
@@ -78,26 +80,6 @@ export class ExerciseGroupsList {
     this._workout.update(this.workout).then((workout) => {
       this._loading.dismiss();
       this.goBack();
-      // let confirm = this.alertCtrl.create({
-      //   title: 'Treino salvo!',
-      //   message: 'Deseja voltar para a lista?',
-      //   buttons: [
-      //     {
-      //       text: 'Não, obrigado',
-      //       handler: () => {
-      //         console.log('Disagree clicked');
-      //       }
-      //     },
-      //     {
-      //       text: 'Sim, voltar!',
-      //       handler: () => {
-      //         console.log('Agree clicked');
-      //         this.goBack();
-      //       }
-      //     }
-      //   ]
-      // });
-      // confirm.present();
     });
   }
 
@@ -143,8 +125,6 @@ export class ExerciseGroupsList {
     }
 
     this.mapGroup(this.displayingGroup);
-    // console.log(this.dayExercises);
-    // console.log(this.workout);
   }
 
 }

@@ -42,14 +42,6 @@ export class HomePage {
   ionViewDidEnter() {
   }
 
-  private getData(): Promise<any> {
-    return this._user.refreshData().then(result => {
-      if (result) {
-        this.refreshData();
-      }
-    });
-  }
-
   private refreshData() {
     this.getUserInfo();
     this.getWorkoutInfo();
@@ -78,9 +70,15 @@ export class HomePage {
     this.navCtrl.push('contact', {contact: this.user, pushed: true, title: 'Meu Perfil'});
   }
 
-  private doRefresh(refresher = null) {
-    console.log('doRefresh');
-    this.getData().then(() => setTimeout(() => refresher.complete(), 100));
+  private doRefresh(refresher) {
+    // console.log('doRefresh');
+    this._user.refreshData()
+      .then(result => {
+        if (result) {
+          this.refreshData();
+        }
+      })
+      .then(() => setTimeout(() => refresher.complete(), 100));
   }
 
 }

@@ -13,7 +13,7 @@ export class ListWithPicture {
 
 
   constructor() {
-    console.log('ListWithPictureComponent Component');
+    // console.log('ListWithPictureComponent Component');
   }
 
   private onItemTapped(item) {

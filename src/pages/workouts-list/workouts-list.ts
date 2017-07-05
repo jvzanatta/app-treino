@@ -127,7 +127,7 @@ export class WorkoutsList {
   }
 
   private openWorkoutOptions(workout) {
-    console.log('openWorkoutOptions', workout);
+    // console.log('openWorkoutOptions', workout);
     let actionSheet = this.actionSheetCtrl.create({
       title: workout.name,
       enableBackdropDismiss: true,
@@ -136,28 +136,28 @@ export class WorkoutsList {
           text: 'Abrir',
           icon: 'open',
           handler: () => {
-            console.log('Open clicked');
+            // console.log('Open clicked');
             setTimeout(() => this.open(workout), 100);
           }
         },{
           text: 'Editar',
           icon: 'create',
           handler: () => {
-            console.log('Edit clicked');
+            // console.log('Edit clicked');
             setTimeout(() => this.edit(workout), 100);
           }
         },{
           text: 'Compartilhar',
           icon: 'share',
           handler: () => {
-            console.log('Share clicked');
+            // console.log('Share clicked');
             setTimeout(() => this.share(workout), 100);
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',
-          icon: 'archive',
+          icon: workout.active ? 'archive' : 'arrow-round-up',
           handler: () => {
-            console.log('Archive clicked');
+            // console.log('Archive clicked');
             setTimeout(() => this.archive(workout), 100);
           }
         },{
@@ -166,7 +166,7 @@ export class WorkoutsList {
           cssClass: 'custom-action-destructive-button',
           role: 'destructive',
           handler: () => {
-            console.log('Destructive clicked');
+            // console.log('Destructive clicked');
             setTimeout(() => this.delete(workout), 100);
           }
         },{
@@ -174,7 +174,7 @@ export class WorkoutsList {
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         }
       ]
@@ -184,6 +184,17 @@ export class WorkoutsList {
 
   private isCoach() {
     return !!this.user && this.user.is_coach && this.mode === 'coach';
+  }
+
+  private doRefresh(refresher) {
+    // console.log('doRefresh');
+    this._user.refreshData()
+      .then(result => {
+        if (result) {
+          this.refreshData();
+        }
+      })
+      .then(() => setTimeout(() => refresher.complete(), 100));
   }
 
 }

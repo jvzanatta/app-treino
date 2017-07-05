@@ -16,7 +16,7 @@ export class WeekdayProvider {
   private static weekdayLetter: Array<string>   = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
   constructor() {
-    console.log('Hello WeekdayProvider Provider');
+    // console.log('Hello WeekdayProvider Provider');
   }
 
   public static getName(value: string, format: string): string {
@@ -35,10 +35,10 @@ export class WeekdayProvider {
         case 'letter':
           formatArray = this.weekdayLetter;
         default:
-          console.log('nenhum deles');
+          // console.log('nenhum deles');
       }
     }
-    console.log(value, format, formatArray.find((day, index) => index.toString() === value));
+    // console.log(value, format, formatArray.find((day, index) => index.toString() === value));
     return formatArray.find((day, index) => index.toString() === value);
   }
 
@@ -58,7 +58,7 @@ export class WeekdayProvider {
         case 'letter':
           formatArray = this.weekdayLetter;
         default:
-          console.log('nenhum deles');
+          // console.log('nenhum deles');
       }
     }
 

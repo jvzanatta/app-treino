@@ -12,13 +12,17 @@
 </ion-header>
 
 <ion-content padding class="workout-exercises-list">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingText="Aguarde...">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <ion-list class="workout-list">
     <ion-list-header color="main" class="group-name">
       Ativos
     </ion-list-header>
-    <ion-item *ngFor="let workout of workouts | activeOnly" (click)="onWorkoutClick(workout)">
-      <h2>{{workout.name}}</h2>
+    <ion-item *ngFor="let workout of workouts | activeOnly" (press)="onWorkoutClick(workout)" (tap)="open(workout)">
+      <h2>{{workout.name + ' - ' + workout.sport.name}}</h2>
     </ion-item>
   </ion-list>
 
@@ -29,8 +33,8 @@
     <ion-list-header class="group-name group-name-inactive" color="light">
       Inativos
     </ion-list-header>
-    <ion-item *ngFor="let workout of workouts | activeOnly:false" (click)="onWorkoutClick(workout)">
-        <h2>{{workout.name}}</h2>
+    <ion-item *ngFor="let workout of workouts | activeOnly:false" (click)="open(workout)" (press)="onWorkoutClick(workout)">
+      <h2>{{workout.name + ' - ' + workout.sport.name}}</h2>
     </ion-item>
   </ion-list>
 

@@ -223,6 +223,10 @@ export class WorkoutProvider {
       });
   }
 
+  private showErrorToast() {
+    this.showToast('Houve um erro ao processar a requisição, tente novamente');
+  }
+
   private showSharedToast() {
     this.showToast('Ficha compartilhada!');
   }
@@ -252,10 +256,13 @@ export class WorkoutProvider {
   }
 
   private showToast(msg: string) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2500
-    });
-    toast.present();
+    setTimeout(() => {
+      let toast = this.toastCtrl.create({
+        message: msg,
+        duration: 2500
+      });
+      toast.present();
+    }, 100);
   }
+
 }

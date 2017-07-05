@@ -1,3 +1,30 @@
 page-about {
 
+
+
+  ion-content {
+    background-image: url("../assets/img/backgrounds/mt-bike-dbl.jpg");
+    background-position: 40% center;
+    background-size: cover;
+
+    .list-info {
+      background-color: rgba(255, 255, 255, 0.8);
+
+
+      ion-item {
+        background-color: rgba(255, 255, 255, 0.0);
+        font-size: 18px;
+      }
+
+      .title1 {
+        font-size: 22px;
+      }
+
+      .title2 {
+        font-size: 20px;
+        font-weight: 400;
+      }
+    }
+  }
+
 }

@@ -21,7 +21,7 @@ export class UserProvider {
     private http:    HttpHandler,
     private storage: Storage,
   ) {
-    console.log('Hello UserProvider Provider');
+    // console.log('Hello UserProvider Provider');
   }
 
   public getUserInfo(): Promise<any> {

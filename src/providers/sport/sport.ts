@@ -18,7 +18,7 @@ export class SportProvider {
     public http:     HttpHandler,
     private storage: Storage,
   ) {
-    console.log('Hello SportsProvider Provider');
+    // console.log('Hello SportsProvider Provider');
   }
 
   public getSports() {

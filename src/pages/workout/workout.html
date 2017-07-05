@@ -12,10 +12,10 @@
 
   <ion-list class="exercise-list">
     <div *ngFor="let exercise of workout?.exercises | dayFilter:selectedDay | markForHeader" >
-      <ion-list-header color="main" class="group-name" *ngIf="exercise.first">
+      <ion-list-header color="main" class="group-name" *ngIf="exercise.first" (swipe)="teste($event)">
         {{ exercise.exercise_group_id | groupName:workout?.sport.id | async }}
       </ion-list-header>
-      <ion-item>
+      <ion-item (swipe)="teste($event)">
         <h2>{{exercise.name}}</h2>
       </ion-item>
     </div>

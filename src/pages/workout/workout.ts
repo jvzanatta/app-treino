@@ -16,6 +16,7 @@ import { LoadingProvider } from '../../providers/loading/loading';
 })
 export class WorkoutPage {
   @ViewChild(Content) content: Content;
+  @ViewChild(DatePicker) datePicker: DatePicker;
 
   private user;
   private workout;
@@ -69,6 +70,17 @@ export class WorkoutPage {
     return this.user.id === this.workout.created_by;
   }
 
+  private teste(event) {
+     // console.log('swipe', event, event.direction, event.offsetDirection);
+    if (event.offsetDirection == 2) {
+      this.datePicker.nextWeekDay();
+      // next
+    } else if (event.offsetDirection == 4) {
+      this.datePicker.previousWeekDay();
+      // previous
+    }
+  }
+
   private manage() {
     let actionSheet = this.actionSheetCtrl.create({
       title: WeekdayProvider.getName(this.selectedDay, 'fullname'),
@@ -95,7 +107,7 @@ export class WorkoutPage {
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         }
       ]
@@ -117,7 +129,7 @@ export class WorkoutPage {
         this._loading.dismiss();
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         this._loading.dismiss();
       });
   }
@@ -132,12 +144,13 @@ export class WorkoutPage {
       buttons: [
         {
           text: 'Cancelar',
-          handler: () => { console.log('Disagree clicked');}
+          handler: () => {
+          }
         },
         {
           text: 'Sim, limpar!',
           handler: () => {
-            console.log('Agree clicked');
+            // console.log('Agree clicked');
             setTimeout(() => {
               this._loading.present();
               this.clearWorkoutDay();

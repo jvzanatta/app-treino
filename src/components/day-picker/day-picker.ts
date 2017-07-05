@@ -14,11 +14,11 @@ export class DayPicker {
   day: Array<any>;
 
   constructor() {
-    console.log('DayPicker constructor ---------');
+    // console.log('DayPicker constructor ---------');
   }
 
   ngOnInit() {
-    console.log('DayPicker ngOnInit');
+    // console.log('DayPicker ngOnInit');
     this.setDayArray();
   }
 
@@ -31,7 +31,7 @@ export class DayPicker {
   }
 
   private sendSchedule() {
-    console.log('sendSchedule', this.day);
+    // console.log('sendSchedule', this.day);
 
     if (this.day) {
       let schedule = '';
@@ -44,14 +44,14 @@ export class DayPicker {
         }
       }
 
-      console.log('schedule', schedule);
+      // console.log('schedule', schedule);
 
       this.scheduleChanged.emit(schedule);
     }
   }
 
   private setDayArray() {
-    console.log('setDayArray', this.startSchedule);
+    // console.log('setDayArray', this.startSchedule);
 
     let dayArray = [],
       initialValues = this.startSchedule || '';
@@ -62,7 +62,7 @@ export class DayPicker {
     }
 
     this.day = dayArray;
-    console.log('this.day', this.day);
+    // console.log('this.day', this.day);
   }
 
 }

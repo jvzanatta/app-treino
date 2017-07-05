@@ -31,7 +31,7 @@ export class ContactPage {
   }
 
   ionViewDidLoad() {
-    console.log('DidLoad ContactPage');
+    // console.log('DidLoad ContactPage');
   }
 
   ionViewWillEnter() {
@@ -60,7 +60,7 @@ export class ContactPage {
           text: 'Editar',
           icon: 'create',
           handler: () => {
-            console.log('Edit clicked');
+            // console.log('Edit clicked');
             this.edit(this.user);
           }
         },{
@@ -68,7 +68,7 @@ export class ContactPage {
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         }
       ]

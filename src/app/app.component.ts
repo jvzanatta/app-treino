@@ -40,7 +40,7 @@ export class MyApp {
 
     this.events.subscribe('user:forceLogout', (time) => {
       this.logout();
-      console.log('user:forceLogout', 'at', time);
+      // console.log('user:forceLogout', 'at', time);
     });
   }
 
@@ -105,6 +105,12 @@ export class MyApp {
           mode: 'coach',
           title: 'Gerenciar Fichas'
         }
+      },
+      {
+        title: 'Sobre',
+        visible: true,
+        component: 'about',
+        icon: 'information-circle',
       }
     ];
   }

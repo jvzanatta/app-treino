@@ -12,7 +12,7 @@ export class ContactProvider {
     public http:     HttpHandler,
     private storage: Storage,
   ) {
-    console.log('Hello ContactProvider Provider');
+    // console.log('Hello ContactProvider Provider');
   }
 
   public getPupils(): Promise<any> {
@@ -49,7 +49,7 @@ export class ContactProvider {
     let promise =  new Promise((resolve, reject) => {
       this.http.post('coaches/users', email)
         .subscribe(pupil => {
-          console.log('pupil', pupil);
+          // console.log('pupil', pupil);
           this.storage.get('pupils')
             .then(pupils => {
               pupils.push(pupil);
@@ -65,7 +65,7 @@ export class ContactProvider {
     let promise =  new Promise((resolve, reject) => {
       this.http.delete('coaches/users/' + id)
         .subscribe(result => {
-          console.log('result', result);
+          // console.log('result', result);
           if (result) {
             this.storage.get('pupils')
               .then(pupils => {

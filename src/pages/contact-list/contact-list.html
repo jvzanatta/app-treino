@@ -12,10 +12,15 @@
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingText="Aguarde...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-list class="contact-list">
-    <ion-item class="contact-row" *ngFor="let contact of contacts" (click)="openContact(contact)">
+    <ion-item class="contact-row" *ngFor="let contact of contacts" (click)="openContact(contact)" (press)="manage(contact)">
       <ion-avatar item-start>
-        <img src="../assets/img/users/{{contact.last_name}}.jpg">
+        <img src="assets/img/users/{{contact.last_name}}.jpg">
       </ion-avatar>
       <h2>{{ contact | userName:'full' }}</h2>
     </ion-item>

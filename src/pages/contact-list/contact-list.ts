@@ -32,7 +32,7 @@ export class ContactList {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactListPage');
+    // console.log('ionViewDidLoad ContactListPage');
   }
 
   ionViewWillEnter() {
@@ -63,7 +63,7 @@ export class ContactList {
           text: 'Adicionar Contato',
           icon: 'create',
           handler: () => {
-            console.log('Archive clicked');
+            // console.log('Archive clicked');
             setTimeout (() => this.showAddAlert(), 500);
           }
         },{
@@ -72,7 +72,7 @@ export class ContactList {
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            console.log('Destructive clicked');
+            // console.log('Destructive clicked');
             setTimeout (() => this.showDeleteAlert(), 500);
           }
         },{
@@ -80,7 +80,7 @@ export class ContactList {
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         }
       ]
@@ -106,7 +106,7 @@ export class ContactList {
         {
           text: 'Enviar',
           handler: email => {
-            console.log(email);
+            // console.log(email);
             this.addContact(email);
           }
         }
@@ -123,7 +123,7 @@ export class ContactList {
         this.showContactAddedToast();
       }
     }, error => {
-      console.log('error', error);
+      // console.log('error', error);
       if (error.statusText == 'Not Found') {
         this.showContactNotFoundToast();
       } else if (error.statusText == '') {
@@ -161,7 +161,7 @@ export class ContactList {
     alert.addButton({
       text: 'Excluir',
       handler: id => {
-        console.log(id);
+        // console.log(id);
         this.deleteContact(id);
       }
     });
@@ -176,6 +176,10 @@ export class ContactList {
         this.showContactRemovedToast();
       }
     }, error => this.showContactRemoveErrorToast());
+  }
+
+  private manage(contact) {
+    // console.log('press', contact);
   }
 
   private openContact(contact) {
@@ -197,4 +201,16 @@ export class ContactList {
   private showContactRemoveErrorToast() {
     this.showToast('Não foi possível remover o contato selecionado.');
   }
+
+  private doRefresh(refresher) {
+    // console.log('doRefresh');
+    this._user.refreshData()
+      .then(result => {
+        if (result) {
+          this.refreshData();
+        }
+      })
+      .then(() => setTimeout(() => refresher.complete(), 100));
+  }
+
 }

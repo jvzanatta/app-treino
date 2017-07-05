@@ -64,7 +64,7 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage);
       }, error => {
         this._loading.dismiss();
-        console.log(error.json());
+        // console.log(error.json());
       });
   }
 
@@ -78,7 +78,7 @@ export class LoginPage {
       }, error => {
         this._loading.dismiss();
 
-        console.log(error.json());
+        // console.log(error.json());
 
         let alert = this.alertCtrl.create({
           title: 'Falha ao registrar!',

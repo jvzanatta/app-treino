@@ -9,11 +9,11 @@ export class LoadingProvider {
 
 
   constructor(public loadingCtrl: LoadingController) {
-    console.log('Hello LoadingProvider Provider');
+    // console.log('Hello LoadingProvider Provider');
   }
 
   public present(dismissOnPageChange: boolean = true) {
-    console.log('loading present');
+    // console.log('loading present');
     if (!this.loader) {
       this.loader = this.loadingCtrl.create({
         content: "Carregando...",
@@ -27,7 +27,7 @@ export class LoadingProvider {
     if (this.loader) {
       let loader = this.loader;
       this.loader = null;
-      console.log('loading dismiss', loader);
+      // console.log('loading dismiss', loader);
       return loader.dismiss()
         .then(() => {
           loader = null;

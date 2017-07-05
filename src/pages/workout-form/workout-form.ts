@@ -27,7 +27,6 @@ export class WorkoutFormPage {
     public _user: UserProvider,
     public _sport: SportProvider,
     public navCtrl: NavController,
-    // public alertCtrl: AlertController,
     public navParams: NavParams,
     private formBuilder: FormBuilder
   ) {
@@ -40,11 +39,13 @@ export class WorkoutFormPage {
       active:      [true],
       created_by:  ['', Validators.required],
     });
-    this.workoutForm.patchValue(this.workout);
+    if (this.workout) {
+      this.workoutForm.patchValue(this.workout);
+    }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WorkoutFormPage');
+    // console.log('ionViewDidLoad WorkoutFormPage');
   }
 
   ionViewWillEnter() {
@@ -52,7 +53,7 @@ export class WorkoutFormPage {
   }
 
   private submit() {
-    console.log(this.workoutForm.value);
+    // console.log(this.workoutForm.value);
     if (this.workout && this.workout.id) {
       this.workoutForm.controls['id'].patchValue(this.workout.id);
       this._workout
@@ -70,7 +71,7 @@ export class WorkoutFormPage {
   }
 
   private onScheduleChange(schedule) {
-    console.log('schedule', schedule);
+    // console.log('schedule', schedule);
     this.workoutForm.controls['schedule'].setValue(schedule);
   }
 

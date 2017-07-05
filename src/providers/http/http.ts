@@ -110,7 +110,7 @@ export class HttpHandler {
   }
 
   private forceLogout() {
-    console.log('http forceLogout');
+    // console.log('http forceLogout');
     this.events.publish('user:forceLogout', Date.now());
   }
 

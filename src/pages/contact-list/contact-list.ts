@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ListWithPicture } from '../../components/list-with-picture/list-with-picture';
 import { ContactProvider } from '../../providers/contact/contact';
 import { UserProvider } from '../../providers/user/user';
+import { WorkoutProvider } from '../../providers/workout/workout';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
@@ -27,6 +28,7 @@ export class ContactList {
     public navParams: NavParams,
     public _contact: ContactProvider,
     public _user: UserProvider,
+    public _workout: WorkoutProvider,
   ) {
 
   }
@@ -55,16 +57,50 @@ export class ContactList {
   }
 
   private options() {
+    setTimeout (() => this.showAddAlert(), 200);
+    // let actionSheet = this.actionSheetCtrl.create({
+    //   // title: 'Gerenciar',
+    //   enableBackdropDismiss: true,
+    //   buttons: [
+    //     {
+    //       text: 'Adicionar Contato',
+    //       icon: 'create',
+    //       handler: () => {
+    //         // console.log('Archive clicked');
+    //         setTimeout (() => this.showAddAlert(), 200);
+    //       }
+    //     // },{
+    //     //   text: 'Remover Contato',
+    //     //   cssClass: 'custom-action-destructive-button',
+    //     //   icon: 'trash',
+    //     //   role: 'destructive',
+    //     //   handler: () => {
+    //     //     // console.log('Destructive clicked');
+    //     //     setTimeout (() => this.showDeleteAlert(), 200);
+    //     //   }
+    //     },{
+    //       text: 'Cancelar',
+    //       icon: 'close-circle',
+    //       role: 'backspace',
+    //       handler: () => {
+    //         // console.log('Cancel clicked');
+    //       }
+    //     }
+    //   ]
+    // });
+    // actionSheet.present();
+  }
+
+  private manage(contact) {
     let actionSheet = this.actionSheetCtrl.create({
-      // title: 'Gerenciar',
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Adicionar Contato',
-          icon: 'create',
+          text: 'Enviar ficha',
+          icon: 'share',
           handler: () => {
             // console.log('Archive clicked');
-            setTimeout (() => this.showAddAlert(), 500);
+            setTimeout (() => this.showWorkoutList(contact.id), 200);
           }
         },{
           text: 'Remover Contato',
@@ -73,7 +109,7 @@ export class ContactList {
           role: 'destructive',
           handler: () => {
             // console.log('Destructive clicked');
-            setTimeout (() => this.showDeleteAlert(), 500);
+            setTimeout (() => this.deleteContact(contact.id), 200);
           }
         },{
           text: 'Cancelar',
@@ -140,34 +176,64 @@ export class ContactList {
     toast.present();
   }
 
-  private showDeleteAlert() {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Quem deseja remover da lista de contatos?');
+  private showWorkoutList(contactId: number) {
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Quem deseja remover da lista de contatos?');
 
-    this.contacts.forEach(contact => {
-      alert.addInput({
-        type: 'radio',
-        label: contact.first_name + ' ' + contact.last_name,
-        value: contact.id,
-        checked: false
+      this.contacts.forEach(contact => {
+        alert.addInput({
+          type: 'radio',
+          label: contact.first_name + ' ' + contact.last_name,
+          value: contact.id,
+          checked: false
+        });
       });
-    });
 
-    alert.addButton({
-      text: 'Cancelar',
-      role: 'cancel',
-    });
+      alert.addButton({
+        text: 'Cancelar',
+        role: 'cancel',
+      });
 
-    alert.addButton({
-      text: 'Excluir',
-      handler: id => {
-        // console.log(id);
-        this.deleteContact(id);
-      }
-    });
+      alert.addButton({
+        text: 'Excluir',
+        handler: id => {
+          // console.log(id);
+          this.deleteContact(id);
+        }
+      });
 
-    alert.present();
+      alert.present();
+
   }
+
+  // private showDeleteAlert() {
+  //   let alert = this.alertCtrl.create();
+  //   alert.setTitle('Quem deseja remover da lista de contatos?');
+
+  //   this.contacts.forEach(contact => {
+  //     alert.addInput({
+  //       type: 'radio',
+  //       label: contact.first_name + ' ' + contact.last_name,
+  //       value: contact.id,
+  //       checked: false
+  //     });
+  //   });
+
+  //   alert.addButton({
+  //     text: 'Cancelar',
+  //     role: 'cancel',
+  //   });
+
+  //   alert.addButton({
+  //     text: 'Excluir',
+  //     handler: id => {
+  //       // console.log(id);
+  //       this.deleteContact(id);
+  //     }
+  //   });
+
+  //   alert.present();
+  // }
 
   private deleteContact(id: number) {
     this._contact.removePupil(id).then(result => {
@@ -178,11 +244,7 @@ export class ContactList {
     }, error => this.showContactRemoveErrorToast());
   }
 
-  private manage(contact) {
-    // console.log('press', contact);
-  }
-
-  private openContact(contact) {
+  private open(contact) {
     this.navCtrl.push('contact', {contact: contact, pushed: true, title: 'Perfil'});
   }
 

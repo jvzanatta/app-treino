@@ -22,32 +22,32 @@ export class WorkoutProvider {
   ) {
   }
 
+  //
+  //
+  // GETTERS
+  //
+  //
+
   public getGivenWorkouts(): Promise<any> {
-    // console.log('getGivenWorkouts');
     let promise = new Promise((resolve, reject) => {
       this.getWorkouts().then((allWorkouts: Array<any>) => {
         this.storage.get('givenWorkouts')
-        .then(givenWorkouts => {
-          let workoutList = allWorkouts.filter(workout => givenWorkouts.includes(workout.id));
-          // console.log('workoutList', workoutList);
-          resolve(workoutList)
-        });
+          .then(givenWorkouts => {
+            let workoutList = allWorkouts.filter(workout => givenWorkouts.includes(workout.id));
+            resolve(workoutList);
+          });
        });
     });
     return promise;
   }
 
   public getCreatedWorkouts(): Promise<any> {
-    // console.log('getCreatedWorkouts');
     let promise = new Promise((resolve, reject) => {
       this.getWorkouts().then((allWorkouts: Array<any>) => {
         this.storage.get('createdWorkouts')
           .then(createdWorkouts => {
-            // console.log('allWorkouts', allWorkouts);
-
             let workoutList = allWorkouts.filter(workout => createdWorkouts.includes(workout.id));
-            // console.log('workoutList', workoutList);
-            resolve(workoutList)
+            resolve(workoutList);
           });
       });
     });
@@ -74,6 +74,12 @@ export class WorkoutProvider {
   public getDayExerciseKeys(workout, day): Array<any> {
     return this.getDayExercises(workout, day).map(exercise => exercise = exercise.id);
   }
+
+  //
+  //
+  // ATUALIZAR
+  //
+  //
 
   public clearWorkoutDay(workout, day): Promise<any> {
 
@@ -135,6 +141,13 @@ export class WorkoutProvider {
       });
   }
 
+
+  //
+  //
+  // INCLUIR
+  //
+  //
+
   public create(workout): Promise<any> {
     return new Promise((resolve, reject) => {
       this.post(workout).subscribe(createdWorkout => {
@@ -153,18 +166,51 @@ export class WorkoutProvider {
   private createLocaly(createdWorkout): Promise<any> {
     return this.getWorkouts()
       .then(allWorkouts => {
-        // console.log('old allWorkouts', allWorkouts);
         allWorkouts.push(createdWorkout);
-        // console.log('new allWorkouts', allWorkouts);
         return  this.storage.set('workouts', allWorkouts)
       }).then((teste) => {
-        // console.log('teste storage set', teste);
         return this.storage.get('createdWorkouts')
       }).then(createdIds => {
         createdIds.push(createdWorkout.id);
         return this.storage.set('createdWorkouts', createdIds)
       });
   }
+
+  //
+  //
+  // COMPARTILHAR
+  //
+  //
+
+  public syncPupilWorkouts(workoutIds, contactId): Promise<any> {
+    console.log(workoutIds, contactId);
+    let promise = new Promise((resolve, reject) => {
+      workoutIds = { workouts: workoutIds };
+      this.http.patch('workouts/users/' + contactId + '/sync', workoutIds)
+        .subscribe(workouts => {
+          this.storage.set('workouts', workouts)
+            .then(() => {
+              this.showUpdatedSharedToast();
+              resolve(true);
+            });
+        }, error => {
+          reject(error);
+          if (error.statusText == 'Not Found') {
+            this.showErrorToast();
+          } else if (error.statusText == '') {
+
+          }
+        });
+    });
+    return promise;
+  }
+
+
+  //
+  //
+  // DELETE
+  //
+  //
 
   public promptDelete(workout): Promise<any> {
     return new Promise ((resolve, reject) => {
@@ -223,12 +269,23 @@ export class WorkoutProvider {
       });
   }
 
+
+  //
+  //
+  // TOASTS
+  //
+  //
+
   private showErrorToast() {
     this.showToast('Houve um erro ao processar a requisição, tente novamente');
   }
 
   private showSharedToast() {
     this.showToast('Ficha compartilhada!');
+  }
+
+  private showUpdatedSharedToast() {
+    this.showToast('Fichas compartilhada foram atualizadas!');
   }
 
   private showArchivedToast() {

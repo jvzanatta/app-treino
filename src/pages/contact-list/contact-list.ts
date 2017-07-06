@@ -4,6 +4,7 @@ import { ListWithPicture } from '../../components/list-with-picture/list-with-pi
 import { ContactProvider } from '../../providers/contact/contact';
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
+import { LoadingProvider } from '../../providers/loading/loading';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
@@ -29,6 +30,8 @@ export class ContactList {
     public _contact: ContactProvider,
     public _user: UserProvider,
     public _workout: WorkoutProvider,
+    public _loading: LoadingProvider,
+
   ) {
 
   }
@@ -58,37 +61,6 @@ export class ContactList {
 
   private options() {
     setTimeout (() => this.showAddAlert(), 200);
-    // let actionSheet = this.actionSheetCtrl.create({
-    //   // title: 'Gerenciar',
-    //   enableBackdropDismiss: true,
-    //   buttons: [
-    //     {
-    //       text: 'Adicionar Contato',
-    //       icon: 'create',
-    //       handler: () => {
-    //         // console.log('Archive clicked');
-    //         setTimeout (() => this.showAddAlert(), 200);
-    //       }
-    //     // },{
-    //     //   text: 'Remover Contato',
-    //     //   cssClass: 'custom-action-destructive-button',
-    //     //   icon: 'trash',
-    //     //   role: 'destructive',
-    //     //   handler: () => {
-    //     //     // console.log('Destructive clicked');
-    //     //     setTimeout (() => this.showDeleteAlert(), 200);
-    //     //   }
-    //     },{
-    //       text: 'Cancelar',
-    //       icon: 'close-circle',
-    //       role: 'backspace',
-    //       handler: () => {
-    //         // console.log('Cancel clicked');
-    //       }
-    //     }
-    //   ]
-    // });
-    // actionSheet.present();
   }
 
   private manage(contact) {
@@ -96,7 +68,7 @@ export class ContactList {
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Enviar ficha',
+          text: 'Gerenciar Fichas',
           icon: 'share',
           handler: () => {
             // console.log('Archive clicked');
@@ -156,116 +128,77 @@ export class ContactList {
     this._contact.addPupil(email).then(result => {
       if (result) {
         this.getContacts();
-        this.showContactAddedToast();
-      }
-    }, error => {
-      // console.log('error', error);
-      if (error.statusText == 'Not Found') {
-        this.showContactNotFoundToast();
-      } else if (error.statusText == '') {
-
       }
     });
-  }
-
-  private showToast(msg: string) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 4000
-    });
-    toast.present();
   }
 
   private showWorkoutList(contactId: number) {
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Quem deseja remover da lista de contatos?');
-
-      this.contacts.forEach(contact => {
-        alert.addInput({
-          type: 'radio',
-          label: contact.first_name + ' ' + contact.last_name,
-          value: contact.id,
-          checked: false
+    this._workout.getCreatedWorkouts()
+      .then(workouts => {
+        let alert = this.alertCtrl.create();
+        alert.setTitle('Qual treino deseja compartilhar?');
+        workouts.forEach(workout => {
+          let checked = !!workout.users.find(user => user.id == contactId);
+          alert.addInput({
+            type: 'checkbox',
+            label: workout.name,
+            value: workout.id,
+            checked: checked
+          });
         });
+
+        alert.addButton({
+          text: 'Cancelar',
+          role: 'cancel',
+        });
+
+        alert.addButton({
+          text: 'OK',
+          handler: workoutIds => {
+            this._loading.present();
+            this._workout.syncPupilWorkouts(workoutIds, contactId)
+              .then(() => this._loading.dismiss());
+          }
+        });
+        alert.present();
       });
-
-      alert.addButton({
-        text: 'Cancelar',
-        role: 'cancel',
-      });
-
-      alert.addButton({
-        text: 'Excluir',
-        handler: id => {
-          // console.log(id);
-          this.deleteContact(id);
-        }
-      });
-
-      alert.present();
-
   }
 
-  // private showDeleteAlert() {
-  //   let alert = this.alertCtrl.create();
-  //   alert.setTitle('Quem deseja remover da lista de contatos?');
-
-  //   this.contacts.forEach(contact => {
-  //     alert.addInput({
-  //       type: 'radio',
-  //       label: contact.first_name + ' ' + contact.last_name,
-  //       value: contact.id,
-  //       checked: false
-  //     });
-  //   });
-
-  //   alert.addButton({
-  //     text: 'Cancelar',
-  //     role: 'cancel',
-  //   });
-
-  //   alert.addButton({
-  //     text: 'Excluir',
-  //     handler: id => {
-  //       // console.log(id);
-  //       this.deleteContact(id);
-  //     }
-  //   });
-
-  //   alert.present();
-  // }
+  private confirmDelete(): Promise<any> {
+    return new Promise ((resolve, reject) => {
+      let confirm = this.alertCtrl.create({
+        title: 'Remover',
+        message: 'Tem certeza que deseja remover o contato?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            handler: () => {
+              reject(false);
+            }
+          },
+          {
+            text: 'Sim, excluir!',
+            handler: () => {
+              resolve(true);
+            }
+          }
+        ]
+      });
+      confirm.present();
+    });
+  }
 
   private deleteContact(id: number) {
-    this._contact.removePupil(id).then(result => {
-      if (result) {
-        this.getContacts();
-        this.showContactRemovedToast();
-      }
-    }, error => this.showContactRemoveErrorToast());
+    this.confirmDelete()
+      .then(result => this._contact.removePupil(id))
+      .then(result => this.getContacts());
   }
 
   private open(contact) {
     this.navCtrl.push('contact', {contact: contact, pushed: true, title: 'Perfil'});
   }
 
-  private showContactRemovedToast() {
-    this.showToast('Contato removido com sucesso!');
-  }
-
-  private showContactAddedToast() {
-    this.showToast('Contato adicionado com sucesso!');
-  }
-
-  private showContactNotFoundToast() {
-    this.showToast('Não encontramos um contato com o e-mail digitado.');
-  }
-
-  private showContactRemoveErrorToast() {
-    this.showToast('Não foi possível remover o contato selecionado.');
-  }
-
   private doRefresh(refresher) {
-    // console.log('doRefresh');
     this._user.refreshData()
       .then(result => {
         if (result) {

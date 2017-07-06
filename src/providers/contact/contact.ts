@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { HttpHandler } from '../http/http';
+import { ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 
@@ -10,10 +11,18 @@ export class ContactProvider {
 
   constructor(
     public http:     HttpHandler,
+    public toastCtrl: ToastController,
     private storage: Storage,
   ) {
     // console.log('Hello ContactProvider Provider');
   }
+
+
+  //
+  //
+  // GETTERS
+  //
+  //
 
   public getPupils(): Promise<any> {
     return this.storage.get('pupils').then(pupils => pupils = pupils.sort(this.orderByName));
@@ -45,8 +54,14 @@ export class ContactProvider {
     return a.first_name < b.first_name ? -1 : a.first_name > b.first_name ? 1 : a.last_name < b.last_name ? -1 : 1;
   }
 
+  //
+  //
+  // ADICIONAR
+  //
+  //
+
   public addPupil(email): Promise<any> {
-    let promise =  new Promise((resolve, reject) => {
+    let promise = new Promise((resolve, reject) => {
       this.http.post('coaches/users', email)
         .subscribe(pupil => {
           // console.log('pupil', pupil);
@@ -54,29 +69,85 @@ export class ContactProvider {
             .then(pupils => {
               pupils.push(pupil);
               this.storage.set('pupils', pupils)
-                .then(() => resolve(true));
+                .then(() => {
+                  this.showContactAddedToast();
+                  resolve(true);
+                });
             });
-        }, error => reject(error));
+        }, error => {
+          reject(error);
+          if (error.statusText == 'Not Found') {
+            this.showContactNotFoundToast();
+          } else if (error.statusText == '') {
+
+          }
+        });
     });
     return promise;
   }
 
+  //
+  //
+  // REMOVER
+  //
+  //
+
   public removePupil(id): Promise<any> {
     let promise =  new Promise((resolve, reject) => {
-      this.http.delete('coaches/users/' + id)
+      this.http.delete('users/' + id + '/unfriend')
         .subscribe(result => {
           // console.log('result', result);
           if (result) {
             this.storage.get('pupils')
               .then(pupils => {
                 pupils = pupils.filter(pupil => pupil.id != id);
-                this.storage.set('pupils', pupils)
-                  .then(() => resolve(true));
+                return this.storage.set('pupils', pupils)
+              })
+              .then(result => {
+                this.showContactRemovedToast();
+                resolve(true);
               });
           }
-        }, error => reject(error));
+        }, error => {
+          this.showContactRemoveErrorToast();
+          reject(error);
+        });
     });
     return promise;
   }
+
+
+  //
+  //
+  // TOASTS
+  //
+  //
+
+  private showContactRemovedToast() {
+    this.showToast('Contato removido com sucesso!');
+  }
+
+  private showContactAddedToast() {
+    this.showToast('Contato adicionado com sucesso!');
+  }
+
+  private showContactNotFoundToast() {
+    this.showToast('Não encontramos um contato com o e-mail digitado.');
+  }
+
+  private showContactRemoveErrorToast() {
+    this.showToast('Não foi possível remover o contato selecionado.');
+  }
+
+  private showToast(msg: string) {
+    setTimeout(() => {
+      let toast = this.toastCtrl.create({
+        message: msg,
+        duration: 2500
+      });
+      toast.present();
+    }, 100);
+  }
+
 
 }

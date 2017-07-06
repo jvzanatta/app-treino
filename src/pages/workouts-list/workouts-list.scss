@@ -16,6 +16,11 @@ page-workouts-list {
     background-position: 45% center;
     background-size: cover;
 
+    &.coach-background {
+      background-image: url("../assets/img/backgrounds/running2.jpg");
+      background-position: 45% center;
+    }
+
     .workout-list {
 
       ion-item {

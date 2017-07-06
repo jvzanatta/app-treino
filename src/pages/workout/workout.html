@@ -8,11 +8,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="workout-exercises-list">
+<ion-content padding class="workout-exercises-list" (swipe)="swipe($event)">
 
   <ion-list class="exercise-list">
     <div *ngFor="let exercise of workout?.exercises | dayFilter:selectedDay | markForHeader" >
-      <ion-list-header color="main" class="group-name" *ngIf="exercise.first" (swipe)="teste($event)">
+      <ion-list-header color="main" class="group-name" *ngIf="exercise.first" (swipe)="swipe($event)">
         {{ exercise.exercise_group_id | groupName:workout?.sport.id | async }}
       </ion-list-header>
       <ion-item (swipe)="teste($event)">

@@ -49,6 +49,10 @@ export class WorkoutsList {
     // console.log('DidEnter WorkoutsList');
   }
 
+  private coachMode() {
+    return this.mode == 'coach';
+  }
+
   private refreshData() {
     // this._loading.present();
     this.getUserInfo();

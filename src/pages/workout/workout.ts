@@ -33,23 +33,17 @@ export class WorkoutPage {
   ) {
     this.user    = this.navParams.get('user');
     this.workout = this.navParams.get('workout');
-    // console.log(this.workout);
   }
 
   ionViewDidLoad() {
-    // console.log('DidLoad WorkoutPage');
-    // console.log(this.workout);
   }
 
   ionViewWillEnter() {
-    // console.log('WillEnter WorkoutPage');
     this._loading.present();
     this.refreshWorkout();
   }
 
   ionViewDidEnter() {
-    // console.log('DidEnter WorkoutsPage');
-    // this.loader.dismiss();
   }
 
   private refreshWorkout() {
@@ -70,14 +64,11 @@ export class WorkoutPage {
     return this.user.id === this.workout.created_by;
   }
 
-  private teste(event) {
-     // console.log('swipe', event, event.direction, event.offsetDirection);
+  private swipe(event) {
     if (event.offsetDirection == 2) {
       this.datePicker.nextWeekDay();
-      // next
     } else if (event.offsetDirection == 4) {
       this.datePicker.previousWeekDay();
-      // previous
     }
   }
 
@@ -90,8 +81,7 @@ export class WorkoutPage {
           text: 'Editar dia',
           icon: 'create',
           handler: () => {
-            // console.log('Archive clicked');
-            this.edit();
+            setTimeout(() => this.edit(), 200);
           }
         },{
           text: 'Limpar dia',
@@ -99,15 +89,13 @@ export class WorkoutPage {
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            // console.log('Destructive clicked');
-            this.deleteDay();
+            setTimeout(() => this.deleteDay(), 200);
           }
         },{
           text: 'Cancelar',
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            // console.log('Cancel clicked');
           }
         }
       ]
@@ -116,20 +104,16 @@ export class WorkoutPage {
   }
 
   private edit() {
-    // console.log('edit');
     this.navCtrl.push('exercisegroupslist', {workout: this.workout, user: this.user, selectedDay: this.selectedDay});
   }
 
-  private clearWorkoutDay() {
-    // console.log('clearWorkoutDay call', this.workout, this.workout.exercises.length);
-    this._workout.clearWorkoutDay(this.workout, this.selectedDay)
+  private clearWorkoutDay(): Promise<any> {
+    return this._workout.clearWorkoutDay(this.workout, this.selectedDay)
       .then(workout => {
-        // console.log('clearWorkoutDay return', workout, workout.exercises.length);
         this.workout = workout;
         this._loading.dismiss();
       })
       .catch(error => {
-        // console.log(error);
         this._loading.dismiss();
       });
   }
@@ -144,17 +128,29 @@ export class WorkoutPage {
       buttons: [
         {
           text: 'Cancelar',
-          handler: () => {
-          }
+          role: 'cancel',
+          // handler: () => {
+          // }
         },
         {
           text: 'Sim, limpar!',
-          handler: () => {
-            // console.log('Agree clicked');
-            setTimeout(() => {
-              this._loading.present();
-              this.clearWorkoutDay();
-            }, 100);
+          handler: (teste) => {
+            this._loading.present();
+            this.clearWorkoutDay();
+
+            // let navTransition = confirm.dismiss();
+
+            // start some async method
+            // this.clearWorkoutDay().then(() => {
+              // once the async operation has completed
+              // then run the next nav transition after the
+              // first transition has finished animating out
+
+              // navTransition.then(() => {
+                // this.navCtrl.pop();
+              // });
+            // });
+            // return false;
           }
         }
       ]

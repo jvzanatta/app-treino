@@ -18,11 +18,20 @@
   </ion-refresher>
 
   <ion-list class="contact-list">
-    <ion-item class="contact-row" *ngFor="let contact of contacts" (click)="open(contact)" (press)="manage(contact)">
+    <ion-item class="contact-row"
+      *ngFor="let contact of contacts"
+      (click)="chat(contact)"
+      (press)="manage(contact)">
+
       <ion-avatar item-start>
         <img src="assets/img/users/{{contact.last_name}}.jpg">
       </ion-avatar>
+
       <h2>{{ contact | userName:'full' }}</h2>
+
+      <ion-badge item-end color="main" *ngIf="!!contact.unread">
+        {{ contact.unread }}
+      </ion-badge>
     </ion-item>
 
     <ion-item class="contact-row" *ngIf="contacts && contacts.length == 0">
@@ -30,7 +39,7 @@
     </ion-item>
 
     <ion-item class="contact-row" *ngIf="!contacts" >
-      <div class="loading-spinner"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
+      <div class="loading-spinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
     </ion-item>
 
   </ion-list>

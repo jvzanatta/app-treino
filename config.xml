@@ -3,7 +3,7 @@
     <name>Ficha Online</name>
     <description>Aplicativo de gerenciamento de fichas</description>
     <author email="joaovictor15@gmail.com" href="http://ionicframework.com/">João Victor Zanatta</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.25.208:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.25.134:8100" />
@@ -67,4 +67,5 @@
     <plugin name="cordova-plugin-whitelist" spec="1.3.1" />
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
 </widget>

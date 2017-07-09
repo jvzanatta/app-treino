@@ -3,7 +3,6 @@ page-contact {
   ion-header {
     ion-title {
       float: left;
-      // margin-top: 12px;
     }
 
     button {
@@ -12,7 +11,7 @@ page-contact {
   }
 
   ion-content {
-    background-image: url('../assets/img/backgrounds/corrida.jpg');
+    background: url('../assets/img/backgrounds/corrida.jpg');
     background-position: 65% center;
     background-size: cover;
 
@@ -27,23 +26,23 @@ page-contact {
         }
       }
 
+      .profile-text {
+        ion-label {
+          text-align: left;
+        }
+      }
+
       .profile-pic {
 
         ion-label {
           text-align: -webkit-center;
         }
+
         .profile-img {
-          /* make a square container */
           width: 250px;
           height: 250px;
-
-          /* fill the container, preserving aspect ratio, and cropping to fit */
           background-size: cover;
-
-          /* center the image vertically and horizontally */
           background-position: center;
-
-          /* round the edges to a circle with border radius 1/2 container size */
           border-radius: 50%;
         }
       }

@@ -12,12 +12,12 @@ page-workouts-list {
   }
 
   ion-content {
-    background-image: url("../assets/img/backgrounds/musculacao.jpg");
+    background: url("../assets/img/backgrounds/musculacao.jpg");
     background-position: 45% center;
     background-size: cover;
 
     &.coach-background {
-      background-image: url("../assets/img/backgrounds/running2.jpg");
+      background: url("../assets/img/backgrounds/running2.jpg");
       background-position: 45% center;
     }
 

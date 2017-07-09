@@ -40,6 +40,7 @@ export class ContactPage {
     this._user.getUserInfo()
       .then(user => {
         this.user = user;
+        console.log(this.user);
         if (!this.contact) {
           this.contact = this.user;
         }

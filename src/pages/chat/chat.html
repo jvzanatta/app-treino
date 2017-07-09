@@ -1,0 +1,64 @@
+
+<ion-header>
+  <ion-navbar color="main">
+
+    <img src="assets/img/users/{{contact.last_name}}.jpg">
+
+    <ion-title>
+      {{ contact | userName:'full' }}
+    </ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding-horizontal class="my-content">
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingText="Aguarde...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list class="message-list">
+
+    <ion-item
+      text-wrap padding-right
+      class="message-row"
+      *ngFor="let message of messages"
+      [ngClass]="message.from == user.id ? 'user-row' : 'contact-row'" >
+
+      <h3>{{ message.body }}</h3>
+
+      <p>{{ message.created_at | chatTimestamp }}
+        <i *ngIf="message.seen == 'loading'" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+        <i *ngIf="message.seen != 'loading'"
+          class="fa fa-check-square-o"
+          [ngClass]="message.seen ? 'already-seen' : ''"></i>
+      </p>
+
+    </ion-item>
+
+    <ion-item class="message-row" *ngIf="messages && messages.length == 0">
+      <h2>Não há mensagens</h2>
+    </ion-item>
+
+    <ion-item class="message-row" *ngIf="!messages" >
+      <div class="loading-spinner">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      </div>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-textarea
+    class="message-textarea"
+    type="text"
+    (tap)="scrollToBottom(200)"
+    [(ngModel)]="message" ></ion-textarea>
+  <button ion-button icon-only class="send-button" (tap)="send()">
+    <ion-icon name="send"></ion-icon>
+  </button>
+</ion-footer>

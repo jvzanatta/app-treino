@@ -1,0 +1,113 @@
+page-chat {
+  ion-header {
+
+    ion-title {
+      display: inline-block;
+      margin-top: 18px;
+    }
+
+    img {
+      border-radius: 30px;
+      height: 50px;
+      margin: 2px 0px 5px 0;
+      float: left;
+      box-shadow: 2px 2px 3px #222;
+    }
+  }
+
+
+  ion-content.my-content {
+    background: url("../assets/img/backgrounds/plank.jpg");
+    background-position: 40% center;
+    background-size: cover;
+
+    .loading-spinner {
+      text-align: center;
+      font-size: 14px;
+      margin: 25px;
+      color: color($colors, main);
+    }
+
+    div.scroll-content {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 0!important;
+      margin: 0 15px;
+    }
+
+    .message-list {
+      background-color: rgba(255, 255, 255, 0);
+      margin-bottom: 0;
+
+      .message-row {
+        background-color: rgba(255, 255, 255, 0);
+
+        &:first-child {
+          margin-top: 10px;
+        }
+
+        ion-label {
+          background-color: rgba(255, 255, 255, 0);
+          margin: 10px 0 0 0;
+        }
+
+        p {
+          font-size: 12px;
+          margin-top: 5px;
+          display: inline-block;
+        }
+
+        &.user-row {
+
+          i {
+            font-size: 13px;
+            margin-left: 8px;
+
+            &.already-seen {
+              color: color($colors, main);
+            }
+          }
+
+          ion-label {
+            text-align: right;
+          }
+        }
+
+        &.contact-row {
+          i {
+            display: none;
+          }
+
+          ion-label {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    background-color: white;
+
+
+    .message-textarea {
+      width: 85%;
+      height: 80px;
+      float: left;
+      display: inline-block;
+
+      input {
+        height: 45px;
+        margin: 0 10px;
+      }
+    }
+
+    .send-button {
+      width: 15%;
+      height: 80px;
+      margin: 0;
+      background-color: color($colors, main);
+      color: white;
+    }
+  }
+
+}

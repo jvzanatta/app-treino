@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { CallNumber } from '@ionic-native/call-number';
 
 import { HttpModule }    from '@angular/http';
 
@@ -23,14 +24,12 @@ import { SportProvider } from '../providers/sport/sport';
 import { ExerciseProvider } from '../providers/exercise/exercise';
 import { WeekdayProvider } from '../providers/weekday/weekday';
 import { ContactProvider } from '../providers/contact/contact';
-// import { ListWithPictureComponent } from '../components/list-with-picture/list-with-picture';
-
+import { ChatProvider } from '../providers/chat/chat';
 
 
 @NgModule({
   declarations: [
     MyApp,
-    // ListWithPictureComponent,
   ],
 
   imports: [
@@ -56,6 +55,7 @@ import { ContactProvider } from '../providers/contact/contact';
 
   providers: [
     Facebook,
+    CallNumber,
 
     AuthProvider,
     UserProvider,
@@ -71,6 +71,7 @@ import { ContactProvider } from '../providers/contact/contact';
     ExerciseProvider,
     WeekdayProvider,
     ContactProvider,
+    ChatProvider,
   ]
 })
 export class AppModule {}

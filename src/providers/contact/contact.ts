@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { HttpHandler } from '../http/http';
 import { ToastController } from 'ionic-angular';
+import { CallNumber } from '@ionic-native/call-number';
+import { AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 
@@ -13,6 +15,8 @@ export class ContactProvider {
     public http:     HttpHandler,
     public toastCtrl: ToastController,
     private storage: Storage,
+    private callNumber: CallNumber,
+    public alertCtrl: AlertController,
   ) {
     // console.log('Hello ContactProvider Provider');
   }
@@ -53,6 +57,23 @@ export class ContactProvider {
   private orderByName(a: any, b: any): number {
     return a.first_name < b.first_name ? -1 : a.first_name > b.first_name ? 1 : a.last_name < b.last_name ? -1 : 1;
   }
+
+  //
+  //
+  // LIGAR
+  //
+  //
+
+  public call(contact): Promise<any> {
+    if (!contact.phone) {
+      this.showContactDoesntHavePhoneToast();
+      return Promise.resolve(false);
+    }
+    return this.callNumber.callNumber(contact.phone, true)
+      .then(() => console.log('Launched dialer!'))
+      .catch(() => console.log('Error launching dialer'));
+  }
+
 
   //
   //
@@ -119,9 +140,41 @@ export class ContactProvider {
 
   //
   //
+  // ALERTAS
+  //
+  //
+
+  // private showContactDoesntHavePhoneAlert() {
+
+  // }
+
+  // private showAlert(title: string, msg: string) {
+  //   let alert = this.alertCtrl.create();
+
+  //     if (title) {
+  //       alert.setTitle(title);
+  //     }
+
+  //     if (msg) {
+  //       alert.setMessage(msg);
+  //     }
+
+
+  //     ]
+  //   });
+
+  //   alert.present();
+  // }
+
+  //
+  //
   // TOASTS
   //
   //
+
+  private showContactDoesntHavePhoneToast() {
+    this.showToast('O contato não possui um telefone cadastrado!');
+  }
 
   private showContactRemovedToast() {
     this.showToast('Contato removido com sucesso!');

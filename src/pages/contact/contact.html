@@ -3,7 +3,7 @@
     <button *ngIf="!pushed" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ contact ? contact.first_name : title }}</ion-title>
+    <ion-title *ngIf="contact">{{ contact | userName:'full' }}</ion-title>
 <!--     <button *ngIf="isOwnProfile()" ion-button icon-only margin-right color="light" (click)="manage()">
       <ion-icon name="more"></ion-icon>
     </button> -->
@@ -17,25 +17,62 @@
         <!-- <img src="assets/img/users/{{contact.last_name}}.jpg"/> -->
       </div>
     </ion-item>
-    <ion-item item-content text-right  class="profile-item">
-      <label float-left>Nome:</label>
-      {{ contact | userName:'full' }}
-    </ion-item>
-    <ion-item item-content text-right  class="profile-item">
+
+    <ion-item *ngIf="contact.birth_date" item-content text-right  class="profile-item">
       <label float-left>Idade:</label>
       {{ contact.birth_date | age }}
     </ion-item>
-    <ion-item item-content text-right  class="profile-item">
+
+    <ion-item *ngIf="contact.height" item-content text-right  class="profile-item">
       <label float-left>Altura:</label>
       {{ contact.height | number:'.2' | replace:'.':',' }} m
     </ion-item>
-    <ion-item item-content text-right  class="profile-item">
+
+    <ion-item *ngIf="contact.weight" item-content text-right  class="profile-item">
       <label float-left>Peso:</label>
       {{ contact.weight | number:'.1' | replace:'.':',' }} kg
     </ion-item>
+
+    <ion-item *ngIf="contact.fat_percent" item-content text-right  class="profile-item">
+      <label float-left>Gordura corporal:</label>
+      {{ contact.fat_percent | number:'.1' | replace:'.':',' }} %
+    </ion-item>
+
+    <ion-item *ngIf="contact.weight && contact.height" item-content text-right  class="profile-item">
+      <label float-left>IMC:</label>
+      {{ contact.weight | imc:contact.height | number:'.1' | replace:'.':',' | categoryImc }}
+    </ion-item>
+
+    <ion-item *ngIf="contact.info" item-content text-right class="profile-item">
+      <ion-label>Informações:</ion-label>
+      <ion-textarea
+        [value]="contact.info"
+        >
+      </ion-textarea>
+    </ion-item>
+
+<!--     <ion-item *ngIf="contact.info" item-content text-right class="profile-item profile-text">
+      <ion-label floating>Info:</ion-label>
+      <ion-textarea
+        [value]="contact.info"
+        >
+      </ion-textarea>
+    </ion-item> -->
+
+    <ion-item *ngIf="contact.phone" item-content text-right  class="profile-item">
+      <label float-left>Contato:</label>
+      {{ contact.phone | formatNumber:'X (XX) XXXXX-XXXX' }} %
+    </ion-item>
+
     <ion-item item-content text-right  class="profile-item">
+      <label float-left>E-mail:</label>
+      {{ contact.email }}
+    </ion-item>
+
+    <ion-item *ngIf="contact.created_at" item-content text-right  class="profile-item">
       <label float-left>Membro desde:</label>
       {{ contact.created_at | date:'dd/MM/yyyy' }}
     </ion-item>
+
   </ion-list>
 </ion-content>

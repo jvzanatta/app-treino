@@ -5,6 +5,7 @@ import { ContactProvider } from '../../providers/contact/contact';
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
+import { ChatProvider } from '../../providers/chat/chat';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
@@ -19,7 +20,8 @@ import { ToastController } from 'ionic-angular';
 export class ContactList {
 
   private user: any;
-  private contacts: any;
+  private contacts: Array<any>;
+  private checkNewMessages: number;
 
   constructor(
     public navCtrl: NavController,
@@ -30,18 +32,29 @@ export class ContactList {
     public _contact: ContactProvider,
     public _user: UserProvider,
     public _workout: WorkoutProvider,
+    public _chat: ChatProvider,
     public _loading: LoadingProvider,
-
   ) {
 
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad ContactListPage');
   }
 
   ionViewWillEnter() {
     this.refreshData();
+    this.checkNewMessages = setInterval(() => this.getMessasgesCount(), 15000);
+  }
+
+  ionViewWillLeave() {
+    clearInterval(this.checkNewMessages);
+  }
+
+  private getMessasgesCount() {
+    this.contacts.forEach(contact => {
+      this._chat.countNewFrom(contact.id)
+        .subscribe(count => contact.unread = count);
+    });
   }
 
   private refreshData() {
@@ -52,7 +65,10 @@ export class ContactList {
 
   private getContacts() {
     this._contact.getContacts()
-      .then(contacts => this.contacts = contacts);
+      .then((contacts: Array<any>) => {
+        this.contacts = contacts;
+        this.getMessasgesCount();
+      });
   }
 
   private isCoach() {
@@ -68,11 +84,22 @@ export class ContactList {
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Gerenciar Fichas',
+          text: 'Fichas Compartilhadas',
           icon: 'share',
           handler: () => {
-            // console.log('Archive clicked');
             setTimeout (() => this.showWorkoutList(contact.id), 200);
+          }
+        },{
+          text: 'Ligar',
+          icon: 'call',
+          handler: () => {
+            setTimeout (() => this.call(contact), 200);
+          }
+        },{
+          text: 'Ver Perfil',
+          icon: 'eye',
+          handler: () => {
+            setTimeout (() => this.open(contact), 200);
           }
         },{
           text: 'Remover Contato',
@@ -80,7 +107,6 @@ export class ContactList {
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            // console.log('Destructive clicked');
             setTimeout (() => this.deleteContact(contact.id), 200);
           }
         },{
@@ -88,7 +114,6 @@ export class ContactList {
           icon: 'close-circle',
           role: 'backspace',
           handler: () => {
-            // console.log('Cancel clicked');
           }
         }
       ]
@@ -114,7 +139,6 @@ export class ContactList {
         {
           text: 'Enviar',
           handler: email => {
-            // console.log(email);
             this.addContact(email);
           }
         }
@@ -194,8 +218,17 @@ export class ContactList {
       .then(result => this.getContacts());
   }
 
+  private call(contact) {
+    this._loading.present();
+    this._contact.call(contact).then(() => this._loading.dismiss());
+  }
+
   private open(contact) {
     this.navCtrl.push('contact', {contact: contact, pushed: true, title: 'Perfil'});
+  }
+
+  private chat(contact) {
+    this.navCtrl.push('chat', {contact: contact, user: this.user});
   }
 
   private doRefresh(refresher) {
@@ -207,5 +240,7 @@ export class ContactList {
       })
       .then(() => setTimeout(() => refresher.complete(), 100));
   }
+
+  private
 
 }

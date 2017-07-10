@@ -1,8 +1,9 @@
 
 <ion-header>
   <ion-navbar color="main">
-
-    <img src="assets/img/users/{{contact.last_name}}.jpg">
+    <div class="thumbnail">
+      <img src="assets/img/users/{{contact.last_name}}.jpg">
+    </div>
 
     <ion-title>
       {{ contact | userName:'full' }}
@@ -29,7 +30,10 @@
 
       <h3>{{ message.body }}</h3>
 
-      <p>{{ message.created_at | chatTimestamp }}
+      <p>
+        <!-- <i class="sent fa fa-arrow-circle-left"></i> -->
+        {{ message.created_at | chatTimestamp }}
+        <!-- <i class="received fa fa-arrow-circle-right"></i> -->
         <i *ngIf="message.seen == 'loading'" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
         <i *ngIf="message.seen != 'loading'"
           class="fa fa-check-square-o"

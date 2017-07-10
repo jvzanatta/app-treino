@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { ActionSheetController } from 'ionic-angular';
+import { ContactProvider } from '../../providers/contact/contact';
+import { LoadingProvider } from '../../providers/loading/loading';
 
 @IonicPage({
   name: 'contact'
@@ -22,6 +24,8 @@ export class ContactPage {
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
     public _user: UserProvider,
+    public _contact: ContactProvider,
+    public _loading: LoadingProvider,
   ) {
     this.title   = this.navParams.get('title');
     this.pushed  = this.navParams.get('pushed');
@@ -49,6 +53,11 @@ export class ContactPage {
 
   private edit(user: any) {
 
+  }
+
+  private sendToPhoneContacts(contact) {
+    this._loading.present();
+    this._contact.sendToPhoneContacts(contact).then(() => this._loading.dismiss());
   }
 
 

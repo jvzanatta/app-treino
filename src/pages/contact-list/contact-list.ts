@@ -82,6 +82,7 @@ export class ContactList {
   private manage(contact) {
     let actionSheet = this.actionSheetCtrl.create({
       enableBackdropDismiss: true,
+      title: contact.first_name + ' ' + contact.last_name,
       buttons: [
         {
           text: 'Fichas Compartilhadas',
@@ -160,7 +161,8 @@ export class ContactList {
     this._workout.getCreatedWorkouts()
       .then(workouts => {
         let alert = this.alertCtrl.create();
-        alert.setTitle('Qual treino deseja compartilhar?');
+        alert.setTitle('Compartilhar');
+        alert.setMessage('Quais treinos deseja compartilhar?');
         workouts.forEach(workout => {
           let checked = !!workout.users.find(user => user.id == contactId);
           alert.addInput({

@@ -5,6 +5,7 @@ import { HttpHandler } from '../http/http';
 import { ToastController } from 'ionic-angular';
 import { CallNumber } from '@ionic-native/call-number';
 import { AlertController } from 'ionic-angular';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
 import 'rxjs/add/operator/map';
 
 
@@ -17,6 +18,7 @@ export class ContactProvider {
     private storage: Storage,
     private callNumber: CallNumber,
     public alertCtrl: AlertController,
+    private contacts: Contacts,
   ) {
     // console.log('Hello ContactProvider Provider');
   }
@@ -60,7 +62,7 @@ export class ContactProvider {
 
   //
   //
-  // LIGAR
+  // COMUNICAÇÃO COM O APARELHO
   //
   //
 
@@ -72,6 +74,30 @@ export class ContactProvider {
     return this.callNumber.callNumber(contact.phone, true)
       .then(() => console.log('Launched dialer!'))
       .catch(() => console.log('Error launching dialer'));
+  }
+
+  public sendToPhoneContacts(contactInfo): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.showAskAddToContactList()
+        .then(result => {
+          if (result) {
+            let contact: Contact = this.contacts.create();
+
+            contact.name = new ContactName(null, contactInfo.last_name, contactInfo.first_name);
+            contact.phoneNumbers = [new ContactField('mobile', contactInfo.phone)];
+
+            contact.save()
+              .then(
+                () => this.showContactAddedToPhoneContactsList(),
+                (error: any) => console.error('Error saving contact.', error)
+              ).then(
+                () => resolve(true)
+              );
+          } else {
+            resolve(false);
+          }
+        });
+    });
   }
 
 
@@ -144,33 +170,65 @@ export class ContactProvider {
   //
   //
 
-  // private showContactDoesntHavePhoneAlert() {
+  private showAskAddToContactList(): Promise<boolean> {
+    let promise = new Promise((resolve, reject) => {
+      this.showAlert(
+        'Adicionar à agenda',
+        'Tem certeza que deseja adicionar à sua agenda de contatos do celular?',
+        data => {
+          resolve(true);
+        },
+        data => {
+          resolve(false);
+        }
+      );
+    });
 
-  // }
+    return promise;
+  }
 
-  // private showAlert(title: string, msg: string) {
-  //   let alert = this.alertCtrl.create();
+  private showAlert(title: string, msg: string, okHander = null, cancelHandler = null) {
+    let alert = this.alertCtrl.create();
 
-  //     if (title) {
-  //       alert.setTitle(title);
-  //     }
+    if (title) {
+      alert.setTitle(title);
+    }
 
-  //     if (msg) {
-  //       alert.setMessage(msg);
-  //     }
+    if (msg) {
+      alert.setMessage(msg);
+    }
+
+    if (okHander) {
+      if (cancelHandler) {
+        alert.addButton({
+          text: 'Cancelar',
+          handler: cancelHandler
+        });
+      } else {
+        alert.addButton('Cancelar');
+      }
+
+      alert.addButton({
+        text: 'OK',
+        handler: okHander
+      });
+    } else {
+      alert.addButton('OK');
+    }
 
 
-  //     ]
-  //   });
-
-  //   alert.present();
-  // }
+    alert.present();
+  }
 
   //
   //
   // TOASTS
   //
   //
+
+  private showContactAddedToPhoneContactsList() {
+    this.showToast('O contato foi adicionado com sucesso à lista de contatos!');
+  }
 
   private showContactDoesntHavePhoneToast() {
     this.showToast('O contato não possui um telefone cadastrado!');

@@ -8,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { CallNumber } from '@ionic-native/call-number';
+import { Contacts } from '@ionic-native/contacts';
 
 import { HttpModule }    from '@angular/http';
 
@@ -56,6 +57,7 @@ import { ChatProvider } from '../providers/chat/chat';
   providers: [
     Facebook,
     CallNumber,
+    Contacts,
 
     AuthProvider,
     UserProvider,

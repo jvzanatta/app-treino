@@ -43,10 +43,26 @@
       {{ contact.weight | imc:contact.height | number:'.1' | replace:'.':',' | categoryImc }}
     </ion-item>
 
-    <ion-item *ngIf="contact.info" item-content text-right class="profile-item">
-      <ion-label>Informações:</ion-label>
+    <ion-item *ngIf="contact.goal" item-content text-right class="profile-item profile-text">
+      <ion-label floating>Objetivo:</ion-label>
+      <ion-textarea
+        [value]="contact.goal"
+        >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item *ngIf="contact.info" item-content text-right class="profile-item profile-text">
+      <ion-label floating>Informações:</ion-label>
       <ion-textarea
         [value]="contact.info"
+        >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item *ngIf="contact.limitations" item-content text-right class="profile-item profile-text">
+      <ion-label floating>Limitações:</ion-label>
+      <ion-textarea
+        [value]="contact.limitations"
         >
       </ion-textarea>
     </ion-item>
@@ -59,9 +75,12 @@
       </ion-textarea>
     </ion-item> -->
 
-    <ion-item *ngIf="contact.phone" item-content text-right  class="profile-item">
+    <ion-item *ngIf="contact.phone"
+      item-content text-right
+      class="profile-item"
+      (tap)="sendToPhoneContacts(contact)">
       <label float-left>Contato:</label>
-      {{ contact.phone | formatNumber:'X (XX) XXXXX-XXXX' }} %
+      {{ contact.phone | formatNumber:'(XX) XXXXX-XXXX' }}
     </ion-item>
 
     <ion-item item-content text-right  class="profile-item">

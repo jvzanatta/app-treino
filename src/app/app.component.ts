@@ -87,23 +87,23 @@ export class MyApp {
         icon: 'people'
       },
       {
-        title: 'Fichas',
+        title: 'Minhas Atividades',
         visible: true,
         component: 'workoutlist',
         icon: 'list',
         options: {
           mode: 'user',
-          title: 'Fichas'
+          title: 'Minhas Atividades'
         }
       },
       {
-        title: 'Gerenciar Fichas',
+        title: 'Gerenciar Treinos',
         visible: (user && user.is_coach),
         component: 'workoutlist',
         icon: 'clipboard',
         options: {
           mode: 'coach',
-          title: 'Gerenciar Fichas'
+          title: 'Gerenciar Treinos'
         }
       },
       {

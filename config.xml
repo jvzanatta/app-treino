@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.tccapptreino576542" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ficha Online</name>
-    <description>Aplicativo de gerenciamento de fichas</description>
+    <name>Form Fit</name>
+    <description>Aplicativo apoio à prática de atividades físicas</description>
     <author email="joaovictor15@gmail.com" href="http://ionicframework.com/">João Victor Zanatta</author>
     <content original-src="index.html" src="http://192.168.25.208:8100" />
     <access origin="*" />
@@ -57,6 +57,7 @@
     </feature>
     <engine name="android" spec="^6.1.2" />
     <plugin name="cordova-plugin-console" spec="1.0.5" />
+    <plugin name="cordova-plugin-contacts" spec="^2.3.1" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="829109020557084" />

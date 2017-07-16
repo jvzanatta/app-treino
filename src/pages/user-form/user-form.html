@@ -1,0 +1,92 @@
+
+<ion-header>
+  <ion-navbar color="main">
+    <ion-title>Editar Cadastro</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="userForm" class="user-form">
+
+    <ion-item class="user-item">
+      <ion-label floating>Nome</ion-label>
+      <ion-input type="text" formControlName="first_name"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>Sobrenome</ion-label>
+      <ion-input type="text" formControlName="last_name"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>E-mail</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+
+    <ion-item class="user-item">
+      <ion-label floating>Celular</ion-label>
+      <ion-input type="tel" formControlName="phone"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>Data de Nascimento</ion-label>
+      <ion-input type="date" formControlName="birth_date" [ngClass]="user.birth_date ? '': 'empty-date'"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>Peso</ion-label>
+      <ion-input type="tel" formControlName="weight"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>Altura</ion-label>
+      <ion-input type="tel" formControlName="height"></ion-input>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label floating>Gordura Corporal (%)</ion-label>
+      <ion-input type="tel" formControlName="fat_percent"></ion-input>
+    </ion-item>
+
+    <ion-item item-content text-right class="user-item user-text">
+      <ion-label floating>Informações:</ion-label>
+      <ion-textarea
+        formControlName="info"
+        >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item item-content text-right class="user-item user-text">
+      <ion-label floating>Objetivos:</ion-label>
+      <ion-textarea
+        formControlName="goal"
+        >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item item-content text-right class="user-item user-text">
+      <ion-label floating>Limitações:</ion-label>
+      <ion-textarea
+        formControlName="limitations"
+        >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item class="user-item">
+      <ion-label>Profissional</ion-label>
+      <ion-toggle formControlName="is_coach"></ion-toggle>
+    </ion-item>
+
+
+  </form>
+</ion-content>
+
+<ion-footer color="light">
+  <button
+    ion-button large full type="submit" color="main"
+    [disabled]="!userForm.valid"
+    (tap)="submit()">
+    Enviar
+  </button>
+</ion-footer>

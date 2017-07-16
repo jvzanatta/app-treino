@@ -217,6 +217,7 @@ export class ContactList {
   private deleteContact(id: number) {
     this.confirmDelete()
       .then(result => this._contact.removePupil(id))
+      .then(result => this.doRefresh(null))
       .then(result => this.getContacts());
   }
 
@@ -240,7 +241,7 @@ export class ContactList {
           this.refreshData();
         }
       })
-      .then(() => setTimeout(() => refresher.complete(), 100));
+      .then(() => setTimeout(() => refresher ? refresher.complete() : null, 100));
   }
 
   private

@@ -1,19 +1,27 @@
-page-workout-form {
+page-user-form {
 
   ion-content {
-    background: url("../assets/img/backgrounds/nutricao1.jpg");
-    background-position: 10% center;
+    background: url("../assets/img/backgrounds/plank2.jpg");
+    background-position: 95% center;
     background-size: cover;
 
-    form.workout-form {
+    form.user-form {
       background-color: rgba(255, 255, 255, 0.8);
 
-      ion-item.workout-item {
+      ion-item.user-item {
         background-color: rgba(255, 255, 255, 0);
+
+        ion-input input{
+          // text-align: right;
+        }
 
         ion-label {
           text-align: left;
           color: color($colors, main);
+        }
+
+        &:last-child {
+          margin-bottom: 5px;
         }
       }
     }
@@ -22,6 +30,5 @@ page-workout-form {
   ion-footer {
     background-color: rgba(255, 255, 255, 0.82);
   }
-
 
 }

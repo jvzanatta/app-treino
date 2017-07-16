@@ -4,6 +4,7 @@ import { ActionSheetController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { WorkoutProvider } from '../../providers/workout/workout';
 import { LoadingProvider } from '../../providers/loading/loading';
+import { ContactProvider } from '../../providers/contact/contact';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 
@@ -28,6 +29,7 @@ export class WorkoutsList {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public _user: UserProvider,
+    public _contact: ContactProvider,
     public _loading: LoadingProvider,
     public _workout: WorkoutProvider
   ) {
@@ -95,6 +97,45 @@ export class WorkoutsList {
     //   });
   }
 
+  private showPupilsList(workout) {
+    this._contact.getPupils()
+      .then(pupils => {
+        if (pupils.length > 0) {
+          let alert = this.alertCtrl.create();
+          alert.setTitle('Compartilhar');
+          alert.setMessage('Com quais alunos deseja compartilhar?');
+          pupils.forEach(pupil => {
+            // console.log(pupil, workout);
+            let checked = !!workout.users.find(user => user.id == pupil.id);
+            alert.addInput({
+              type: 'checkbox',
+              label: pupil.first_name + ' ' + pupil.last_name,
+              value: pupil.id,
+              checked: checked
+            });
+          });
+
+          alert.addButton({
+            text: 'Cancelar',
+            role: 'cancel',
+          });
+
+          alert.addButton({
+            text: 'OK',
+            handler: pupilIds => {
+              this._loading.present();
+              this._workout.syncWorkoutUsers(pupilIds, workout.id)
+                .then(() => this._loading.dismiss())
+                .then(() => this.refreshData());
+            }
+          });
+          alert.present();
+        } else {
+          this._contact.showYouHaveNoPupilsToast();
+        }
+      });
+  }
+
   private archive(workout) {
     this._workout.archive(workout, !workout.active)
       .then(result => {
@@ -155,7 +196,7 @@ export class WorkoutsList {
           icon: 'share',
           handler: () => {
             // console.log('Share clicked');
-            setTimeout(() => this.share(workout), 100);
+            setTimeout(() => this.showPupilsList(workout), 100);
           }
         },{
           text: workout.active ? 'Arquivar' : 'Desarquivar',

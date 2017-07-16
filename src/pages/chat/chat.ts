@@ -61,7 +61,7 @@ export class ChatPage {
   }
 
   private scrollToBottom(time:number = 100) {
-    console.log('scrool bottom', time);
+    // console.log('scrool bottom', time);
     setTimeout(() => this.content.scrollToBottom(), time);
   }
 

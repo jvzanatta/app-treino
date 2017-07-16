@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 export class ChatProvider {
 
   constructor(public http: HttpHandler) {
-    console.log('Hello ChatProvider Provider');
+    // console.log('Hello ChatProvider Provider');
   }
 
   public getMessagesFrom(contactId: number, offset: number = null, limit: number = null): Observable<any> {

@@ -183,7 +183,7 @@ export class WorkoutProvider {
   //
 
   public syncPupilWorkouts(workoutIds, contactId): Promise<any> {
-    console.log(workoutIds, contactId);
+    // console.log(workoutIds, contactId);
     let promise = new Promise((resolve, reject) => {
       workoutIds = { workouts: workoutIds };
       this.http.patch('workouts/users/' + contactId + '/sync', workoutIds)
@@ -203,6 +203,17 @@ export class WorkoutProvider {
         });
     });
     return promise;
+  }
+
+  public syncWorkoutUsers(pupilIds, workoutId): Promise<any> {
+    // console.log(pupilIds, workoutId);
+
+    pupilIds = { pupils: pupilIds };
+
+    return this.http.patch('workouts/' + workoutId + '/users/sync', pupilIds)
+      .toPromise()
+      .then(workouts => this.storage.set('workouts', workouts))
+      .then(() => this.showUpdatedAccessToast());
   }
 
 
@@ -284,8 +295,12 @@ export class WorkoutProvider {
     this.showToast('Ficha compartilhada!');
   }
 
+  private showUpdatedAccessToast() {
+    this.showToast('Acesso a esta ficha foi atualizado!');
+  }
+
   private showUpdatedSharedToast() {
-    this.showToast('Fichas compartilhada foram atualizadas!');
+    this.showToast('Fichas compartilhadas foram atualizadas!');
   }
 
   private showArchivedToast() {

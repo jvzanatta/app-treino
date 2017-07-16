@@ -4,9 +4,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title *ngIf="contact">{{ contact | userName:'full' }}</ion-title>
-<!--     <button *ngIf="isOwnProfile()" ion-button icon-only margin-right color="light" (click)="manage()">
+    <button *ngIf="isOwnProfile()" ion-button icon-only margin-right class="more" (click)="manage()">
       <ion-icon name="more"></ion-icon>
-    </button> -->
+    </button>
   </ion-navbar>
 </ion-header>
 

@@ -13,7 +13,7 @@ export class ChatTimestampPipe implements PipeTransform {
 
   transform(timestamp: string) {
     let date = (new Date(timestamp)).toDateString();
-    console.log(date, (new Date).toDateString());
+    // console.log(date, (new Date).toDateString());
     if ((new Date).toDateString() != date) {
       return this.datePipe.transform(timestamp, 'dd/MM/yyyy hh:mm');
     }

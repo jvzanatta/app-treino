@@ -9,6 +9,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts } from '@ionic-native/contacts';
+import { FormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
+
 
 import { HttpModule }    from '@angular/http';
 
@@ -38,6 +41,8 @@ import { ChatProvider } from '../providers/chat/chat';
     PipesModule,
     NgStringPipesModule,
     BrowserModule,
+    FormsModule,
+    TextMaskModule,
 
     IonicModule.forRoot(MyApp, {
       preloadModules: true

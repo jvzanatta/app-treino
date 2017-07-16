@@ -62,6 +62,10 @@ export class HomePage {
       });
   }
 
+  // private editUser() {
+  //   this.navCtrl.push('userForm', {user: this.user});
+  // }
+
   private openWorkout(workout) {
     this.navCtrl.push('workout', {workout: workout, user: this.user});
   }

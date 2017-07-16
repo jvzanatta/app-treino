@@ -3,7 +3,7 @@
     <name>Form Fit</name>
     <description>Aplicativo apoio à prática de atividades físicas</description>
     <author email="joaovictor15@gmail.com" href="http://ionicframework.com/">João Victor Zanatta</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.25.208:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.25.134:8100" />

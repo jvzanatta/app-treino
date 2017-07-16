@@ -41,18 +41,23 @@ export class ContactPage {
   ionViewWillEnter() {
     // console.log('WillEnter ContactPage');
 
+    this.refreshData();
+  }
+
+  private refreshData() {
     this._user.getUserInfo()
       .then(user => {
         this.user = user;
-        console.log(this.user);
-        if (!this.contact) {
+        // console.log('ionViewWillEnter', this.user);
+        if (!this.contact || this.contact.id == this.user.id) {
+          // console.log('this.navParams.get(\'contact\')', this.navParams.get('contact'));
           this.contact = this.user;
         }
       });
   }
 
   private edit(user: any) {
-
+    this.navCtrl.push('userform', {user: user});
   }
 
   private sendToPhoneContacts(contact) {

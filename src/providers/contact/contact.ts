@@ -226,6 +226,10 @@ export class ContactProvider {
   //
   //
 
+  public showYouHaveNoPupilsToast() {
+    this.showToast('Você ainda não possui alunos ou clientes associados!');
+  }
+
   private showContactAddedToPhoneContactsList() {
     this.showToast('O contato foi adicionado com sucesso à lista de contatos!');
   }

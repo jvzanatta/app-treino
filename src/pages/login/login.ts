@@ -42,8 +42,8 @@ export class LoginPage {
         last_name: new FormControl('Zanatta', [Validators.required, Validators.minLength(1)]),
         email: new FormControl('joaovictor15@gmail.com', [Validators.required, Validators.minLength(5)]),
         password: new FormControl('321654', [Validators.required, Validators.minLength(5)]),
-        weight: new FormControl('76.2', [Validators.required, Validators.minLength(1)]),
-        height: new FormControl('1.79', [Validators.required, Validators.minLength(1)]),
+        // weight: new FormControl('76.2', [Validators.required, Validators.minLength(1)]),
+        // height: new FormControl('1.79', [Validators.required, Validators.minLength(1)]),
     });
   }
 
